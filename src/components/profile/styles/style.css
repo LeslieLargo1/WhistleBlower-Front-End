@@ -1,0 +1,283 @@
+.profile-ADMIN {
+    background-color: #d4d4d4;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+  }
+  
+  .profile-ADMIN .div {
+    background-color: #d4d4d4;
+    height: 1380px;
+    position: relative;
+    width: 1440px;
+  }
+  
+  /* .profile-ADMIN .logowhistleblower {
+    background-image: url(./logoWhistleblower.png);
+    height: 100px;
+    left: 0;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    width: 300px;
+  } */
+  
+  .profile-ADMIN .overlap-group {
+    height: 74px;
+    left: 200px;
+    position: absolute;
+    top: -1px;
+    width: 1157px;
+  }
+  
+  .profile-ADMIN .nav-bar {
+    background-color: #d2d2d2;
+    height: 73px;
+    left: 40px;
+    position: absolute;
+    top: 1px;
+    width: 1117px;
+  }
+  
+  .profile-ADMIN .HOME-ABOUT-CONTACT {
+    color: transparent;
+    font-family: "Lato-SemiBold", Helvetica;
+    font-size: 32px;
+    font-weight: 600;
+    height: 28px;
+    left: 0;
+    letter-spacing: 0;
+    line-height: 28px;
+    position: absolute;
+    text-align: right;
+    top: 22px;
+    width: 873px;
+  }
+  
+  .profile-ADMIN .text-wrapper {
+    color: #2f8ab1;
+  }
+  
+  .profile-ADMIN .span {
+    color: #da0a0a;
+  }
+  
+  .profile-ADMIN .sign-out-button {
+    background-color: #2f8ab1;
+    height: 65px;
+    left: 948px;
+    position: absolute;
+    top: 5px;
+    width: 186px;
+  }
+  
+
+.profile-ADMIN .sign-out-button {
+    background-color: #2f8ab1; 
+    color: #ffffff; 
+    font-family: "Lato-SemiBold", Helvetica;
+    font-size: 32px;
+    font-weight: 600;
+    height: 73px; 
+    width: 233px; 
+    border: none; 
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .profile-ADMIN .sign-out-button:hover {
+    background-color: #1e6377; 
+  }
+  
+  
+  .profile-ADMIN .overlap {
+    background-image: url(./desert.jpg);
+    background-position: 50% 50%;
+    background-size: cover;
+    height: 441px;
+    left: 0;
+    position: absolute;
+    top: 153px;
+    width: 1440px;
+  }
+  
+  .profile-ADMIN .flexcontainer {
+    align-items: flex-start;
+    display: flex;
+    flex-direction: column;
+    height: 336px;
+    left: 160px;
+    position: relative;
+    top: 0px;
+    width: 1120px;
+  }
+  
+  .profile-ADMIN .text {
+    align-self: stretch;
+    color: #ffffff;
+    font-family: "Lato-Regular", Helvetica;
+    
+    font-weight: 400;
+    letter-spacing: 0;
+    line-height: 28px;
+    position: relative;
+    text-align: center;
+    margin-top: 70px;
+  }
+  
+  .profile-ADMIN .text-wrapper-3 {
+    color: #ffffff;
+    font-family: "Lato-Regular", Helvetica;
+    font-size: 96px;
+    font-weight: 400;
+    letter-spacing: 0;
+    line-height: 28px;
+  }
+  
+  .profile-ADMIN .text-wrapper-4 {
+    font-size: 128px;
+    text-shadow: 3px 3px black;
+  }
+  
+  .profile-ADMIN .text-wrapper-5 {
+    font-size: 64px;
+  }
+  
+  .profile-ADMIN .line {
+    background-image: url(./line-1.svg);
+    height: 4px;
+    left: 160px;
+    position: absolute;
+    top: 693px;
+    width: 1120px;
+  }
+  
+  .profile-ADMIN .flexcontainer-2 {
+    align-items: flex-start;
+    display: flex;
+    flex-direction: column;
+    gap: 100px;
+    height: 260px;
+    left: 160px;
+    position: absolute;
+    top: 817px;
+    width: 1120px;
+  }
+  
+  .profile-ADMIN .p {
+    align-self: stretch;
+    color: transparent;
+    font-family: "Lato-Regular", Helvetica;
+    font-size: 40px;
+    font-weight: 400;
+    letter-spacing: 0;
+    line-height: 0px;
+    position: relative;
+  }
+  
+  .profile-ADMIN .text-wrapper-6 {
+    color: #000000;
+  }
+  
+  .profile-ADMIN .text-wrapper-7 {
+    color: #2f8ab1;
+    font-family: "Lato-Bold", Helvetica;
+    font-size: 48px;
+    font-weight: 700;
+    height: 28px;
+    left: 160px;
+    letter-spacing: 0;
+    line-height: 28px;
+    position: absolute;
+    text-align: center;
+    top: 752px;
+    white-space: nowrap;
+  }
+  
+  .profile-ADMIN .img {
+    background-image: url(./line-1.svg);
+    height: 4px;
+    left: 160px;
+    position: absolute;
+    top: 1109px;
+    width: 1120px;
+  }
+  
+  .profile-ADMIN .div-wrapper {
+    height: 81px;
+    left: 160px;
+    position: absolute;
+    top: 1148px;
+    width: 378px;
+  }
+  
+  .profile-ADMIN .text-wrapper-8 {
+    background-color: #2f8ab1; 
+    color: #ffffff; 
+    font-family: "Lato-SemiBold", Helvetica;
+    font-size: 32px;
+    font-weight: 400;
+    height: 73px; 
+    width: 233px; 
+    border: none; 
+    border-radius: 5px;
+    cursor: pointer; 
+  }
+  .profile-ADMIN .text-wrapper-8:hover {
+    background-color: #1e6377; 
+    
+  }
+  
+
+  
+  .profile-ADMIN .overlap-2 {
+    background-color: #333333;
+    height: 73px;
+    left: 0;
+    position: absolute;
+    top: 1307px;
+    width: 1440px;
+  }
+  
+  .profile-ADMIN .text-wrapper-9 {
+    color: #ffffff;
+    font-family: "Lato-Regular", Helvetica;
+    font-size: 16px;
+    font-weight: 400;
+    height: 36px;
+    left: 0;
+    letter-spacing: 0;
+    line-height: normal;
+    position: absolute;
+    text-align: center;
+    top: 18px;
+    width: 1440px;
+  }
+  
+  
+.profile-ADMIN .overlap-3 {
+  height: 81px;
+  left: 900px;
+  position: absolute;
+  top: 1148px;
+  width: 378px;
+}
+
+.profile-ADMIN .text-wrapper-10 {
+  background-color: #2f8ab1; 
+  color: #ffffff; 
+  font-family: "Lato-SemiBold", Helvetica;
+  font-size: 32px;
+  font-weight: 400;
+  height: 73px; 
+  width: 233px; 
+  border: none; 
+  border-radius: 5px;
+  cursor: pointer; 
+}
+
+.profile-ADMIN .text-wrapper-10:hover {
+  background-color: #1e6377; 
+  
+}
