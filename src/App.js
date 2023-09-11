@@ -1,25 +1,30 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
-function App() {
+import Homepage from './components/homepage/Homepage';
+import DashboardAdmin from './components/dashboard/DashboardAdmin';
+import DashboardClient from './components/dashboard/DashboardClient';
+import Register from './components/register/Register';
+import Login from './components/login/Login';
+import ProfileAdmin from './components/profile/ProfileAdmin';
+import ProfileClient from './components/profile/ProfileClient';
+import ReportForm from './components/report/ReportForm';
+
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Homepage />} />
+        <Route path="/dashboard/admin" element={<DashboardAdmin />} />
+        <Route path="/dashboard/client" element={<DashboardClient />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/profile/admin" element={<ProfileAdmin />} />
+        <Route path="/profile/client" element={<ProfileClient />} />
+        <Route path="/report-form" element={<ReportForm />} />
+      </Routes>
+    </Router>
   );
-}
+};
 
 export default App;
