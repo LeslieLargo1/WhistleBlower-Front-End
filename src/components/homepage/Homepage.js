@@ -9,7 +9,7 @@ const Homepage = () => {
       </div>
       <div className="home-page">
         <div className="content-container">
-          <h1 className="title">Whistleblower</h1>
+          <h1 className="title-hero">Whistleblower</h1>
           <p className="info-text">
             Unlawful activities and abuse of law may occur in any organization.
             Be the change and take action now.
