@@ -1,0 +1,115 @@
+:root {
+  --accent-color: #2f8ab1;
+  --primary-color: #3d5e84;
+}
+
+.report-form-container {
+  background-color: #f5f5f5;
+  padding: 1rem;
+  margin: 2rem auto;
+  margin-top: 8rem;
+  max-width: 70%;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 2rem 0 2rem;
+}
+
+.flex-form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+}
+
+.flex-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-bottom: 2rem;
+}
+
+.title-report {
+  font-size: 1.5rem;
+  margin: 0 auto;
+}
+.description {
+  font-size: 1rem;
+  width: 100%;
+}
+.description textarea {
+  height: 13rem;
+}
+
+.top {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  width: 100%;
+}
+
+.buttom {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  width: 100%;
+}
+.category,
+.priority {
+  width: 50%;
+  padding-left: 2px;
+}
+.media {
+  padding: 2rem;
+}
+
+.checkboxes {
+  display: flex;
+  flex-direction: row;
+}
+
+.checkbox {
+  width: 50%;
+}
+.inline-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+label {
+  display: block;
+  margin: 1rem 0;
+  font-weight: bold;
+}
+
+input[type="text"],
+textarea,
+select {
+  width: 98%;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+
+button {
+  background-color: var(--accent-color);
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  margin: 3rem 2rem ;
+}
+
+button:hover {
+  background-color: darken(var(--accent-color), 10%);
+}
+
+@media (max-width: 768px) {
+  .flex-container,
+  .inline-container {
+    flex-direction: column;
+    width: 100%;
+  }
+}
