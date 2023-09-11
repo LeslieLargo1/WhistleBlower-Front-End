@@ -21,6 +21,8 @@
     margin-top: 0px;
     margin-left: 236px;
     margin-right: 20px;
+    display: flex;
+    flex-direction: row;
 }
 
 .button1 {
