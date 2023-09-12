@@ -1,6 +1,13 @@
 import React from 'react';
-
 import "./styles/style.css";
+
+const mockUserData = {
+  id: 6,
+  username: "Leslie",
+  email: "leslie@example.com",
+  role: "client",
+  // Add other mock user data here
+};
 
 export const ProfileAdmin = () => {
   return (
@@ -8,31 +15,16 @@ export const ProfileAdmin = () => {
       <div className="div">
         <img className="logowhistleblower" alt="logoWhistleblower" src="./styles/logoWhistleblower.png" />
         <div className="overlap-group">
-          {/* <div className="nav-bar" /> */}
-          {/* <p className="HOME-ABOUT-CONTACT">
-            <span className="text-wrapper">HOME&nbsp;&nbsp; ABOUT&nbsp;&nbsp; CONTACT&nbsp;&nbsp;</span>
-            <span className="text-wrapper"> INBOX</span>
-            <span className="span">&nbsp;</span>
-          </p> */}
-          <button className="sign-out-button">SIGN OUT</button>
-
+          {/* Your navigation elements */}
         </div>
         <div className="overlap">
           <div className="flexcontainer">
             <p className="text">
-              <span className="text-wrapper-3">
-                Welcome,
-                <br />
-              </span>
+              <span className="text-wrapper-3">Welcome,&nbsp;</span>
+              <span className="text-wrapper-4">{mockUserData.username}</span>
             </p>
             <p className="text">
-              <span className="text-wrapper-4">
-                Bray Wyatt
-                <br />
-              </span>
-            </p>
-            <p className="text">
-              <span className="text-wrapper-5">Admin</span>
+              <span className="text-wrapper-5">{mockUserData.role}</span>
             </p>
           </div>
         </div>
@@ -41,14 +33,13 @@ export const ProfileAdmin = () => {
           <p className="p">
             <span className="text-wrapper">Name:</span>
             <span className="text-wrapper-6">
-              {" "}
-              Bray Wyatt
+              {mockUserData.username}
               <br />
             </span>
           </p>
           <p className="p">
             <span className="text-wrapper">Email:</span>
-            <span className="text-wrapper-6"> b.wyatt@gmail.com </span>
+            <span className="text-wrapper-6"> {mockUserData.email} </span>
           </p>
         </div>
         <div className="text-wrapper-7">Personal info:</div>
@@ -56,9 +47,6 @@ export const ProfileAdmin = () => {
         <div className="div-wrapper">
           <button className="text-wrapper-8">Inbox</button>
         </div>
-        {/* <div className="overlap-2">
-          <p className="text-wrapper-9">© 2023 Whistleblower. All rights reserved.</p>
-        </div> */}
         <div className="overlap-3">
           <button className="text-wrapper-10">Change password</button>
         </div>
