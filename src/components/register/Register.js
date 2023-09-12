@@ -4,6 +4,8 @@ import './styles/style.css';
 import Accordion from './Accordion';
 
 const Register = () => {
+
+
   const [formData, setFormData] = useState({
     username: '',
     email: '',
@@ -24,6 +26,9 @@ const Register = () => {
     // and perform actions like sending it to a server or validating it.
     console.log(formData);
   };
+
+
+
   const bglink = "https://images.unsplash.com/photo-1518837695005-2083093ee35b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
 
 
@@ -35,7 +40,7 @@ const Register = () => {
       <div className='register-right'>
         <div className='buttonsTop'>
           <button className="button1" type="submit">Register</button>
-          <button className="button2" type="submit">Sign In </button>
+          <button className="button2" type="button" >Sign In </button>
         </div>
 
         <form onSubmit={handleSubmit}>
