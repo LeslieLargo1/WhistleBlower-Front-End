@@ -1,28 +1,42 @@
-#loginbutton1 {
-    color: white;
-    background-color: #2F8AB1;
-}
-
-#loginbutton2 {
-    color: black;
-    background-color: #D4D4D4;
-}
-
-.forgottenpassword {
-    color: black;
-}
-
 .loginEnd {
-    margin-left: 45px;
-    width: 250px;
+  margin-left: 3rem;
+  width: 15rem;
 }
 
 .forgotpassword {
-    margin-left: 85px;
-    font-weight: 500;
+  margin-left: 5rem;
+  font-weight: 500;
 }
 
-.createaccount {
-    margin-left: 105px;
-    background-color: #4CAF50;
+.userSection,
+.passwordSection {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 0.6rem;
+}
+
+form input {
+  width: 95%;
+  padding: 0.3rem 0.6rem;
+}
+
+.register {
+  color: #2f8ab1;
+  text-decoration: underline;
+  align-items: center;
+}
+
+@media only screen and (max-width: 767px) {
+  form input {
+    width: 90%;
+    padding: 0.3rem 0.6rem;
+  }
+}
+
+@media only screen and (min-width: 768px) and (max-width: 1024px) {
+  form input {
+    width: 85%;
+    padding: 0.3rem 0.6rem;
+  }
 }

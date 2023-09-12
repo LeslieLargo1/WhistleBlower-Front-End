@@ -70,7 +70,7 @@ const AdminDashboard = () => {
     const myHeaders = new Headers()
     myHeaders.append("Authorization", `Bearer ${token}`)
     try {
-      const response = await fetch(
+      await fetch(
         `https://whistle-blower-server.vercel.app/reports/${reportId}/pdf`,
         {
           method: "GET",

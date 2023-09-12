@@ -17,6 +17,7 @@ import CreateNewAdmin from "./components/profile/CreateNewAdmin"
 import Error from "./components/responses/Error"
 import Error404 from "./components/responses/Error404"
 import Success from "./components/responses/Success"
+import About from "./components/about/About"
 
 const isAdmin = true
 
@@ -39,6 +40,7 @@ const App = () => {
           <Route path="/error" element={<Error/>} />
           <Route path="/error/404" element={<Error404/>} />
           <Route path="/success" element={<Success/>} />
+          <Route path="/about" element={<About />} />
         </Routes>
         {<Footer />}
       </Router>

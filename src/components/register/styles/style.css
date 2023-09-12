@@ -1,85 +1,84 @@
 .registerBody {
-    margin-top: 120px;
-    margin-left: 330px;
-    margin-right: 330px;
-    margin-bottom: 120px;
-    border: 2px solid #2F8AB1;
-
-}
-
-.register-right {
-    width: 50%;
-    height: 500px;
-    padding-left: 41px;
-
+  display: flex;
+  margin: 3rem;
+  border: 0.125rem solid #2f8ab1;
+  width: 70%;
+  margin: 8rem auto;
+  border-radius: 0.5em;
 }
 
 .registerLeft {
-    width: 50%px;
-    height: 500px;
+  background-image: url("https://images.unsplash.com/photo-1518837695005-2083093ee35b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80");
+  background-size: cover;
+  background-repeat: no-repeat;
+  width: 50%;
+  height: 100vh;
 }
 
-.buttonsTop {
-    margin-top: 0px;
-    margin-left: 200px;
-    margin-right: 20px;
-    margin-bottom: 50px;
-    display: flex;
-    flex-direction: row;
+.register-right {
+  width: 50%;
+  padding: 2rem;
 }
 
-.button1 {
-    width: 67px;
-    height: 22px;
-    color: white;
-    margin: 0px;
-    padding: 4px;
-    background: var(--Blue, #2F8AB1);
-
+.register-right h1 {
+  margin-bottom: 1rem;
+  color: #2f8ab1;
 }
 
-.button2 {
-    width: 67px;
-    height: 22px;
-    margin: 0px;
-    padding: 4px;
-    color: #000;
-    background: var(--Medium-grey, #D4D4D4);
+.login {
+  color: #2f8ab1;
+  text-decoration: underline;
+  cursor: pointer;
 }
 
-.userSection {
-    width: 300px;
-    height: 84px;
-    margin-top: 0px;
-    margin-left: 13px;
-    display: flex;
-    flex-direction: column;
-}
-
-.emailSection {
-    width: 300px;
-    height: 84px;
-    margin-top: 0px;
-    margin-left: 13px;
-    display: flex;
-    flex-direction: column;
-}
-
+.userSection,
+.emailSection,
 .passwordSection {
-    width: 300px;
-    height: 84px;
-    margin-left: 13px;
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 1rem;
 }
 
-.joinEnd {
-    width: 149px;
-    height: 35px;
-    margin-left: 100px;
-    border-radius: 5px;
+form input {
+  width: 95%;
+  padding: 0.5rem 1rem;
+}
 
-    border: 1px solid var(--black, #000);
-    background: #2F8AB1;
+@media only screen and (max-width: 767px) {
+  .registerBody {
+    flex-direction: column-reverse;
+    margin: 6rem auto;
+    border: 0.125rem solid #2f8ab1;
+  }
+  form input {
+    width: 90%;
+    padding: 0.5rem 1rem;
+  }
+  
+  .registerLeft{
+    width: 100%;
+  }
+  .register-right {
+    width: 90%;
+  }
 
+  .register-right {
+    padding: 1rem;
+  }
+}
+
+@media only screen and (min-width: 768px) and (max-width: 1024px) {
+  .registerLeft {
+    width: 100%;
+  }
+  form input {
+    width: 85%;
+    padding: 0.5rem 1rem;
+  }  
+
+  .register-right {
+    width: 100%;
+    padding: 1.5rem;
+  }
 }

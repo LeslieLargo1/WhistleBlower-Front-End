@@ -60,13 +60,22 @@ const Dashboard = () => {
   }
 
   const handleSort = (e) => {
-    const value = e.target.value
     let sortedReports = [...filteredReports]
     setFilteredReports(sortedReports)
   }
 
-  const handleFilter = (e) => {
-    const value = e.target.value
+  const handleFilter = (filterKey) => {
+    const filtered = reports.filter((report) => {
+      switch (filterKey) {
+        case "new":
+          return report.status === "new"
+        case "closed":
+          return report.status === "closed"
+        default:
+          return true
+      }
+    })
+    setFilteredReports(filtered)
   }
 
   return (
@@ -77,7 +86,7 @@ const Dashboard = () => {
       <div className="main">
         <aside className="sidebar">
           <button className="new-report-btn" onClick={handleCreateReport}>
-            <FaPlus size={18} />  Create New Report
+            <FaPlus size={18} /> Create New Report
           </button>
           <ul className="menu">
             <li>
