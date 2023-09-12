@@ -1,3 +1,13 @@
+#loginbutton1 {
+    color: white;
+    background-color: #2F8AB1;
+}
+
+#loginbutton2 {
+    color: black;
+    background-color: #D4D4D4;
+}
+
 .forgottenpassword {
     color: black;
 }

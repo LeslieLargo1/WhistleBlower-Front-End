@@ -35,8 +35,8 @@ const Login = () => {
       </div>
       <div className='register-right'>
         <div className='buttonsTop'>
-          <button className="button2" type="submit">Sign In </button>
-          <button className="button1" type="submit">Register</button>
+          <button className="button2" id="loginbutton1" type="submit">Sign In </button>
+          <button className="button1" id="loginbutton2" type="submit">Register</button>
         </div>
 
         <form onSubmit={handleSubmit}>
