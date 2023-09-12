@@ -12,6 +12,9 @@ import Login from "./components/login/Login"
 import ProfileAdmin from "./components/profile/ProfileAdmin"
 import ProfileClient from "./components/profile/ProfileClient"
 import ReportForm from "./components/report/ReportForm"
+import Error from "./components/responses/Error"
+import Error404 from "./components/responses/Error404"
+import Success from "./components/responses/Success"
 
 const isAdmin = true
 
@@ -29,6 +32,9 @@ const App = () => {
           <Route path="/profile/admin" element={<ProfileAdmin />} />
           <Route path="/profile/client" element={<ProfileClient />} />
           <Route path="/report-form" element={<ReportForm />} />
+          <Route path="/error" element={<Error/>} />
+          <Route path="/error/404" element={<Error404/>} />
+          <Route path="/success" element={<Success/>} />
         </Routes>
         {<Footer />}
       </Router>
