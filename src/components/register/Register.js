@@ -60,7 +60,7 @@ const Register = () => {
           <div className='emailSection'>
             <label htmlFor="email">Email:</label>
             <input
-              type="email"
+              type="text"
               placeholder="email"
               id="email"
               name="email"
@@ -72,7 +72,7 @@ const Register = () => {
           <div className='passwordSection'>
             <label htmlFor="password">Password:</label>
             <input
-              type="password"
+              type="text"
               placeholder="password"
               id="password"
               name="password"

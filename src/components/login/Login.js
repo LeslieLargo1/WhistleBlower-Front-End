@@ -56,7 +56,7 @@ const Login = () => {
           <div className='passwordSection'>
             <label htmlFor="password">Password:</label>
             <input
-              type="password"
+              type="text"
               placeholder="password"
               id="password"
               name="password"
