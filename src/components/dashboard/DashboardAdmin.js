@@ -8,13 +8,22 @@ import {
   FaEdit,
   FaReply,
   FaFilePdf,
+  FaCalendarAlt,
+  FaRegCheckCircle,
+  FaTags,
+  FaExclamationTriangle,
+  FaSortAmountUp,
+  FaSortAmountDown,
 } from "react-icons/fa"
+
 import { useAuth } from "../AuthContext/AuthContext"
 import { useNavigate } from "react-router-dom"
 
 const AdminDashboard = () => {
-  const [reports, setReports] = useState([])
   const { token } = useAuth()
+  const [reports, setReports] = useState([])
+  const [sortField, setSortField] = useState("date")
+  const [sortOrder, setSortOrder] = useState("asc")
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -46,6 +55,16 @@ const AdminDashboard = () => {
 
     fetchReports()
   }, [token])
+
+  useEffect(() => {
+    const sortedReports = [...reports].sort((a, b) => {
+      if (a[sortField] < b[sortField]) return sortOrder === "asc" ? -1 : 1
+      if (a[sortField] > b[sortField]) return sortOrder === "asc" ? 1 : -1
+      return 0
+    })
+
+    setReports(sortedReports)
+  }, [sortField, sortOrder, reports])
 
   const handleGeneratePdf = async (reportId) => {
     const myHeaders = new Headers()
@@ -104,10 +123,11 @@ const AdminDashboard = () => {
       console.error(`Failed to change status for report ${reportId}:`, error)
     }
   }
+
   return (
     <div className="dashboard">
       <header className="header">
-        <h1> Admin Dashboard</h1>
+        <h1>Admin Dashboard</h1>
       </header>
       <div className="main">
         <aside className="sidebar">
@@ -124,6 +144,34 @@ const AdminDashboard = () => {
           </ul>
         </aside>
         <section className="content">
+          <div className="sort-options">
+            <label>Sort By: </label>
+            <span onClick={() => setSortField("date")} title="Sort by Date">
+              <FaCalendarAlt size={18} />
+            </span>
+            <span onClick={() => setSortField("status")} title="Sort by Status">
+              <FaRegCheckCircle size={18} />
+            </span>
+            <span
+              onClick={() => setSortField("category")}
+              title="Sort by Category"
+            >
+              <FaTags size={18} />
+            </span>
+            <span
+              onClick={() => setSortField("priority")}
+              title="Sort by Priority"
+            >
+              <FaExclamationTriangle size={18} />
+            </span>
+            <label>Order: </label>
+            <span onClick={() => setSortOrder("asc")} title="Ascending Order">
+              <FaSortAmountUp size={18} />
+            </span>
+            <span onClick={() => setSortOrder("desc")} title="Descending Order">
+              <FaSortAmountDown size={18} />
+            </span>
+          </div>
           <h2>Admin Inbox</h2>
           <table className="report-table">
             <thead>
@@ -150,14 +198,12 @@ const AdminDashboard = () => {
                       <FaReply />
                     </button>
                     <button
-                      onClick={() =>
-                        handlePriorityChange(report.id, "newPriority")
-                      }
+                      onClick={() => handlePriorityChange(report.id, "High")}
                     >
                       <FaFlag />
                     </button>
                     <button
-                      onClick={() => handleStatusChange(report.id, "newStatus")}
+                      onClick={() => handleStatusChange(report.id, "Open")}
                     >
                       <FaEdit />
                     </button>
