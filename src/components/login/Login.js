@@ -2,6 +2,7 @@ import React from 'react';
 import { useState } from 'react';
 import './styles/style.css';
 import Accordion from '../register/Accordion';
+import { AuthProvider } from '../AuthContext/AuthContext';
 
 
 const Login = () => {
