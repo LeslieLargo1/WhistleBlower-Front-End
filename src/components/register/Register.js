@@ -1,67 +1,94 @@
-import React from 'react';
-import { useState } from 'react';
-import './styles/style.css';
-import Accordion from './Accordion';
-import { useNavigate } from "react-router-dom";
-
-
-
+import React, { useState } from "react"
+import { useNavigate } from "react-router-dom"
+import { useAuth } from "../AuthContext/AuthContext"
+import "./styles/style.css"
+import Accordion from "./Accordion"
 
 const Register = () => {
-
-  const navigate = useNavigate();
-
-
-  const handleSignIn = () => {
-    navigate("/login");
-  };
-
-
-
   const [formData, setFormData] = useState({
-    username: '',
-    email: '',
-    password: '',
-  });
+    username: "",
+    email: "",
+    password: "",
+  })
+
+  const navigate = useNavigate()
+  const { setToken } = useAuth()
+  const [feedbackMessage, setFeedbackMessage] = useState("")
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value } = e.target
     setFormData({
       ...formData,
       [name]: value,
-    });
-  };
+    })
+  }
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Here, you can access the form data in the 'formData' object
-    // and perform actions like sending it to a server or validating it.
-    console.log(formData);
-  };
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    setFeedbackMessage("Registering...")
 
+    const requestOptions = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(formData),
+    }
 
+    try {
+      const response = await fetch(
+        "https://whistle-blower-server.vercel.app/register",
+        requestOptions
+      )
 
-  const bglink = "https://images.unsplash.com/photo-1518837695005-2083093ee35b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+      if (response.ok) {
+        const data = await response.json()
+        if (data.success) {
+          console.log("Registration successful")
+          setToken(data.token)
+          setFeedbackMessage("Registration successful! Redirecting...")
+          if (data.role === "admin") {
+            navigate("/dashboard/admin")
+          } else {
+            navigate("/dashboard/client")
+          }
+        } else {
+          setFeedbackMessage(`Registration failed: ${data.message}`)
+          console.log("Registration failed:", data.message)
+        }
+      } else {
+        setFeedbackMessage(
+          `Server returned ${response.status}: ${response.statusText}`
+        )
+      }
+    } catch (error) {
+      setFeedbackMessage("An error occurred during registration.")
+      console.error("Registration error:", error)
+    }
+  }
 
+  const bglink =
+    "https://images.unsplash.com/photo-1518837695005-2083093ee35b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
 
   return (
-    <section className="registerBody" style={{ display: 'flex' }} >
-      <div className="registerLeft" style={{ backgroundImage: `url(${bglink})`, backgroundSize: "cover", backgroundRepeat: " no-repeat", width: '465px', height: '500px' }}>
+    <section className="registerBody" style={{ display: "flex" }}>
+      <div
+        className="registerLeft"
+        style={{
+          backgroundImage: `url(${bglink})`,
+          backgroundSize: "cover",
+          backgroundRepeat: "no-repeat",
+          width: "50%",
+          height: "100vh",
+        }}
+      >
         <Accordion />
       </div>
-      <div className='register-right'>
-        <div className='buttonsTop'>
-          <button className="button1" type="submit">Register</button>
-          <button className="button2" type="button" onClick={handleSignIn}>Sign In </button>
-        </div>
-
+      <div className="register-right" style={{ width: "50%", padding: "2em" }}>
+        <h1>Register</h1>
         <form onSubmit={handleSubmit}>
-          <div className='userSection'>
+          <div className="userSection">
             <label htmlFor="username">Username:</label>
             <input
-              className=''
               type="text"
-              placeholder="username"
               id="username"
               name="username"
               value={formData.username}
@@ -69,11 +96,10 @@ const Register = () => {
               required
             />
           </div>
-          <div className='emailSection'>
+          <div className="emailSection">
             <label htmlFor="email">Email:</label>
             <input
-              type="text"
-              placeholder="email"
+              type="email"
               id="email"
               name="email"
               value={formData.email}
@@ -81,11 +107,10 @@ const Register = () => {
               required
             />
           </div>
-          <div className='passwordSection'>
+          <div className="passwordSection">
             <label htmlFor="password">Password:</label>
             <input
-              type="text"
-              placeholder="password"
+              type="password"
               id="password"
               name="password"
               value={formData.password}
@@ -93,13 +118,14 @@ const Register = () => {
               required
             />
           </div>
-          <div className='button3'>
-            <button className="joinEnd" type="submit">Join</button>
+          <div className="button3">
+            <button type="submit">Register</button>
           </div>
         </form>
+        <div className="feedbackMessage">{feedbackMessage}</div>
       </div>
     </section>
-  );
-};
+  )
+}
 
-export default Register;
+export default Register

@@ -12,6 +12,8 @@ import Login from "./components/login/Login"
 import ProfileAdmin from "./components/profile/ProfileAdmin"
 import ProfileClient from "./components/profile/ProfileClient"
 import ReportForm from "./components/report/ReportForm"
+import ChangePassword from "./components/profile/ChangePassword"
+import CreateNewAdmin from "./components/profile/CreateNewAdmin"
 import Error from "./components/responses/Error"
 import Error404 from "./components/responses/Error404"
 import Success from "./components/responses/Success"
@@ -32,6 +34,8 @@ const App = () => {
           <Route path="/profile/admin" element={<ProfileAdmin />} />
           <Route path="/profile/client" element={<ProfileClient />} />
           <Route path="/report-form" element={<ReportForm />} />
+          <Route path="/change-password" element={<ChangePassword/>} />
+          <Route path="/create-new-admin" element={<CreateNewAdmin/>} />
           <Route path="/error" element={<Error/>} />
           <Route path="/error/404" element={<Error404/>} />
           <Route path="/success" element={<Success/>} />
