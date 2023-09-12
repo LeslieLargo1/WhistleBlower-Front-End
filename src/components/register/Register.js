@@ -2,8 +2,20 @@ import React from 'react';
 import { useState } from 'react';
 import './styles/style.css';
 import Accordion from './Accordion';
+import { useNavigate } from "react-router-dom";
+
+
+
 
 const Register = () => {
+
+  const navigate = useNavigate();
+
+
+  const handleSignIn = () => {
+    navigate("/login");
+  };
+
 
 
   const [formData, setFormData] = useState({
@@ -40,7 +52,7 @@ const Register = () => {
       <div className='register-right'>
         <div className='buttonsTop'>
           <button className="button1" type="submit">Register</button>
-          <button className="button2" type="button" >Sign In </button>
+          <button className="button2" type="button" onClick={handleSignIn}>Sign In </button>
         </div>
 
         <form onSubmit={handleSubmit}>
@@ -82,7 +94,7 @@ const Register = () => {
             />
           </div>
           <div className='button3'>
-            <button className="registerEnd" type="submit">Register</button>
+            <button className="joinEnd" type="submit">Join</button>
           </div>
         </form>
       </div>
