@@ -1,15 +1,42 @@
+.wrapper {
+
+    height: 70vh;
+    display: flex;
+    justify-content: center;
+    justify-items: center;
+}
+
 .accordion {
+    width: 70%;
+}
+
+.item {
+    margin-top: 10px;
+}
+
+.title {
+    border-radius: 3px;
+    background-color: white;
+    color: #2F8AB1;
+    padding-left: 10px;
+    padding-right: 10px;
+    display: flex;
+    justify-content: space-between;
+
+    cursor: pointer;
+    font-size: 10px;
+}
+
+.plus {
     display: flex;
     flex-direction: column;
-    align-items: center;
-
-
+    justify-content: center;
 }
 
 .answer {
     background-color: #f1f1f1;
     padding: 10px;
-    border-radius: 5px;
-    text-align: center;
+    border-radius: 3px;
+    text-align: left;
 
 }
