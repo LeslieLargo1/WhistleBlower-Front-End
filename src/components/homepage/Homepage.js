@@ -1,7 +1,14 @@
 import React from "react"
 import "./styles/style.css"
+import { useNavigate } from "react-router"
+
 
 const Homepage = () => {
+  const navigate = useNavigate();
+  const takeAction = () => {
+    navigate("/register");
+  };
+
   return (
     <>
       <div className="hero-image">
@@ -15,7 +22,7 @@ const Homepage = () => {
             Be the change and take action now.
           </p>
           <div className="action-section">
-            <button className="action-button">
+            <button className="action-button" onClick={takeAction}>
               <p className="action-text">Take Action</p>
             </button>
           </div>
