@@ -4,8 +4,14 @@ import "./styles/Error.css"
 
 const Error = () => {
   return (
-    <div>
-      <h1>Error</h1>
+    <div className="report-submitted">
+      <div className="div">
+        
+        <p className="your-report-has-been">
+          <span className="text-wrapper"> Error! </span>
+          
+        </p>
+      </div>
     </div>
   )
 }
