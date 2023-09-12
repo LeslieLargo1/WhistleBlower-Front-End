@@ -1,6 +1,8 @@
 import React from 'react';
 import { useState } from 'react';
 import './styles/style.css';
+import Accordion from '../register/Accordion';
+
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -29,14 +31,12 @@ const Login = () => {
   return (
     <section className="registerBody" style={{ display: 'flex' }} >
       <div className="registerLeft" style={{ backgroundImage: `url(${bglink})`, backgroundSize: "cover", backgroundRepeat: " no-repeat", width: '465px', height: '500px' }}>
-        <div className="dropdown">
-          kjkfksjdfkl
-        </div>
+        <Accordion />
       </div>
       <div className='register-right'>
         <div className='buttonsTop'>
-          <button className="button1" type="submit">Register</button>
           <button className="button2" type="submit">Sign In </button>
+          <button className="button1" type="submit">Register</button>
         </div>
 
         <form onSubmit={handleSubmit}>
@@ -53,22 +53,28 @@ const Login = () => {
               required
             />
           </div>
-          <div className='emailSection'>
-            <label htmlFor="email">Email:</label>
+          <div className='passwordSection'>
+            <label htmlFor="password">Password:</label>
             <input
-              type="email"
-              placeholder="email"
-              id="email"
-              name="email"
-              value={formData.email}
+              type="password"
+              placeholder="password"
+              id="password"
+              name="password"
+              value={formData.password}
               onChange={handleChange}
               required
             />
           </div>
-
           <div className='button3'>
-            <button className="registerEnd" type="submit">Register</button>
+            <button className="loginEnd" type="submit">Login</button>
           </div>
+          <div className='forgotpassword'>
+            Forgotten password?
+          </div>
+          <div className='create'>
+            <button className="createaccount" type="submit">Create Account</button>
+          </div>
+
         </form>
       </div>
     </section>
