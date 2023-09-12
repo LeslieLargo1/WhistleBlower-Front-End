@@ -1,26 +1,29 @@
 .registerBody {
-    margin-top: 160px;
+    margin-top: 120px;
     margin-left: 330px;
+    margin-right: 330px;
+    margin-bottom: 120px;
     border: 2px solid #2F8AB1;
 
 }
 
 .register-right {
-    width: 465px;
+    width: 50%;
     height: 500px;
     padding-left: 41px;
 
 }
 
 .registerLeft {
-    width: 465px;
+    width: 50%px;
     height: 500px;
 }
 
 .buttonsTop {
     margin-top: 0px;
-    margin-left: 236px;
+    margin-left: 200px;
     margin-right: 20px;
+    margin-bottom: 50px;
     display: flex;
     flex-direction: row;
 }
@@ -29,6 +32,8 @@
     width: 67px;
     height: 22px;
     color: white;
+    margin: 0px;
+    padding: 4px;
     background: var(--Blue, #2F8AB1);
 
 }
@@ -36,13 +41,17 @@
 .button2 {
     width: 67px;
     height: 22px;
+    margin: 0px;
+    padding: 4px;
+    color: #000;
     background: var(--Medium-grey, #D4D4D4);
 }
 
 .userSection {
     width: 300px;
     height: 84px;
-    margin-top: 97px;
+    margin-top: 0px;
+    margin-left: 13px;
     display: flex;
     flex-direction: column;
 }
@@ -50,6 +59,8 @@
 .emailSection {
     width: 300px;
     height: 84px;
+    margin-top: 0px;
+    margin-left: 13px;
     display: flex;
     flex-direction: column;
 }
@@ -57,6 +68,7 @@
 .passwordSection {
     width: 300px;
     height: 84px;
+    margin-left: 13px;
     display: flex;
     flex-direction: column;
 }
@@ -64,7 +76,7 @@
 .registerEnd {
     width: 149px;
     height: 35px;
-
+    margin-left: 80px;
     border-radius: 5px;
 
     border: 1px solid var(--black, #000);
