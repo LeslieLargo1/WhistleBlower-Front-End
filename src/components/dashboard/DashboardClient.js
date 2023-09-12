@@ -1,16 +1,27 @@
-import React, { useState, useEffect } from "react";
-import "./styles/style.css";
-import { FaInbox, FaFileAlt, FaDraft2Digital, FaPlus } from "react-icons/fa";
-import { useAuth } from "../AuthContext/AuthContext";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react"
+import "./styles/style.css"
+import {
+  FaInbox,
+  FaFileAlt,
+  FaDraft2Digital,
+  FaRegFileAlt,
+  FaRegCheckCircle,
+  FaCalendarAlt,
+  FaRegListAlt,
+  FaRegStar,
+  FaPlus,
+  FaRegCheckSquare,
+} from "react-icons/fa"
+import { useAuth } from "../AuthContext/AuthContext"
+import { useNavigate } from "react-router-dom"
 
 const Dashboard = () => {
-  const [reports, setReports] = useState([]);
-  const [selectedReport, setSelectedReport] = useState(null);
-  const [filteredReports, setFilteredReports] = useState([]);
-  const { token } = useAuth();
-  const navigate = useNavigate();
-  const newReportsCount = reports.filter((r) => r.status === "new").length;
+  const [reports, setReports] = useState([])
+  const [selectedReport, setSelectedReport] = useState(null)
+  const [filteredReports, setFilteredReports] = useState([])
+  const { token } = useAuth()
+  const navigate = useNavigate()
+  const newReportsCount = reports.filter((r) => r.status === "new").length
 
   useEffect(() => {
     const fetchReports = async () => {
@@ -37,28 +48,27 @@ const Dashboard = () => {
       }
     }
 
-    setFilteredReports(reports);
+    setFilteredReports(reports)
   }, [token])
 
   const handleReportClick = (report) => {
-    setSelectedReport(report);
-  };
+    setSelectedReport(report)
+  }
 
   const handleCreateReport = () => {
-    navigate("/report-form");
-  };
+    navigate("/report-form")
+  }
 
   const handleSort = (e) => {
-    const value = e.target.value;
-    let sortedReports = [...filteredReports];
-    setFilteredReports(sortedReports);
-  };
+    const value = e.target.value
+    let sortedReports = [...filteredReports]
+    setFilteredReports(sortedReports)
+  }
 
   const handleFilter = (e) => {
-    const value = e.target.value;
-  };
+    const value = e.target.value
+  }
 
-  
   return (
     <div className="dashboard">
       <header className="header">
@@ -67,12 +77,14 @@ const Dashboard = () => {
       <div className="main">
         <aside className="sidebar">
           <button className="new-report-btn" onClick={handleCreateReport}>
-            <FaPlus size={18} /> Create New Report
+            <FaPlus size={18} />  Create New Report
           </button>
           <ul className="menu">
             <li>
               <FaInbox size={18} /> Inbox
-              {newReportsCount > 0 && <span className="badge">{newReportsCount}</span>}
+              {newReportsCount > 0 && (
+                <span className="badge">{newReportsCount}</span>
+              )}
             </li>
             <li>
               <FaFileAlt size={18} /> Reports
@@ -83,17 +95,27 @@ const Dashboard = () => {
           </ul>
         </aside>
         <section className="content">
-          <div className="sort-filter">
-            <select onChange={handleSort}>
-              <option value="title">Sort by Title</option>
-              <option value="status">Sort by Status</option>
-              <option value="date">Sort by Date</option>
-            </select>
-            <select onChange={handleFilter}>
-              <option value="all">All</option>
-              <option value="new">New</option>
-              <option value="closed">Closed</option>
-            </select>
+          <div className="sort-options">
+            <label>Sort By: </label>
+            <span onClick={() => handleSort("title")} title="Sort by Title">
+              <FaRegFileAlt size={18} />
+            </span>
+            <span onClick={() => handleSort("status")} title="Sort by Status">
+              <FaRegCheckCircle size={18} />
+            </span>
+            <span onClick={() => handleSort("date")} title="Sort by Date">
+              <FaCalendarAlt size={18} />
+            </span>
+            <label>Filter: </label>
+            <span onClick={() => handleFilter("all")} title="Show All">
+              <FaRegListAlt size={18} />
+            </span>
+            <span onClick={() => handleFilter("new")} title="Show New">
+              <FaRegStar size={18} />
+            </span>
+            <span onClick={() => handleFilter("closed")} title="Show Closed">
+              <FaRegCheckSquare size={18} />
+            </span>
           </div>
           <h2>Inbox</h2>
           <table className="report-table">
@@ -125,7 +147,7 @@ const Dashboard = () => {
         </section>
       </div>
     </div>
-  );
-};
+  )
+}
 
 export default Dashboard

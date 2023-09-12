@@ -31,13 +31,15 @@
 .new-report-btn {
   background-color: var(--accent-color);
   color: white;
-  padding: 10px 20px;
+  padding: 15px 25px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
   margin-bottom: 20px;
   display: flex;
   align-items: center;
+  justify-content: center;
+  font-size: 1.2em;
 }
 
 .new-report-btn:hover {
@@ -46,14 +48,14 @@
 
 .menu {
   list-style: none;
-  padding: 0;
 }
 
 .menu li {
-  padding: 10px;
+  padding: 15px;
   cursor: pointer;
   display: flex;
   align-items: center;
+  justify-content: space-between;
 }
 
 .menu li:hover {
@@ -91,7 +93,7 @@
   font-size: 0.8em;
 }
 
-.sort{
+.sort {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -145,4 +147,53 @@
 .sort-options span.active {
   background-color: var(--primary-color);
   color: white;
+}
+
+
+
+@media screen and (max-width: 767px) {
+  .main {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .sidebar,
+  .content {
+    width: 100%;
+  }
+
+  .sidebar {
+    display: none; 
+  }
+
+  .report-table th,
+  .report-table td {
+    font-size: 0.8em;
+    padding: 5px;
+  }
+
+  .new-report-btn,
+  .menu li {
+    font-size: 1em;
+  }
+
+  .sort-options {
+    display: none;  
+  }
+}
+
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+  .sidebar {
+    width: 25%;
+  }
+
+  .content {
+    flex-grow: 1;
+  }
+
+  .report-table th,
+  .report-table td {
+    font-size: 1em;
+    padding: 8px;
+  }
 }
