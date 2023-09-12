@@ -28,7 +28,7 @@
     font-size: 48px;
     font-weight: 400;
     height: 139px;
-    left: 495px;
+    left: 590px;
     letter-spacing: 0;
     line-height: normal;
     position: absolute;
@@ -40,12 +40,9 @@
   .report-submitted .text-wrapper {
     color: #ffffff;
     font-family: "Lato-Regular", Helvetica;
-    font-size: 48px;
+    font-size: 88px;
     font-weight: 400;
     letter-spacing: 0;
   }
   
-  .report-submitted .span {
-    font-size: 64px;
-  }
   

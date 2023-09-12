@@ -5,14 +5,10 @@ export const Success = () => {
   return (
     <div className="report-submitted">
       <div className="div">
-        <img
-          className="solid-thumbs-up"
-          alt="Solid thumbs up"
-          src="fa6-solid-thumbs-up.svg"
-        />
+        
         <p className="your-report-has-been">
-          <span className="text-wrapper"> Your report has been submitted!</span>
-          <span className="span">Success!</span>
+          <span className="text-wrapper"> Success! </span>
+          
         </p>
       </div>
     </div>
