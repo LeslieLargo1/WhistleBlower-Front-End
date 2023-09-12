@@ -1,0 +1,9 @@
+{
+    "id": 6,
+    "username": "Leslie",
+    "email": "leslie@example.com",
+    "password": "$2b$10$/jgOjl2k3BQhenHFD9P.eu59WwuO0vDQhZzGVVUHRti4R3ECKzJ8S",
+    "created_at": null,
+    "last_login": null,
+    "role": "client"
+  }

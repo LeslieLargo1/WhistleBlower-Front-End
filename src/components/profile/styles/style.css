@@ -8,7 +8,7 @@
   
   .profile-ADMIN .div {
     background-color: #d4d4d4;
-    height: 1380px;
+    height: 900px;
     position: relative;
     width: 1440px;
   }
@@ -23,13 +23,13 @@
     width: 300px;
   } */
   
-  .profile-ADMIN .overlap-group {
+  /* .profile-ADMIN .overlap-group {
     height: 74px;
     left: 200px;
     position: absolute;
     top: -1px;
     width: 1157px;
-  }
+  } */
   
   .profile-ADMIN .nav-bar {
     background-color: #d2d2d2;
@@ -75,7 +75,7 @@
 
 .profile-ADMIN .sign-out-button {
     background-color: #2f8ab1; 
-    color: #ffffff; 
+    color: #000000; 
     font-family: "Lato-SemiBold", Helvetica;
     font-size: 32px;
     font-weight: 600;
@@ -92,7 +92,7 @@
   
   
   .profile-ADMIN .overlap {
-    background-image: url(./desert.jpg);
+    
     background-position: 50% 50%;
     background-size: cover;
     height: 441px;
@@ -100,6 +100,7 @@
     position: absolute;
     top: 153px;
     width: 1440px;
+    padding: 10px;
   }
   
   .profile-ADMIN .flexcontainer {
@@ -107,16 +108,18 @@
     display: flex;
     flex-direction: column;
     height: 336px;
-    left: 160px;
+    left: 60px;
     position: relative;
     top: 0px;
-    width: 1120px;
+    width: 70%;
+    margin: 0 auto;
   }
   
   .profile-ADMIN .text {
     align-self: stretch;
-    color: #ffffff;
+    color: #2f8ab1;
     font-family: "Lato-Regular", Helvetica;
+    left: -300px;
     
     font-weight: 400;
     letter-spacing: 0;
@@ -127,21 +130,23 @@
   }
   
   .profile-ADMIN .text-wrapper-3 {
-    color: #ffffff;
+    color: #2f8ab1;
     font-family: "Lato-Regular", Helvetica;
-    font-size: 96px;
+    font-size: 44px;
     font-weight: 400;
     letter-spacing: 0;
     line-height: 28px;
   }
   
   .profile-ADMIN .text-wrapper-4 {
-    font-size: 128px;
+    font-size: 90px;
     text-shadow: 3px 3px black;
+    
   }
   
   .profile-ADMIN .text-wrapper-5 {
-    font-size: 64px;
+    font-size: 30px;
+    margin-left: -540px;
   }
   
   .profile-ADMIN .line {
@@ -149,7 +154,7 @@
     height: 4px;
     left: 160px;
     position: absolute;
-    top: 693px;
+    top: 470px;
     width: 1120px;
   }
   
@@ -157,11 +162,11 @@
     align-items: flex-start;
     display: flex;
     flex-direction: column;
-    gap: 100px;
+    gap: 0px;
     height: 260px;
     left: 160px;
     position: absolute;
-    top: 817px;
+    top: 542px;
     width: 1120px;
   }
   
@@ -183,7 +188,7 @@
   .profile-ADMIN .text-wrapper-7 {
     color: #2f8ab1;
     font-family: "Lato-Bold", Helvetica;
-    font-size: 48px;
+    font-size: 24px;
     font-weight: 700;
     height: 28px;
     left: 160px;
@@ -191,7 +196,7 @@
     line-height: 28px;
     position: absolute;
     text-align: center;
-    top: 752px;
+    top: 510px;
     white-space: nowrap;
   }
   
@@ -200,7 +205,7 @@
     height: 4px;
     left: 160px;
     position: absolute;
-    top: 1109px;
+    top: 718px;
     width: 1120px;
   }
   
@@ -208,7 +213,7 @@
     height: 81px;
     left: 160px;
     position: absolute;
-    top: 1148px;
+    top: 715px;
     width: 378px;
   }
   
@@ -216,7 +221,7 @@
     background-color: #2f8ab1; 
     color: #ffffff; 
     font-family: "Lato-SemiBold", Helvetica;
-    font-size: 32px;
+    font-size: 30px;
     font-weight: 400;
     height: 73px; 
     width: 233px; 
@@ -260,7 +265,7 @@
   height: 81px;
   left: 900px;
   position: absolute;
-  top: 1148px;
+  top: 715px;
   width: 378px;
 }
 
@@ -268,7 +273,7 @@
   background-color: #2f8ab1; 
   color: #ffffff; 
   font-family: "Lato-SemiBold", Helvetica;
-  font-size: 32px;
+  font-size: 25px;
   font-weight: 400;
   height: 73px; 
   width: 233px; 
