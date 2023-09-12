@@ -1,57 +1,86 @@
-import React from 'react';
-import { useState } from 'react';
-import './styles/style.css';
-import Accordion from '../register/Accordion';
-import { useNavigate } from 'react-router';
-
+import React, { useState } from "react"
+import "./styles/style.css"
+import { useAuth } from "../AuthContext/AuthContext"
+import Accordion from "../register/Accordion"
+import { useNavigate } from "react-router"
 
 const Login = () => {
-  const navigate = useNavigate();
-  const toRegister = () => {
-    navigate("/register");
-  };
-
   const [formData, setFormData] = useState({
-    username: '',
-    email: '',
-    password: '',
-  });
+    username: "",
+    password: "",
+  })
+
+  const navigate = useNavigate()
+  const { setToken } = useAuth()
+  const [feedbackMessage, setFeedbackMessage] = useState("")
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value } = e.target
     setFormData({
       ...formData,
       [name]: value,
-    });
-  };
+    })
+  }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Here, you can access the form data in the 'formData' object
-    // and perform actions like sending it to a server or validating it.
-    console.log(formData);
+    setFeedbackMessage("Logging in...");
+  
+    const requestOptions = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(formData),
+    };
+  
+    try {
+      const response = await fetch(
+        "https://whistle-blower-server.vercel.app/users/login",
+        requestOptions
+      );
+      const data = await response.json();
+      console.log("Server Response: ", response);
+      console.log("Server Data: ", data);
+  
+      if (response.ok) {
+        if (data.token) {  
+          console.log("Login successful");
+          setToken(data.token);
+          localStorage.setItem("role", data.user.role);
+          setFeedbackMessage("Login successful! Redirecting...");
+          
+          const userRole = data.user?.role || 'client';  
+  
+          if (userRole === "admin") {
+            navigate("/dashboard/admin");
+          } else {
+            navigate("/dashboard/client");
+          }
+        } else {
+          setFeedbackMessage(`Login failed: ${data.message || "Unknown error"}`);
+          console.log("Login failed:", data.message);
+        }
+      } else {
+        setFeedbackMessage(`Server returned ${response.status}: ${response.statusText}`);
+      }
+    } catch (error) {
+      setFeedbackMessage("An error occurred during login.");
+      console.error("Login error:", error);
+    }
   };
-  const bglink = "https://images.unsplash.com/photo-1518837695005-2083093ee35b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
-
+  
 
   return (
-    <section className="registerBody" style={{ display: 'flex' }} >
-      <div className="registerLeft" style={{ backgroundImage: `url(${bglink})`, backgroundSize: "cover", backgroundRepeat: " no-repeat", width: '465px', height: '500px' }}>
+    <section className="registerBody">
+      <div className="registerLeft">
         <Accordion />
       </div>
-      <div className='register-right'>
-        <div className='buttonsTop'>
-          <button className="button2" id="loginbutton1" type="submit">Sign In </button>
-          <button className="button1" id="loginbutton2" type="submit" onClick={toRegister}>Register</button>
-        </div>
-
+      <div className="register-right">
+        <h1>Login</h1>
         <form onSubmit={handleSubmit}>
-          <div className='userSection'>
+          <div className="userSection">
             <label htmlFor="username">Username:</label>
             <input
-              className=''
               type="text"
-              placeholder="username"
               id="username"
               name="username"
               value={formData.username}
@@ -59,11 +88,10 @@ const Login = () => {
               required
             />
           </div>
-          <div className='passwordSection'>
+          <div className="passwordSection">
             <label htmlFor="password">Password:</label>
             <input
-              type="text"
-              placeholder="password"
+              type="password"
               id="password"
               name="password"
               value={formData.password}
@@ -71,20 +99,20 @@ const Login = () => {
               required
             />
           </div>
-          <div className='button3'>
-            <button className="loginEnd" type="submit">Login</button>
-          </div>
-          <div className='forgotpassword'>
-            Forgotten password?
-          </div>
-          <div className='create'>
-            <button className="createaccount" type="submit">Create Account</button>
-          </div>
-
+          <button type="submit">Login</button>
         </form>
-      </div>
+        <div className="redirect-to-login">
+          <p>
+            Don't have an account?{" "}
+            <span onClick={() => navigate("/register")} className="register">
+              Register
+            </span>
+          </p>
+        </div>{" "}
+        <div className="feedbackMessage">{feedbackMessage}</div>
+      </div>{" "}
     </section>
-  );
-};
+  )
+}
 
-export default Login;
+export default Login

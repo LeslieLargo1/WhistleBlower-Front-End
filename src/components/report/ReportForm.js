@@ -5,6 +5,7 @@ import { useAuth } from "../AuthContext/AuthContext"
 const ReportForm = () => {
   const { token } = useAuth()
   const [categories, setCategories] = useState([])
+  const [priorities, setPriorities] = useState([])
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -14,6 +15,34 @@ const ReportForm = () => {
     categoryId: 1,
     media: null,
   })
+
+  useEffect(() => {
+    const fetchInitialData = async () => {
+      const myHeaders = new Headers()
+      myHeaders.append("Authorization", `Bearer ${token}`)
+
+      try {
+        const categoriesResponse = await fetch(
+          "https://whistle-blower-server.vercel.app/categories/all",
+          {
+            method: "GET",
+            headers: myHeaders,
+          }
+        )
+        const categoriesData = await categoriesResponse.json()
+
+        if (categoriesData.success && Array.isArray(categoriesData.data)) {
+          setCategories(categoriesData.data)
+        } else {
+          console.error("Failed to fetch categories: Invalid data format")
+        }
+      } catch (error) {
+        console.error("Failed to fetch initial data:", error)
+      }
+    }
+
+    fetchInitialData()
+  }, [token])
 
   const handleChange = (e) => {
     const { name, value } = e.target
@@ -81,38 +110,6 @@ const ReportForm = () => {
       .catch((error) => console.log("error", error))
   }
 
-  useEffect(() => {
-    const fetchCategories = async () => {
-      const myHeaders = new Headers()
-      myHeaders.append("Authorization", `Bearer ${token}`)
-
-      const requestOptions = {
-        method: "GET",
-        headers: myHeaders,
-      }
-
-      const response = await fetch(
-        "https://whistle-blower-server.vercel.app/categories/all",
-        requestOptions
-      )
-      try {
-        const data = await response.json()
-        if (Array.isArray(data)) {
-          setCategories(data)
-        }
-      } catch (error) {
-        console.error("Failed to parse categories:", error)
-      }
-    }
-    fetchCategories()
-  }, [token])
-
-  const priorities = [
-    { id: 1, name: "Low" },
-    { id: 2, name: "Medium" },
-    { id: 3, name: "High" },
-  ]
-
   return (
     <div className="report-form-container">
       <form onSubmit={handleSubmit} className="flex-form">
@@ -154,22 +151,6 @@ const ReportForm = () => {
               {categories.map((category) => (
                 <option key={category.id} value={category.id}>
                   {category.name}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className="priority">
-            <label htmlFor="priorityId">Priority</label>
-            <select
-              id="priorityId"
-              name="priorityId"
-              value={formData.priorityId}
-              onChange={handleChange}
-              required
-            >
-              {priorities.map((priority) => (
-                <option key={priority.id} value={priority.id}>
-                  {priority.name}
                 </option>
               ))}
             </select>

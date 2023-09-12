@@ -35,7 +35,7 @@ const Register = () => {
 
     try {
       const response = await fetch(
-        "https://whistle-blower-server.vercel.app/register",
+        "https://whistle-blower-server.vercel.app/users/register",
         requestOptions
       )
 
@@ -64,25 +64,12 @@ const Register = () => {
       console.error("Registration error:", error)
     }
   }
-
-  const bglink =
-    "https://images.unsplash.com/photo-1518837695005-2083093ee35b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
-
   return (
-    <section className="registerBody" style={{ display: "flex" }}>
-      <div
-        className="registerLeft"
-        style={{
-          backgroundImage: `url(${bglink})`,
-          backgroundSize: "cover",
-          backgroundRepeat: "no-repeat",
-          width: "50%",
-          height: "100vh",
-        }}
-      >
+    <section className="registerBody">
+      <div className="registerLeft">
         <Accordion />
       </div>
-      <div className="register-right" style={{ width: "50%", padding: "2em" }}>
+      <div className="register-right">
         <h1>Register</h1>
         <form onSubmit={handleSubmit}>
           <div className="userSection">
@@ -118,10 +105,14 @@ const Register = () => {
               required
             />
           </div>
-          <div className="button3">
-            <button type="submit">Register</button>
-          </div>
+          <button type="submit">Register</button>
         </form>
+        <div className="redirect-to-login">
+          <p>
+            Already have an account?{" "}
+            <span onClick={() => navigate("/login")} className="login">  Log in</span>
+          </p>
+        </div>
         <div className="feedbackMessage">{feedbackMessage}</div>
       </div>
     </section>
