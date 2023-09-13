@@ -1,11 +1,12 @@
-import React, { useState, useEffect } from "react"
-import "./styles/style.css"
-import { useAuth } from "../AuthContext/AuthContext"
+import React, { useState, useEffect } from "react";
+import "./styles/style.css";
+import { useAuth } from "../AuthContext/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const ReportForm = () => {
-  const { token } = useAuth()
-  const [categories, setCategories] = useState([])
-  const [priorities, setPriorities] = useState([])
+  const { token } = useAuth();
+  const [categories, setCategories] = useState([]);
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -14,13 +15,12 @@ const ReportForm = () => {
     priorityId: 1,
     categoryId: 1,
     media: null,
-  })
+  });
 
   useEffect(() => {
     const fetchInitialData = async () => {
-      const myHeaders = new Headers()
-      myHeaders.append("Authorization", `Bearer ${token}`)
-
+      const myHeaders = new Headers();
+      myHeaders.append("Authorization", `Bearer ${token}`);
       try {
         const categoriesResponse = await fetch(
           "https://whistle-blower-server.vercel.app/categories/all",
@@ -28,87 +28,115 @@ const ReportForm = () => {
             method: "GET",
             headers: myHeaders,
           }
-        )
-        const categoriesData = await categoriesResponse.json()
-
+        );
+        const categoriesData = await categoriesResponse.json();
         if (categoriesData.success && Array.isArray(categoriesData.data)) {
-          setCategories(categoriesData.data)
+          setCategories(categoriesData.data);
         } else {
-          console.error("Failed to fetch categories: Invalid data format")
+          console.error("Failed to fetch categories: Invalid data format");
         }
       } catch (error) {
-        console.error("Failed to fetch initial data:", error)
+        console.error("Failed to fetch initial data:", error);
       }
+    };
+    fetchInitialData();
+  }, [token]);
+
+  const uploadMedia = async () => {
+    const formMedia = new FormData();
+    formMedia.append("file", formData.media);
+    formMedia.append("upload_preset", "ml_default");
+
+    const cloudinaryUrl = "https://api.cloudinary.com/v1_1/whistleblower/upload";
+    try {
+      const response = await fetch(cloudinaryUrl, {
+        method: "POST",
+        body: formMedia,
+      });
+      if (!response.ok) {
+        console.error(`Cloudinary upload failed: ${response.statusText}`);
+        return;
+      }
+      const data = await response.json();
+      return data.url;
+    } catch (error) {
+      console.error("Error during Cloudinary upload:", error);
     }
-
-    fetchInitialData()
-  }, [token])
-
+  };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+  
+    let base64Media = "";
+    if (formData.media) {
+      const reader = new FileReader();
+      reader.readAsDataURL(formData.media);
+      reader.onloadend = () => {
+        base64Media = reader.result.split(',')[1];
+      };
+      reader.onerror = () => {
+        console.error("FileReader error");
+        return;
+      };
+    }
+  
+    const myHeaders = new Headers();
+    myHeaders.append("Authorization", `Bearer ${token}`);
+    myHeaders.append("Content-Type", "application/json");
+  
+    const body = JSON.stringify({
+      title: formData.title,
+      description: formData.description,
+      isAnonymous: formData.isAnonymous,
+      involveOthers: formData.involveOthers,
+      media: base64Media,
+      // ...other formData fields you might have
+    });
+  
+    const requestOptions = {
+      method: 'POST',
+      headers: myHeaders,
+      body,
+      redirect: 'follow'
+    };
+  
+    try {
+      const response = await fetch(
+        "https://whistle-blower-server.vercel.app/reports/create",
+        requestOptions
+      );
+  
+      if (!response.ok) {
+        console.error(`Report creation failed: ${response.statusText}`);
+        return;
+      }
+  
+      const result = await response.json();
+      if (result.success) {
+        console.log("Report successfully created.");
+        navigate("/dashboard/client");
+      } else {
+        console.error("Failed to create report:", result.message);
+      }
+    } catch (error) {
+      console.error("Error during report creation:", error);
+    }
+  };
+  
   const handleChange = (e) => {
-    const { name, value } = e.target
+    const { name, value } = e.target;
     setFormData({
       ...formData,
       [name]: value,
-    })
-  }
-
-  const handleCheckboxChange = (e) => {
-    const { name, checked } = e.target
-    setFormData({
-      ...formData,
-      [name]: checked,
-    })
-  }
+    });
+  };
 
   const handleFileChange = (e) => {
+    const { name, files } = e.target;
     setFormData({
       ...formData,
-      media: e.target.files[0],
-    })
-  }
-
-  const uploadMedia = async () => {
-    const formMedia = new FormData()
-    formMedia.append("file", formData.media)
-    formMedia.append("upload_preset", "ml_default")
-
-    const cloudinaryUrl = "https://api.cloudinary.com/v1_1/whistleblower/upload"
-
-    const response = await fetch(cloudinaryUrl, {
-      method: "POST",
-      body: formMedia,
-    })
-
-    const data = await response.json()
-    return data.url
-  }
-
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-    const mediaUrl = await uploadMedia()
-
-    const myHeaders = new Headers()
-    myHeaders.append("Authorization", `Bearer ${token}`)
-    myHeaders.append("Content-Type", "application/json")
-
-    const requestOptions = {
-      method: "POST",
-      headers: myHeaders,
-      body: JSON.stringify({
-        ...formData,
-        media: mediaUrl,
-      }),
-      redirect: "follow",
-    }
-
-    fetch(
-      "https://whistle-blower-server.vercel.app/reports/create",
-      requestOptions
-    )
-      .then((response) => response.json())
-      .then((result) => console.log(result))
-      .catch((error) => console.log("error", error))
-  }
+      [name]: files[0],
+    });
+  };
 
   return (
     <div className="report-form-container">

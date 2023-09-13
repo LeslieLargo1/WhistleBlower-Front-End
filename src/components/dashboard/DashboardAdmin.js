@@ -13,8 +13,6 @@ import {
   FaRegCheckCircle,
   FaTags,
   FaExclamationTriangle,
-  FaSortAmountUp,
-  FaSortAmountDown,
   FaArrowLeft,
   FaArrowRight,
 } from "react-icons/fa"
@@ -23,15 +21,17 @@ import { useAuth } from "../AuthContext/AuthContext"
 import { useNavigate } from "react-router-dom"
 
 const AdminDashboard = () => {
-  const { token, userId } = useAuth();
+  const { token, userId } = useAuth()
   const [reports, setReports] = useState([])
   const [showDetailView, setShowDetailView] = useState(false)
   const [currentIndex, setCurrentIndex] = useState(null)
   const [selectedReport, setSelectedReport] = useState(null)
   const [sortField, setSortField] = useState("date")
-  const [sortOrder, setSortOrder] = useState("asc")
+  const [sortOrder] = useState("asc")
   const [showReplyComponent, setShowReplyComponent] = useState(false)
   const navigate = useNavigate()
+  const priorities = ["Low", "Medium", "High", "Resolved"]
+  const statuses = ["Open", "Closed", "Resolved"]
 
   useEffect(() => {
     const fetchReports = async () => {
@@ -67,13 +67,15 @@ const AdminDashboard = () => {
     }
 
     fetchReports()
-  }, [])
+  }, [token])
+
   const handleReportClick = (report, index) => {
     setSelectedReport(report)
     setCurrentIndex(index)
     setShowDetailView(true)
     markAsRead(report.id)
   }
+
   const markAsRead = async (reportId) => {
     // Logic to mark report as read by changing its status to 'opened'
     // You can use a fetch or axios call here to update the report status in the database
@@ -92,7 +94,7 @@ const AdminDashboard = () => {
       if (a[sortField] > b[sortField]) return sortOrder === "asc" ? 1 : -1
       return 0
     })
-  }, [sortField, sortOrder, reports])
+  }, [sortField, reports])
 
   const handleGeneratePdf = async (reportId) => {
     const myHeaders = new Headers()
@@ -116,37 +118,89 @@ const AdminDashboard = () => {
     setShowReplyComponent(!showReplyComponent)
   }
 
-  const handlePriorityChange = async (reportId, newPriority) => {
+  const getFlagColor = (priority, status) => {
+    if (status === "Resolved") {
+      return "green"
+    }
+    switch (priority) {
+      case "High":
+        return "red"
+      case "Medium":
+        return "orange"
+      case "Low":
+        return "yellow"
+      default:
+        return ""
+    }
+  }
+
+  const handlePriorityChange = async (reportId, currentPriority) => {
+    const currentPriorityIndex = priorities.indexOf(currentPriority)
+    const nextPriorityIndex = (currentPriorityIndex + 1) % priorities.length
+    const nextPriority = priorities[nextPriorityIndex]
+
     const myHeaders = new Headers()
     myHeaders.append("Authorization", `Bearer ${token}`)
+
     try {
-      await fetch(
+      const response = await fetch(
         `https://whistle-blower-server.vercel.app/reports/${reportId}/priority`,
         {
           method: "PUT",
           headers: myHeaders,
-          body: JSON.stringify({ priority: newPriority }),
+          body: JSON.stringify({ priority: nextPriority }),
         }
       )
-      console.log(`Priority of report ${reportId} changed to ${newPriority}`)
+
+      if (response.ok) {
+        setReports((prevReports) =>
+          prevReports.map((report) =>
+            report.id === reportId
+              ? { ...report, priority: nextPriority }
+              : report
+          )
+        )
+        console.log(`Priority of report ${reportId} changed to ${nextPriority}`)
+      } else {
+        console.error(
+          `Failed to change priority for report ${reportId}: ${response.status}`
+        )
+      }
     } catch (error) {
       console.error(`Failed to change priority for report ${reportId}:`, error)
     }
   }
 
-  const handleStatusChange = async (reportId, newStatus) => {
+  const handleStatusChange = async (reportId, currentStatus) => {
+    const currentStatusIndex = statuses.indexOf(currentStatus)
+    const nextStatusIndex = (currentStatusIndex + 1) % statuses.length
+    const nextStatus = statuses[nextStatusIndex]
+
     const myHeaders = new Headers()
     myHeaders.append("Authorization", `Bearer ${token}`)
+
     try {
-      await fetch(
+      const response = await fetch(
         `https://whistle-blower-server.vercel.app/reports/${reportId}/status`,
         {
           method: "PUT",
           headers: myHeaders,
-          body: JSON.stringify({ status: newStatus }),
+          body: JSON.stringify({ status: nextStatus }),
         }
       )
-      console.log(`Status of report ${reportId} changed to ${newStatus}`)
+
+      if (response.ok) {
+        setReports((prevReports) =>
+          prevReports.map((report) =>
+            report.id === reportId ? { ...report, status: nextStatus } : report
+          )
+        )
+        console.log(`Status of report ${reportId} changed to ${nextStatus}`)
+      } else {
+        console.error(
+          `Failed to change status for report ${reportId}: ${response.status}`
+        )
+      }
     } catch (error) {
       console.error(`Failed to change status for report ${reportId}:`, error)
     }
@@ -218,13 +272,13 @@ const AdminDashboard = () => {
             >
               <FaExclamationTriangle size={18} />
             </span>
-            <label>Order: </label>
+            {/*<label>Order: </label>
             <span onClick={() => setSortOrder("asc")} title="Ascending Order">
               <FaSortAmountUp size={18} />
             </span>
             <span onClick={() => setSortOrder("desc")} title="Descending Order">
               <FaSortAmountDown size={18} />
-            </span>
+            </span>*/}
           </div>
           <h2>Admin Inbox</h2>
           <div className="report-section">
@@ -257,12 +311,18 @@ const AdminDashboard = () => {
                         <FaReply />
                       </button>
                       <button
-                        onClick={() => handlePriorityChange(report.id, "High")}
+                        onClick={() =>
+                          handlePriorityChange(report.id, report.priority)
+                        }
                       >
-                        <FaFlag />
+                        <FaFlag
+                          color={getFlagColor(report.priority, report.status)}
+                        />
                       </button>
                       <button
-                        onClick={() => handleStatusChange(report.id, "Open")}
+                        onClick={() =>
+                          handleStatusChange(report.id, report.status)
+                        }
                       >
                         <FaEdit />
                       </button>
@@ -278,7 +338,7 @@ const AdminDashboard = () => {
                     <button
                       onClick={() => handleGeneratePdf(selectedReport.id)}
                     >
-                      Generate PDF
+                        <FaFilePdf /> Generate PDF
                     </button>
                   </div>
                   <div className="left">
@@ -292,7 +352,21 @@ const AdminDashboard = () => {
                         <FaArrowRight />
                       </button>
                     )}
-
+                    <button
+                      onClick={() =>
+                        handlePriorityChange(
+                          selectedReport.id,
+                          selectedReport.priority
+                        )
+                      }
+                    >
+                      <FaFlag
+                        color={getFlagColor(
+                          selectedReport.priority,
+                          selectedReport.status
+                        )}
+                      />
+                    </button>
                     <button onClick={() => setShowDetailView(false)}>
                       Go Back
                     </button>

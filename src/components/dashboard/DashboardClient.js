@@ -179,15 +179,21 @@ const Dashboard = () => {
             </table>
             {showDetailView && (
               <div className="report-details">
+                <div className="detail-actions">
+                <span className="left">
                   <button onClick={() => navigateReport("prev")}>
                     <FaArrowLeft />
                   </button>
                   <button onClick={() => navigateReport("next")}>
                     <FaArrowRight />
                   </button>
+                </span>
+                <span className="right">
                   <button onClick={() => setShowDetailView(false)}>
                     Go Back
                   </button>
+                </span>
+                </div>
                 <h3>Report Details</h3>
                 <p>Title: {selectedReport.title}</p>
                 <p>Status: {selectedReport.status}</p>
