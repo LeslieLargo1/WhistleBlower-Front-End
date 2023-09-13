@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useMemo } from "react";
 import "./styles/style.css"
 import {
   FaInbox,
@@ -31,22 +31,28 @@ const AdminDashboard = () => {
       const myHeaders = new Headers()
       myHeaders.append("Authorization", `Bearer ${token}`)
 
-      const requestOptions = {
-        method: "GET",
-        headers: myHeaders,
-      }
-
       try {
         const response = await fetch(
           "https://whistle-blower-server.vercel.app/reports/all",
-          requestOptions
+          {
+            method: "GET",
+            headers: myHeaders,
+          }
         )
-        const data = await response.json()
 
-        if (Array.isArray(data)) {
-          setReports(data)
+        if (response.ok) {
+          const data = await response.json()
+          console.log("Received data:", data)
+
+          if (Array.isArray(data) || Array.isArray(data.data)) {
+            setReports(Array.isArray(data) ? data : data.data)
+          } else if (data && data.message) {
+            console.error(`Server message: ${data.message}`)
+          } else {
+            console.error("Data fetched is not an array:", data)
+          }
         } else {
-          console.error("Data fetched is not an array:", data)
+          console.error(`HTTP Error: ${response.status}`)
         }
       } catch (error) {
         console.error("Failed to fetch reports:", error)
@@ -54,16 +60,14 @@ const AdminDashboard = () => {
     }
 
     fetchReports()
-  }, [token])
+  }, [])
 
-  useEffect(() => {
-    const sortedReports = [...reports].sort((a, b) => {
+  const sortedReports = useMemo(() => {
+    return [...reports].sort((a, b) => {
       if (a[sortField] < b[sortField]) return sortOrder === "asc" ? -1 : 1
       if (a[sortField] > b[sortField]) return sortOrder === "asc" ? 1 : -1
       return 0
     })
-
-    setReports(sortedReports)
   }, [sortField, sortOrder, reports])
 
   const handleGeneratePdf = async (reportId) => {
@@ -77,7 +81,7 @@ const AdminDashboard = () => {
           headers: myHeaders,
         }
       )
-      // Use pdfgeneratorapi logic here to generate PDF
+      //TODO- Use pdfgeneratorapi logic here to generate PDF
       console.log(`PDF generated for report ${reportId}`)
     } catch (error) {
       console.error(`Failed to generate PDF for report ${reportId}:`, error)
@@ -124,6 +128,24 @@ const AdminDashboard = () => {
     }
   }
 
+  const handleCategoryCreation = async (newCategory) => {
+    const myHeaders = new Headers()
+    myHeaders.append("Authorization", `Bearer ${token}`)
+    try {
+      await fetch(
+        `https://whistle-blower-server.vercel.app/categories/create`,
+        {
+          method: "POST",
+          headers: myHeaders,
+          body: JSON.stringify({ status: newCategory }),
+        }
+      )
+      console.log(`Created new category!`)
+    } catch (error) {
+      console.error(`Failed to create new categoty!`, error)
+    }
+  }
+
   return (
     <div className="dashboard">
       <header className="header">
@@ -142,6 +164,14 @@ const AdminDashboard = () => {
               <FaDraft2Digital size={18} /> Drafts
             </li>
           </ul>
+          <div className="buttons-admin">
+            <button onClick={() => navigate("/create-new-admin")}>
+              Create New Admin
+            </button>
+            <button onClick={handleCategoryCreation}>
+              Create new category
+            </button>
+          </div>
         </aside>
         <section className="content">
           <div className="sort-options">

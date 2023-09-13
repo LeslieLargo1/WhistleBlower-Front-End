@@ -25,31 +25,35 @@ const Dashboard = () => {
 
   useEffect(() => {
     const fetchReports = async () => {
-      const myHeaders = new Headers()
-      myHeaders.append("Authorization", `Bearer ${token}`)
-
+      const myHeaders = new Headers();
+      myHeaders.append("Authorization", `Bearer ${token}`);
+  
       const requestOptions = {
         method: "GET",
         headers: myHeaders,
-      }
-
+      };
+  
       try {
         const response = await fetch(
           "https://whistle-blower-server.vercel.app/users/client/dashboard",
           requestOptions
-        )
-        const data = await response.json()
-
+        );
+        const data = await response.json();
+  
         if (data && Array.isArray(data.reports)) {
-          setReports(data.reports)
+          setReports(data.reports);
         }
       } catch (error) {
-        console.error("Failed to fetch reports:", error)
+        console.error("Failed to fetch reports:", error);
       }
-    }
+    };
+  
+    fetchReports();  
+  }, [token]);
 
-    setFilteredReports(reports)
-  }, [token])
+  useEffect(() => {
+    setFilteredReports(reports);
+  }, [reports]);
 
   const handleReportClick = (report) => {
     setSelectedReport(report)
@@ -59,24 +63,30 @@ const Dashboard = () => {
     navigate("/report-form")
   }
 
-  const handleSort = (e) => {
-    let sortedReports = [...filteredReports]
-    setFilteredReports(sortedReports)
-  }
-
+  const handleSort = (key) => {
+    let sortedReports = [...filteredReports];
+    sortedReports.sort((a, b) => {
+      if (a[key] < b[key]) return -1;
+      if (a[key] > b[key]) return 1;
+      return 0;
+    });
+    setFilteredReports(sortedReports);
+  };
+  
   const handleFilter = (filterKey) => {
     const filtered = reports.filter((report) => {
       switch (filterKey) {
         case "new":
-          return report.status === "new"
+          return report.status === "new";
         case "closed":
-          return report.status === "closed"
+          return report.status === "closed";
         default:
-          return true
+          return true;
       }
-    })
-    setFilteredReports(filtered)
-  }
+    });
+    setFilteredReports(filtered);
+  };
+  
 
   return (
     <div className="dashboard">

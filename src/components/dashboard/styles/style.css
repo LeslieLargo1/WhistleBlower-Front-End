@@ -78,6 +78,7 @@
   border: 1px solid #ddd;
   padding: 10px;
   text-align: left;
+  width: auto;
 }
 
 .report-table th {
@@ -149,6 +150,20 @@
   color: white;
 }
 
+.buttons-admin{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+}
+
+.buttons-admin button{
+  margin: 0.5rem;
+  padding: 0.5rem;
+  cursor: pointer;
+}
 
 
 @media screen and (max-width: 767px) {
