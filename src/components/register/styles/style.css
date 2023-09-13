@@ -51,14 +51,16 @@ form input {
     margin: 6rem auto;
     border: 0.125rem solid #2f8ab1;
   }
+
   form input {
     width: 90%;
     padding: 0.5rem 1rem;
   }
-  
-  .registerLeft{
+
+  .registerLeft {
     width: 100%;
   }
+
   .register-right {
     width: 90%;
   }
@@ -72,10 +74,11 @@ form input {
   .registerLeft {
     width: 100%;
   }
+
   form input {
     width: 85%;
     padding: 0.5rem 1rem;
-  }  
+  }
 
   .register-right {
     width: 100%;
