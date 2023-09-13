@@ -16,7 +16,8 @@ import {
   FaArrowLeft,
   FaArrowRight,
 } from "react-icons/fa"
-
+import NewCategoryComponent from "./NewCategoryComponent"
+import PdfGeneratorComponent from "./PdfGeneratorComponent"
 import { useAuth } from "../AuthContext/AuthContext"
 import { useNavigate } from "react-router-dom"
 
@@ -32,7 +33,11 @@ const AdminDashboard = () => {
   const navigate = useNavigate()
   const priorities = ["Low", "Medium", "High", "Resolved"]
   const statuses = ["Open", "Closed", "Resolved"]
+  const [showNewCategory, setShowNewCategory] = useState(false)
 
+  const toggleNewCategory = () => {
+    setShowNewCategory(!showNewCategory)
+  }
   useEffect(() => {
     const fetchReports = async () => {
       const myHeaders = new Headers()
@@ -77,8 +82,35 @@ const AdminDashboard = () => {
   }
 
   const markAsRead = async (reportId) => {
-    // Logic to mark report as read by changing its status to 'opened'
-    // You can use a fetch or axios call here to update the report status in the database
+    const myHeaders = new Headers()
+    myHeaders.append("Authorization", `Bearer ${token}`)
+    myHeaders.append("Content-Type", "application/json")
+
+    try {
+      const response = await fetch(
+        `https://whistle-blower-server.vercel.app/reports/${reportId}/status`,
+        {
+          method: "PUT",
+          headers: myHeaders,
+          body: JSON.stringify({ status: "Opened" }),
+        }
+      )
+
+      if (response.ok) {
+        setReports((prevReports) =>
+          prevReports.map((report) =>
+            report.id === reportId ? { ...report, status: "Opened" } : report
+          )
+        )
+        console.log(`Report ${reportId} marked as read`)
+      } else {
+        console.error(
+          `Failed to mark report ${reportId} as read: ${response.statusText}`
+        )
+      }
+    } catch (error) {
+      console.error(`Failed to mark report ${reportId} as read:`, error)
+    }
   }
 
   const navigateReport = (direction) => {
@@ -95,24 +127,6 @@ const AdminDashboard = () => {
       return 0
     })
   }, [sortField, reports])
-
-  const handleGeneratePdf = async (reportId) => {
-    const myHeaders = new Headers()
-    myHeaders.append("Authorization", `Bearer ${token}`)
-    try {
-      await fetch(
-        `https://whistle-blower-server.vercel.app/reports/${reportId}/pdf`,
-        {
-          method: "GET",
-          headers: myHeaders,
-        }
-      )
-      //TODO- Use pdfgeneratorapi logic here to generate PDF
-      console.log(`PDF generated for report ${reportId}`)
-    } catch (error) {
-      console.error(`Failed to generate PDF for report ${reportId}:`, error)
-    }
-  }
 
   const handleReply = () => {
     setShowReplyComponent(!showReplyComponent)
@@ -206,24 +220,6 @@ const AdminDashboard = () => {
     }
   }
 
-  const handleCategoryCreation = async (newCategory) => {
-    const myHeaders = new Headers()
-    myHeaders.append("Authorization", `Bearer ${token}`)
-    try {
-      await fetch(
-        `https://whistle-blower-server.vercel.app/categories/create`,
-        {
-          method: "POST",
-          headers: myHeaders,
-          body: JSON.stringify({ status: newCategory }),
-        }
-      )
-      console.log(`Created new category!`)
-    } catch (error) {
-      console.error(`Failed to create new categoty!`, error)
-    }
-  }
-
   return (
     <div className="dashboard">
       <header className="header">
@@ -246,9 +242,8 @@ const AdminDashboard = () => {
             <button onClick={() => navigate("/create-new-admin")}>
               Create New Admin
             </button>
-            <button onClick={handleCategoryCreation}>
-              Create new category
-            </button>
+            <button onClick={toggleNewCategory}>Create new category</button>
+            {showNewCategory && <NewCategoryComponent />}
           </div>
         </aside>
         <section className="content">
@@ -304,9 +299,6 @@ const AdminDashboard = () => {
                     <td>{report.priority}</td>
                     <td>{report.date}</td>
                     <td>
-                      <button onClick={() => handleGeneratePdf(report.id)}>
-                        <FaFilePdf />
-                      </button>
                       <button onClick={() => handleReply(report.id)}>
                         <FaReply />
                       </button>
@@ -335,11 +327,7 @@ const AdminDashboard = () => {
               <div className="report-details">
                 <div className="detail-actions">
                   <div className="right">
-                    <button
-                      onClick={() => handleGeneratePdf(selectedReport.id)}
-                    >
-                        <FaFilePdf /> Generate PDF
-                    </button>
+                  <PdfGeneratorComponent/>
                   </div>
                   <div className="left">
                     {currentIndex > 0 && (
