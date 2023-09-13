@@ -1,0 +1,30 @@
+.page {
+    border: 0.125rem solid #2f8ab1;
+    width: 70%;
+    margin: 8rem auto;
+    border-radius: 0.5em;
+
+}
+
+.opening {
+    background-color: #f1f1f1;
+    display: flex;
+    font-size: larger;
+    justify-content: space-around;
+
+}
+
+h3.openingTitle {
+    font-size: 30px;
+    color: #2f8ab1;
+    display: flex;
+    justify-content: center;
+}
+
+.image {
+    background-image: url(https://images.unsplash.com/photo-1600880292203-757bb62b4baf?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80);
+    background-size: cover;
+    background-repeat: no-repeat;
+    width: 50%;
+    height: 40vh;
+}

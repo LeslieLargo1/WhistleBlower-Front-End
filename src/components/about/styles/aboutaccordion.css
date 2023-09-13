@@ -1,0 +1,45 @@
+.section1 {
+
+    height: 70vh;
+    display: flex;
+    justify-content: center;
+    justify-items: center;
+    align-items: center;
+}
+
+.aboutAccordion {
+    width: 100%;
+}
+
+.aboutTitle {
+    border-radius: 3px;
+    background-color: white;
+    color: #2F8AB1;
+    padding-left: 10px;
+    padding-right: 10px;
+    display: flex;
+    justify-content: space-between;
+
+    cursor: pointer;
+    font-size: 15px;
+}
+
+.answer {
+    display: flex;
+    /* flex-direction: row-reverse; */
+    background-color: #f1f1f1;
+    padding: 10px;
+    border-radius: 3px;
+    text-align: left;
+    align-items: center;
+
+}
+
+
+img {
+
+    width: 80vw;
+    height: 35vh;
+    padding: 40px;
+
+}
