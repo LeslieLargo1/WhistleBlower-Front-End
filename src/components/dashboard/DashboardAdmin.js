@@ -1,5 +1,6 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo } from "react"
 import "./styles/style.css"
+import ReplyComponent from "./ReplyComponent"
 import {
   FaInbox,
   FaFileAlt,
@@ -14,16 +15,22 @@ import {
   FaExclamationTriangle,
   FaSortAmountUp,
   FaSortAmountDown,
+  FaArrowLeft,
+  FaArrowRight,
 } from "react-icons/fa"
 
 import { useAuth } from "../AuthContext/AuthContext"
 import { useNavigate } from "react-router-dom"
 
 const AdminDashboard = () => {
-  const { token } = useAuth()
+  const { token, userId } = useAuth();
   const [reports, setReports] = useState([])
+  const [showDetailView, setShowDetailView] = useState(false)
+  const [currentIndex, setCurrentIndex] = useState(null)
+  const [selectedReport, setSelectedReport] = useState(null)
   const [sortField, setSortField] = useState("date")
   const [sortOrder, setSortOrder] = useState("asc")
+  const [showReplyComponent, setShowReplyComponent] = useState(false)
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -61,7 +68,24 @@ const AdminDashboard = () => {
 
     fetchReports()
   }, [])
+  const handleReportClick = (report, index) => {
+    setSelectedReport(report)
+    setCurrentIndex(index)
+    setShowDetailView(true)
+    markAsRead(report.id)
+  }
+  const markAsRead = async (reportId) => {
+    // Logic to mark report as read by changing its status to 'opened'
+    // You can use a fetch or axios call here to update the report status in the database
+  }
 
+  const navigateReport = (direction) => {
+    let newIndex = direction === "next" ? currentIndex + 1 : currentIndex - 1
+    if (newIndex >= 0 && newIndex < sortedReports.length) {
+      setCurrentIndex(newIndex)
+      setSelectedReport(sortedReports[newIndex])
+    }
+  }
   const sortedReports = useMemo(() => {
     return [...reports].sort((a, b) => {
       if (a[sortField] < b[sortField]) return sortOrder === "asc" ? -1 : 1
@@ -88,8 +112,8 @@ const AdminDashboard = () => {
     }
   }
 
-  const handleReply = async (reportId) => {
-    navigate(`/replies/create?reportId=${reportId}`)
+  const handleReply = () => {
+    setShowReplyComponent(!showReplyComponent)
   }
 
   const handlePriorityChange = async (reportId, newPriority) => {
@@ -203,45 +227,90 @@ const AdminDashboard = () => {
             </span>
           </div>
           <h2>Admin Inbox</h2>
-          <table className="report-table">
-            <thead>
-              <tr>
-                <th>Title</th>
-                <th>Status</th>
-                <th>Priority</th>
-                <th>Date</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {reports.map((report) => (
-                <tr key={report.id}>
-                  <td>{report.title}</td>
-                  <td>{report.status}</td>
-                  <td>{report.priority}</td>
-                  <td>{report.date}</td>
-                  <td>
-                    <button onClick={() => handleGeneratePdf(report.id)}>
-                      <FaFilePdf />
-                    </button>
-                    <button onClick={() => handleReply(report.id)}>
-                      <FaReply />
-                    </button>
-                    <button
-                      onClick={() => handlePriorityChange(report.id, "High")}
-                    >
-                      <FaFlag />
-                    </button>
-                    <button
-                      onClick={() => handleStatusChange(report.id, "Open")}
-                    >
-                      <FaEdit />
-                    </button>
-                  </td>
+          <div className="report-section">
+            <table className={`report-table ${showDetailView ? "hidden" : ""}`}>
+              <thead>
+                <tr>
+                  <th>Title</th>
+                  <th>Status</th>
+                  <th>Priority</th>
+                  <th>Date</th>
+                  <th>Actions</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {sortedReports.map((report, index) => (
+                  <tr
+                    key={report.id}
+                    onClick={() => handleReportClick(report, index)}
+                  >
+                    {" "}
+                    <td>{report.title}</td>
+                    <td>{report.status}</td>
+                    <td>{report.priority}</td>
+                    <td>{report.date}</td>
+                    <td>
+                      <button onClick={() => handleGeneratePdf(report.id)}>
+                        <FaFilePdf />
+                      </button>
+                      <button onClick={() => handleReply(report.id)}>
+                        <FaReply />
+                      </button>
+                      <button
+                        onClick={() => handlePriorityChange(report.id, "High")}
+                      >
+                        <FaFlag />
+                      </button>
+                      <button
+                        onClick={() => handleStatusChange(report.id, "Open")}
+                      >
+                        <FaEdit />
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            {showDetailView && (
+              <div className="report-details">
+                <div className="detail-actions">
+                  <div className="right">
+                    <button
+                      onClick={() => handleGeneratePdf(selectedReport.id)}
+                    >
+                      Generate PDF
+                    </button>
+                  </div>
+                  <div className="left">
+                    {currentIndex > 0 && (
+                      <button onClick={() => navigateReport("prev")}>
+                        <FaArrowLeft />
+                      </button>
+                    )}
+                    {currentIndex < sortedReports.length - 1 && (
+                      <button onClick={() => navigateReport("next")}>
+                        <FaArrowRight />
+                      </button>
+                    )}
+
+                    <button onClick={() => setShowDetailView(false)}>
+                      Go Back
+                    </button>
+                  </div>
+                </div>
+                <h3>Report Details</h3>
+                <div
+                  className="report-content"
+                  style={{ overflowY: "scroll", maxHeight: "400px" }}
+                >
+                  <p>Title: {selectedReport.title}</p>
+                  <p>Status: {selectedReport.status}</p>
+                  <p>Description: {selectedReport.description}</p>
+                  <ReplyComponent reportId={selectedReport} userId={userId} />
+                </div>
+              </div>
+            )}
+          </div>
         </section>
       </div>
     </div>

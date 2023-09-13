@@ -42,7 +42,7 @@ const AdminProfile = () => {
 
   const handleLogout = async () => {
     try {
-      await logout(); // Use the logout function to clear the token
+      await logout(); 
       navigate("/login");
     } catch (error) {
       console.log("Error during logout:", error);
@@ -68,5 +68,5 @@ const AdminProfile = () => {
     </div>
   );
 };
-
 export default AdminProfile;
+

@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
-import { useAuth } from "../AuthContext/AuthContext";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react"
+import { useAuth } from "../AuthContext/AuthContext"
+import "./styles/style.css"
+import { useNavigate } from "react-router-dom"
 
 const ClientProfile = () => {
   const { token, logout } = useAuth();
@@ -38,7 +39,7 @@ const ClientProfile = () => {
 
   const handleLogout = async () => {
     try {
-      await logout(); // Use the logout function to clear the token
+      await logout(); 
       navigate("/login");
     } catch (error) {
       console.log("Error during logout:", error);

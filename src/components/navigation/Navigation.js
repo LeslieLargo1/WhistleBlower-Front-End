@@ -27,7 +27,10 @@ const Navigation = () => {
       <div className="logo-container"></div>
       <div className={`links ${menuOpen ? "open" : ""}`}>
         <Link className="nav-link" to="/">
-          Home
+          Homepage
+        </Link>
+        <Link className="nav-link" to="/about">
+          About
         </Link>
         {isLoggedIn ? (
           <>
@@ -62,9 +65,6 @@ const Navigation = () => {
           </>
         ) : (
           <>
-            <Link className="nav-link" to="/about">
-              About
-            </Link>
             <Link className="nav-link" to="/login">
               Login
             </Link>
