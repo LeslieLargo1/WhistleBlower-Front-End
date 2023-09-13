@@ -99,7 +99,7 @@
   overflow-y: auto;
 }
 
-tbody button{
+tbody button {
   background-color: transparent;
   border: none;
   cursor: pointer;
@@ -108,7 +108,14 @@ tbody button{
   margin: 0;
   font-size: 1em;
   color: var(--primary-color);
+  transition: background-color 0.3s; /* Add the transition property */
 }
+
+tbody button:hover {
+  background-color: var(--primary-color); /* Change the background color on hover */
+  color: white; /* Change the text color on hover if needed */
+}
+
 
 tbody{
   cursor: pointer;
@@ -211,6 +218,7 @@ tbody tr:hover{
   padding: 0.5rem;
   cursor: pointer;
 }
+
 
 .detail-actions{
   display: flex;
