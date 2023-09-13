@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react"
-import ChangePassword from "./ChangePassword"
 import { useAuth } from "../AuthContext/AuthContext"
 import "./styles/style.css"
 import { useNavigate } from "react-router-dom"

@@ -30,6 +30,7 @@ const CreateNewAdminForm = () => {
       const data = await response.json();
       if (data.success) {
         console.log('New admin created successfully');
+        navigate("/dashboard/admin");
       } else {
         console.log('Failed to create new admin');
       }
