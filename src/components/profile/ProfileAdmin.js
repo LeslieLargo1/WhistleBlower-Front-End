@@ -19,7 +19,7 @@ const AdminProfile = () => {
 
       try {
         const response = await fetch(
-          "https://whistle-blower-server.vercel.app/admins/profile",
+          "https://whistle-blower-server.vercel.app/users/profile",
           requestOptions
         )
         const data = await response.json()
