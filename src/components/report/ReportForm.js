@@ -127,11 +127,18 @@ const ReportForm = () => {
   }
 
   const handleChange = (e) => {
-    const { name, value } = e.target
-    setFormData({
-      ...formData,
-      [name]: value,
-    })
+    const { name, value, type, files } = e.target
+    if (type === "file") {
+      setFormData({
+        ...formData,
+        [name]: files[0],
+      })
+    } else {
+      setFormData({
+        ...formData,
+        [name]: value,
+      })
+    }
   }
 
   return (
@@ -141,16 +148,35 @@ const ReportForm = () => {
           <div className="title-report">
             <h2>Report Form</h2>
           </div>
-          <label htmlFor="title">Title</label>
-          <input
-            type="text"
-            id="title"
-            name="title"
-            value={formData.title}
-            onChange={handleChange}
-            required={true}
-          />
-
+          <div className="top">
+            <label htmlFor="title">Title</label>
+            <input
+              type="text"
+              id="title"
+              name="title"
+              value={formData.title}
+              onChange={handleChange}
+              required={true}
+            />
+            <div className="flex-container top">
+              <div className="category">
+                <label htmlFor="categoryId">Category</label>
+                <select
+                  id="categoryId"
+                  name="categoryId"
+                  value={formData.categoryId}
+                  onChange={handleChange}
+                  required
+                >
+                  {categories.map((category) => (
+                    <option key={category.id} value={category.id}>
+                      {category.name}
+                    </option>
+                  ))}
+                </select>
+              </div>  
+            </div>
+          </div>
           <div className="description">
             <label htmlFor="description">Description</label>
             <textarea
@@ -162,47 +188,10 @@ const ReportForm = () => {
             />
           </div>
         </div>
-        <div className="flex-container top">
-          <div className="category">
-            <label htmlFor="categoryId">Category</label>
-            <select
-              id="categoryId"
-              name="categoryId"
-              value={formData.categoryId}
-              onChange={handleChange}
-              required
-            >
-              {categories.map((category) => (
-                <option key={category.id} value={category.id}>
-                  {category.name}
-                </option>
-              ))}
-            </select>
-          </div>
-        </div>
-        <div className="flex-container bottom">
-          <div className="checkboxes">
-            <div className="checkbox">
-              <label>
-                <input
-                  type="checkbox"
-                  name="isAnonymous"
-                  checked={formData.isAnonymous}
-                  onChange={() =>
-                    setFormData({
-                      ...formData,
-                      isAnonymous: !formData.isAnonymous,
-                    })
-                  }
-                />
-                Submit Anonymously
-              </label>
-            </div>
-          </div>
-          <div className="media">
-            <label htmlFor="media">Media</label>
-            <input type="file" id="media" name="media" onChange={uploadMedia} />
-          </div>
+
+        <div className="media">
+          <label htmlFor="media">Media</label>
+          <input type="file" id="media" name="media" onChange={handleChange} />
         </div>
         <div className="buttons">
           <button type="submit">Submit Report</button>

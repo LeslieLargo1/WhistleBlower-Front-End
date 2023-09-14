@@ -14,7 +14,6 @@ import {
   FaExclamationTriangle,
   FaArrowLeft,
   FaArrowRight,
-  FaSortAmountDown,
 } from "react-icons/fa"
 import NewCategoryComponent from "./NewCategoryComponent"
 import PdfGeneratorComponent from "./PdfGeneratorComponent"
@@ -321,7 +320,6 @@ const AdminDashboard = () => {
               Toggle Sort Order (Current: {sortOrder})
             </button>
             <span onClick={() => setSortOrder("desc")} title="Descending Order">
-              <FaSortAmountDown size={18} />
             </span>
           </div>
           <h2>Admin Inbox</h2>
@@ -376,7 +374,9 @@ const AdminDashboard = () => {
               <div className="report-details">
                 <div className="detail-actions">
                   <div className="right">
-                    <PdfGeneratorComponent />
+                    {selectedReport && selectedReport.id && (
+                      <PdfGeneratorComponent reportId={selectedReport.id} />
+                    )}
                   </div>
                   <div className="left">
                     {currentIndex > 0 && (
@@ -445,7 +445,6 @@ const AdminDashboard = () => {
                         ` (Username: ${selectedReport.username})`}
                     </p>
                   </div>
-
                   {/* Show category if exists */}
                   {selectedReport.category && (
                     <p className="detailed-category">

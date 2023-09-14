@@ -1,23 +1,24 @@
 import React from 'react';
 import { useAuth } from '../AuthContext/AuthContext';
 import { FaFilePdf } from 'react-icons/fa';
+import axios from 'axios';
 
 const PdfGeneratorComponent = ({ reportId }) => {
   const { token } = useAuth();
 
   const generatePDF = async () => {
-    const myHeaders = new Headers();
-    myHeaders.append("Authorization", `Bearer ${token}`);
-
+    if (!reportId) {
+      console.error("reportId is undefined. Cannot generate PDF.");
+      return;
+    }
     try {
-      const response = await fetch(`https://whistle-blower-server.vercel.app/reports/${reportId}/pdf`, {
-        method: 'POST',
-        headers: myHeaders,
+      const response = await axios.post(`https://whistle-blower-server.vercel.app/reports/${reportId}/pdf`, {}, {
+        headers: { "Authorization": `Bearer ${token}` },
+        responseType: 'blob'
       });
 
-      if (response.ok) {
-        const blob = await response.blob();
-        const url = window.URL.createObjectURL(blob);
+      if (response.status === 200) {
+        const url = window.URL.createObjectURL(new Blob([response.data]));
         const a = document.createElement("a");
         a.style.display = "none";
         a.href = url;

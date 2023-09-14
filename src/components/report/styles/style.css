@@ -35,44 +35,25 @@
   margin: 0 auto;
   color: var(--accent-color);
 }
+
+.top, .checkboxes {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.category,
+.checkbox {
+  width: 48%;
+}
+
 .description {
-  font-size: 1rem;
   width: 100%;
 }
+
 .description textarea {
   height: 13rem;
-}
-
-.top {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
-  width: 100%;
-}
-
-.buttom {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
-  width: 100%;
-  
-}
-.category,
-.priority {
-  width: 50%;
-  padding-left: 2px;
-}
-.checkboxes {
-  display: flex;
-  flex-direction: row;
-}
-
-.checkbox {
-  width: 50%;
-}
-.inline-container {
-  display: flex;
-  justify-content: space-between;
 }
 
 label {
@@ -83,7 +64,8 @@ label {
 
 input[type="text"],
 textarea,
-select {
+select,
+input[type="file"] {
   width: 98%;
   padding: 0.5rem;
   border: 1px solid #ccc;
@@ -103,7 +85,7 @@ button {
   border: none;
   border-radius: 3px;
   cursor: pointer;
-  margin: 3rem 2rem ;
+  margin: 3rem 2rem;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16);
 }
 
@@ -112,9 +94,13 @@ button:hover {
 }
 
 @media (max-width: 768px) {
-  .flex-container,
-  .inline-container {
+  .top, .checkboxes {
     flex-direction: column;
+    width: 100%;
+  }
+
+  .category,
+  .checkbox {
     width: 100%;
   }
 }
