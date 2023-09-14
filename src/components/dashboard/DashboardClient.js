@@ -24,9 +24,9 @@ const Dashboard = () => {
   const [filteredReports, setFilteredReports] = useState([])
   const [currentIndex, setCurrentIndex] = useState(null)
   const [showDetailView, setShowDetailView] = useState(false)
-  const [showReplyComponent, setShowReplyComponent] = useState(false);
+  const [showReplyComponent, setShowReplyComponent] = useState(false)
 
-  const { token, userId } = useAuth();
+  const { token, userId } = useAuth()
   const navigate = useNavigate()
   const newReportsCount = reports.filter((r) => r.status === "new").length
   useEffect(() => {
@@ -78,9 +78,8 @@ const Dashboard = () => {
     navigate("/report-form")
   }
   const handleReply = () => {
-    setShowReplyComponent(!showReplyComponent);
-  };
-  
+    setShowReplyComponent(!showReplyComponent)
+  }
 
   const handleSort = (key) => {
     let sortedReports = [...filteredReports]
@@ -180,24 +179,62 @@ const Dashboard = () => {
             {showDetailView && (
               <div className="report-details">
                 <div className="detail-actions">
-                <span className="left">
-                  <button onClick={() => navigateReport("prev")}>
-                    <FaArrowLeft />
-                  </button>
-                  <button onClick={() => navigateReport("next")}>
-                    <FaArrowRight />
-                  </button>
-                </span>
-                <span className="right">
-                  <button onClick={() => setShowDetailView(false)}>
-                    Go Back
-                  </button>
-                </span>
+                  <span className="left">
+                    <button onClick={() => navigateReport("prev")}>
+                      <FaArrowLeft />
+                    </button>
+                    <button onClick={() => navigateReport("next")}>
+                      <FaArrowRight />
+                    </button>
+                  </span>
+                  <span className="right">
+                    <button onClick={() => setShowDetailView(false)}>
+                      Go Back
+                    </button>
+                  </span>
                 </div>
                 <h3>Report Details</h3>
-                <p>Title: {selectedReport.title}</p>
-                <p>Status: {selectedReport.status}</p>
-                <p>Description: {selectedReport.description}</p>
+                <div
+                  className="report-content"
+                  style={{ overflowY: "scroll", maxHeight: "400px" }}
+                >
+                  <p className="detailed-title">
+                    Title: {selectedReport.title}
+                  </p>
+                  <p className="detailed-status">
+                    Status: {selectedReport.status}
+                  </p>
+                  <p className="detailed-description">
+                    Description: {selectedReport.description}
+                  </p>
+                  {/* Show media if exists */}
+                  {selectedReport.media && (
+                    <p className="detailed-media">
+                      Media:{" "}
+                      <a
+                        href={selectedReport.media}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        View Media
+                      </a>
+                    </p>
+                  )}
+                  <div className="checkbox-details">
+                    {/* Show checkbox details */}
+                    <p className="detailed-anon">
+                      Submitted Anonymously:{" "}
+                      {selectedReport.isAnonymous ? "Yes" : "No"}
+                    </p>
+                  </div>
+
+                  {/* Show category if exists */}
+                  {selectedReport.category && (
+                    <p className="detailed-category">
+                      Category: {selectedReport.category.name}
+                    </p>
+                  )}
+                </div>
                 <ReplyComponent reportId={selectedReport} userId={userId} />
               </div>
             )}{" "}

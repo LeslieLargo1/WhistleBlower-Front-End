@@ -5,9 +5,9 @@ import { useAuth } from "../AuthContext/AuthContext"
 
 const Navigation = () => {
   const [menuOpen, setMenuOpen] = useState(false)
-  const role = localStorage.getItem("role")
   const { token, setToken } = useAuth()
-  const isAdmin = role === "admin"
+  const userRole = sessionStorage.getItem("role")
+  const isAdmin = userRole === "admin"
   const isLoggedIn = Boolean(token)
 
   const navigate = useNavigate()
