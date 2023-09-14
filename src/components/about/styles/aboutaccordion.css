@@ -1,6 +1,6 @@
 .section1 {
 
-    height: 70vh;
+    /* height: 70vh; */
     display: flex;
     justify-content: center;
     justify-items: center;
@@ -9,14 +9,15 @@
 
 .aboutAccordion {
     width: 100%;
+    max-height: 0px;
 }
 
 .aboutTitle {
-    border-radius: 3px;
+    border-radius: 0.5em;
     background-color: white;
     color: #2F8AB1;
-    padding-left: 10px;
-    padding-right: 10px;
+    padding-left: 3rem;
+    padding-right: 6rem;
     display: flex;
     justify-content: space-between;
 
@@ -29,17 +30,20 @@
     /* flex-direction: row-reverse; */
     background-color: #f1f1f1;
     padding: 10px;
-    border-radius: 3px;
+    border-radius: 0.5em;
     text-align: left;
     align-items: center;
+    padding: 2rem;
+    max-height: 35vh;
 
 }
 
 
 img {
-
-    width: 80vw;
-    height: 35vh;
-    padding: 40px;
+    max-width: 300px;
+    max-height: 300px;
+    /* width: 80vw;
+    height: 35vh; */
+    padding: 4rem;
 
 }
