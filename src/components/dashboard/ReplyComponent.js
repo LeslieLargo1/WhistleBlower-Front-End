@@ -4,87 +4,102 @@ import { useAuth } from "../AuthContext/AuthContext"
 const ReplyComponent = ({ reportId }) => {
   const [replies, setReplies] = useState([])
   const [newReply, setNewReply] = useState("")
+  const [replyIdToEditOrDelete, setReplyIdToEditOrDelete] = useState("")
   const { token, userId } = useAuth()
 
+  const fetchReplies = async () => {
+    const headers = new Headers()
+    headers.append("Authorization", `Bearer ${token}`)
+    const response = await fetch(
+      `https://whistle-blower-server.vercel.app/replies/${reportId}`,
+      { headers }
+    )
+    const data = await response.json()
+    setReplies(data.data || [])
+  }
+
   useEffect(() => {
-    // Fetch existing replies for this reportId when the component mounts
-    const fetchReplies = async () => {
-      const headers = new Headers()
-      headers.append("Authorization", `Bearer ${token}`)
-      const response = await fetch(
-        `https://whistle-blower-server.vercel.app/replies/${reportId}`,
-        { headers }
-      )
-      const data = await response.json()
-      setReplies(data.data || [])
-    }
     fetchReplies()
   }, [reportId, token])
 
   const handleReplySubmit = async () => {
-    const actualReportId = reportId.id; // Extracting the ID from the report object
-  
-    console.log(`actualReportId: ${actualReportId}, newReply: ${newReply}, userId: ${token}`);
-  
-    if (actualReportId && newReply && token) {
-      const headers = new Headers();
-      headers.append("Authorization", `Bearer ${token}`);
-      headers.append("Content-Type", "application/json");
-  
+    if (reportId && newReply && token) {
+      const headers = new Headers()
+      headers.append("Authorization", `Bearer ${token}`)
+      headers.append("Content-Type", "application/json")
+
       const payload = JSON.stringify({
-        reportId: actualReportId, // using the actualReportId
+        reportId: reportId.id,
         text: newReply,
-      });
-  
-      console.log(`Request Body: ${payload}`);
-  
+      })
+
       try {
-        const response = await fetch('https://whistle-blower-server.vercel.app/replies/create', {
-          method: 'POST',
-          headers,
-          body: payload,
-        });
-  
+        const response = await fetch(
+          "https://whistle-blower-server.vercel.app/replies/create",
+          {
+            method: "POST",
+            headers,
+            body: payload,
+          }
+        )
+
         if (response.ok) {
-          const data = await response.json();
-          setNewReply('');
-          setReplies([...replies, data.data]);
+          const data = await response.json()
+          setNewReply("")
+          setReplies([...replies, data.data])
         } else {
-          console.error(`Failed to submit reply: ${response.status}`);
+          console.error(`Failed to submit reply: ${response.status}`)
         }
       } catch (error) {
-        console.error(`Failed to submit reply: ${error}`);
+        console.error(`Failed to submit reply: ${error}`)
       }
     } else {
-      console.error("Missing required fields");
+      console.error("Missing required fields")
     }
-  };
-  
+  }
 
+  const editReply = async () => {
+    const headers = new Headers()
+    headers.append("Authorization", `Bearer ${token}`)
+    headers.append("Content-Type", "application/json")
 
-  useEffect(() => {
-    // Fetch existing replies for this reportId when the component mounts
-    const fetchReplies = async () => {
-      const headers = new Headers();
-      headers.append("Authorization", `Bearer ${token}`);
-      const actualReportId = reportId.id;  // Extract the ID
-      try {
-        const response = await fetch(`https://whistle-blower-server.vercel.app/replies/${actualReportId}`, { headers });
-        const data = await response.json();
-        if (response.ok) {
-          setReplies(data.data || []);
-        } else {
-          console.error(`Failed to fetch replies: ${response.status}`);
-        }
-      } catch (error) {
-        console.error(`Failed to fetch replies: ${error}`);
+    const response = await fetch(
+      `https://whistle-blower-server.vercel.app/replies/${replyIdToEditOrDelete}`,
+      {
+        method: "PUT",
+        headers,
+        body: JSON.stringify({ text: newReply }),
       }
-    };
-    fetchReplies();
-  }, [reportId, token]);
-  
-  
-  
+    )
+
+    if (response.ok) {
+      alert("Reply edited successfully")
+      fetchReplies()
+    } else {
+      alert("Failed to edit reply")
+    }
+  }
+
+  const deleteReply = async () => {
+    const headers = new Headers()
+    headers.append("Authorization", `Bearer ${token}`)
+
+    const response = await fetch(
+      `https://whistle-blower-server.vercel.app/replies/${replyIdToEditOrDelete}`,
+      {
+        method: "DELETE",
+        headers,
+      }
+    )
+
+    if (response.ok) {
+      alert("Reply deleted successfully")
+      fetchReplies()
+    } else {
+      alert("Failed to delete reply")
+    }
+  }
+
   return (
     <div className="reply-section">
       <h4>Replies</h4>
@@ -95,10 +110,12 @@ const ReplyComponent = ({ reportId }) => {
       ))}
       <textarea
         value={newReply}
-        onChange={(e) => setNewReply(e.target.value)}
+        onChange={(e) => setNewReply(e.target.value) || setReplyIdToEditOrDelete(e.target.value)}
         placeholder="Write your reply..."
       />
       <button onClick={handleReplySubmit}>Submit Reply</button>
+      <button onClick={editReply}>Edit Reply</button>
+      <button onClick={deleteReply}>Delete Reply</button>
     </div>
   )
 }
