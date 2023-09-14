@@ -39,7 +39,7 @@ const Aboutaccordion = () => {
                             <span className="plus">{selected === indexOf ? "-" : "+"}</span>
                         </div>
                         {selected === indexOf && (
-                            <div className="answer">{item.answer} <img className="pic" src={item.imageSrc} alt={item.question} /> </div>
+                            <div className="answerAbout">{item.answer} <img className="pic" src={item.imageSrc} alt={item.question} /> </div>
 
                         )}
                     </div>

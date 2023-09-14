@@ -1,6 +1,6 @@
 .wrapper {
 
-    height: 70vh;
+    height: 13vh;
     display: flex;
     justify-content: center;
     justify-items: center;
@@ -9,6 +9,7 @@
 
 .accordion {
     width: 70%;
+    max-height: 0px
 }
 
 .item {
@@ -36,8 +37,36 @@
 
 .answer {
     background-color: #f1f1f1;
-    padding: 10px;
+    padding: 1rem;
     border-radius: 3px;
     text-align: left;
+
+}
+
+@media only screen and (max-width: 300px) {
+    .answer {
+        max-height: 44vh;
+        /* overflow: scroll; */
+    }
+
+    .answerHeight {
+        height: 37vh;
+        overflow-y: auto;
+
+    }
+}
+
+@media only screen and (max-width: 767px) {
+
+    .answer {
+        max-height: 55vh;
+        /* overflow: scroll; */
+    }
+
+    .answerHeight {
+        height: 37vh;
+        overflow-y: auto;
+
+    }
 
 }
