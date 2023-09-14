@@ -18,6 +18,7 @@ import {
 
 import { useAuth } from "../AuthContext/AuthContext"
 import { useNavigate } from "react-router-dom"
+import PdfGeneratorComponent from "./PdfGeneratorComponent"
 
 const AdminDashboard = () => {
   const { token, userId } = useAuth()
@@ -31,7 +32,6 @@ const AdminDashboard = () => {
   const navigate = useNavigate()
   const priorities = ["Low", "Medium", "High", "Resolved"]
   const statuses = ["Open", "Closed", "Resolved"]
-  const [showNewCategory, setShowNewCategory] = useState(false)
   const [unopenedCount, setUnopenedCount] = useState(0)
 
   useEffect(() => {
@@ -307,8 +307,10 @@ const AdminDashboard = () => {
             <button onClick={toggleSortOrder}>
               Toggle Sort Order (Current: {sortOrder})
             </button>
-            <span onClick={() => setSortOrder("desc")} title="Descending Order">
-            </span>
+            <span
+              onClick={() => setSortOrder("desc")}
+              title="Descending Order"
+            ></span>
           </div>
           <h2>Admin Inbox</h2>
           <div className="report-section">
@@ -334,9 +336,6 @@ const AdminDashboard = () => {
                     <td>{report.priority}</td>
                     <td>{report.date}</td>
                     <td>
-                      <button onClick={() => handleGeneratePdf(report.id)}>
-                        <FaFilePdf />
-                      </button>
                       <button onClick={() => handleReply(report.id)}>
                         <FaReply />
                       </button>
@@ -414,7 +413,6 @@ const AdminDashboard = () => {
                   <p className="detailed-description">
                     Description: {selectedReport.description}
                   </p>
-                  {/* Show media if exists */}
                   {selectedReport.media && (
                     <p className="detailed-media">
                       Media:{" "}
@@ -425,21 +423,6 @@ const AdminDashboard = () => {
                       >
                         View Media
                       </a>
-                    </p>
-                  )}
-                  <div className="checkbox-details">
-                    {/* Show checkbox details */}
-                    <p className="detailed-anon">
-                      Submitted Anonymously:{" "}
-                      {selectedReport.isAnonymous ? "Yes" : "No"}
-                      {!selectedReport.isAnonymous &&
-                        ` (Username: ${selectedReport.username})`}
-                    </p>
-                  </div>
-                  {/* Show category if exists */}
-                  {selectedReport.category && (
-                    <p className="detailed-category">
-                      Category: {selectedReport.category.name}
                     </p>
                   )}
 
