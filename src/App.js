@@ -23,14 +23,15 @@ const isAdmin = true
 
 const App = () => {
   return (
+    <main style={{'height':'100vh'}}>
     <AuthProvider>
       <Router>
         {<Navigation isAdmin={isAdmin} />}
         <Routes>
           <Route path="/" element={<Homepage />} />
+          <Route path="/register" element={<Register />} />
           <Route path="/dashboard/admin" element={<DashboardAdmin />} />
           <Route path="/dashboard/client" element={<DashboardClient />} />
-          <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
           <Route path="/profile/admin" element={<ProfileAdmin />} />
           <Route path="/profile/client" element={<ProfileClient />} />
@@ -45,6 +46,7 @@ const App = () => {
         {<Footer />}
       </Router>
     </AuthProvider>
+    </main>
   )
 }
 
