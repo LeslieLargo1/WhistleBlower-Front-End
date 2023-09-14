@@ -1,6 +1,6 @@
 .wrapper {
 
-    height: 70vh;
+    height: 13vh;
     display: flex;
     justify-content: center;
     justify-items: center;
@@ -9,6 +9,7 @@
 
 .accordion {
     width: 70%;
+    max-height: 0px
 }
 
 .item {
