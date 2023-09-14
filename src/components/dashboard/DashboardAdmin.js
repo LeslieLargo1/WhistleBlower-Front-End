@@ -15,8 +15,7 @@ import {
   FaArrowLeft,
   FaArrowRight,
 } from "react-icons/fa"
-import NewCategoryComponent from "./NewCategoryComponent"
-import PdfGeneratorComponent from "./PdfGeneratorComponent"
+
 import { useAuth } from "../AuthContext/AuthContext"
 import { useNavigate } from "react-router-dom"
 
@@ -35,9 +34,6 @@ const AdminDashboard = () => {
   const [showNewCategory, setShowNewCategory] = useState(false)
   const [unopenedCount, setUnopenedCount] = useState(0)
 
-  const toggleNewCategory = () => {
-    setShowNewCategory(!showNewCategory)
-  }
   useEffect(() => {
     const fetchReports = async () => {
       const myHeaders = new Headers()
@@ -82,35 +78,8 @@ const AdminDashboard = () => {
   }
 
   const markAsRead = async (reportId) => {
-    const myHeaders = new Headers()
-    myHeaders.append("Authorization", `Bearer ${token}`)
-    myHeaders.append("Content-Type", "application/json")
-
-    try {
-      const response = await fetch(
-        `https://whistle-blower-server.vercel.app/reports/${reportId}/status`,
-        {
-          method: "PUT",
-          headers: myHeaders,
-          body: JSON.stringify({ status: "Opened" }),
-        }
-      )
-
-      if (response.ok) {
-        setReports((prevReports) =>
-          prevReports.map((report) =>
-            report.id === reportId ? { ...report, status: "Opened" } : report
-          )
-        )
-        console.log(`Report ${reportId} marked as read`)
-      } else {
-        console.error(
-          `Failed to mark report ${reportId} as read: ${response.statusText}`
-        )
-      }
-    } catch (error) {
-      console.error(`Failed to mark report ${reportId} as read:`, error)
-    }
+    // Logic to mark report as read by changing its status to 'opened'
+    // You can use a fetch or axios call here to update the report status in the database
   }
 
   const navigateReport = (direction) => {
@@ -264,6 +233,24 @@ const AdminDashboard = () => {
     }
   }
 
+  const handleCategoryCreation = async (newCategory) => {
+    const myHeaders = new Headers()
+    myHeaders.append("Authorization", `Bearer ${token}`)
+    try {
+      await fetch(
+        `https://whistle-blower-server.vercel.app/categories/create`,
+        {
+          method: "POST",
+          headers: myHeaders,
+          body: JSON.stringify({ status: newCategory }),
+        }
+      )
+      console.log(`Created new category!`)
+    } catch (error) {
+      console.error(`Failed to create new categoty!`, error)
+    }
+  }
+
   return (
     <div className="dashboard">
       <header className="header">
@@ -291,8 +278,9 @@ const AdminDashboard = () => {
             <button onClick={() => navigate("/create-new-admin")}>
               Create New Admin
             </button>
-            <button onClick={toggleNewCategory}>Create new category</button>
-            {showNewCategory && <NewCategoryComponent />}
+            <button onClick={handleCategoryCreation}>
+              Create new category
+            </button>
           </div>
         </aside>
         <section className="content">
@@ -346,6 +334,9 @@ const AdminDashboard = () => {
                     <td>{report.priority}</td>
                     <td>{report.date}</td>
                     <td>
+                      <button onClick={() => handleGeneratePdf(report.id)}>
+                        <FaFilePdf />
+                      </button>
                       <button onClick={() => handleReply(report.id)}>
                         <FaReply />
                       </button>
