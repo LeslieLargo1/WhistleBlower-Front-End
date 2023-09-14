@@ -35,10 +35,12 @@
   margin: 0 auto;
   color: var(--accent-color);
 }
+
 .description {
   font-size: 1rem;
   width: 100%;
 }
+
 .description textarea {
   height: 13rem;
 }
@@ -55,13 +57,15 @@
   flex-direction: column;
   justify-content: space-evenly;
   width: 100%;
-  
+
 }
+
 .category,
 .priority {
   width: 50%;
   padding-left: 2px;
 }
+
 .checkboxes {
   display: flex;
   flex-direction: row;
@@ -70,6 +74,7 @@
 .checkbox {
   width: 50%;
 }
+
 .inline-container {
   display: flex;
   justify-content: space-between;
@@ -81,13 +86,14 @@ label {
   font-weight: bold;
 }
 
-input[type="text"],
+input[className="inputText"],
 textarea,
 select {
   width: 98%;
   padding: 0.5rem;
   border: 1px solid #ccc;
   border-radius: 3px;
+  border: 1px solid rgba(0, 0, 0, 0.3);
 }
 
 .buttons {
@@ -103,7 +109,7 @@ button {
   border: none;
   border-radius: 3px;
   cursor: pointer;
-  margin: 3rem 2rem ;
+  margin: 3rem 2rem;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16);
 }
 
@@ -112,6 +118,7 @@ button:hover {
 }
 
 @media (max-width: 768px) {
+
   .flex-container,
   .inline-container {
     flex-direction: column;

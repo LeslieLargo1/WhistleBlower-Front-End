@@ -108,21 +108,22 @@ tbody button {
   margin: 0;
   font-size: 1em;
   color: var(--primary-color);
-  transition: background-color 0.3s; 
+  transition: background-color 0.3s;
 }
 
 tbody button:hover {
   background-color: var(--primary-color);
-  color: white; 
+  color: white;
 }
 
 
-tbody{
+tbody {
   cursor: pointer;
   padding: 0;
   margin: 0;
 }
-tbody tr:hover{
+
+tbody tr:hover {
   background-color: #d5e9f235;
 }
 
@@ -199,12 +200,13 @@ tbody tr:hover{
   white-space: nowrap;
   font-size: 0.8em;
 }
+
 .sort-options span.active {
   background-color: var(--primary-color);
   color: white;
 }
 
-.buttons-admin{
+.buttons-admin {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -213,17 +215,18 @@ tbody tr:hover{
   padding: 0;
 }
 
-.buttons-admin button{
+.buttons-admin button {
   margin: 0.5rem;
   padding: 0.5rem;
   cursor: pointer;
 }
 
-.detail-actions{
+.detail-actions {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
+
 .button-container {
   display: inline-block;
 }
@@ -249,7 +252,7 @@ tbody tr:hover{
   }
 
   .sidebar {
-    display: none; 
+    display: none;
   }
 
   .report-table th,
@@ -264,7 +267,7 @@ tbody tr:hover{
   }
 
   .sort-options {
-    display: none;  
+    display: none;
   }
 }
 

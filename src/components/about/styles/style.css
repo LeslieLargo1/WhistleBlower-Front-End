@@ -22,6 +22,7 @@ h3.openingTitle {
     color: #2f8ab1;
     display: flex;
     justify-content: center;
+
 }
 
 .image {
@@ -36,6 +37,7 @@ h3.openingTitle {
 @media only screen and (max-width: 767px) {
     h3.openingTitle {
         font-size: 2rem;
+        text-align: center;
 
     }
 
