@@ -11,9 +11,10 @@ const ReplyComponent = ({ reportId }) => {
     const headers = new Headers()
     headers.append("Authorization", `Bearer ${token}`)
     const response = await fetch(
-      `https://whistle-blower-server.vercel.app/replies/${reportId}`,
+      `https://whistle-blower-server.vercel.app/replies/${reportId.id}`,
       { headers }
     )
+
     const data = await response.json()
     setReplies(data.data || [])
   }
@@ -23,30 +24,42 @@ const ReplyComponent = ({ reportId }) => {
   }, [reportId, token])
 
   const handleReplySubmit = async () => {
-    if (reportId && newReply && token) {
+    console.log(`Report ID: ${reportId.id}, New Reply: ${newReply}, Token: ${token}, User ID: ${userId}`);
+
+
+    if (reportId.id && newReply && token && userId) {
       const headers = new Headers()
       headers.append("Authorization", `Bearer ${token}`)
       headers.append("Content-Type", "application/json")
 
-      const payload = JSON.stringify({
+      const payload = {
         reportId: reportId.id,
+        userId: userId,
         text: newReply,
-      })
+      }
+
+      console.log("Payload:", payload)
 
       try {
+        const requestOptions = {
+          method: "POST",
+          headers: headers,
+          body: JSON.stringify(payload),
+          redirect: "follow",
+        }
+
         const response = await fetch(
           "https://whistle-blower-server.vercel.app/replies/create",
-          {
-            method: "POST",
-            headers,
-            body: payload,
-          }
+          requestOptions
         )
+        const result = await response.json()
 
+        if (response.status === 401) {
+          console.error("Authentication failed. Invalid token.")
+        }
         if (response.ok) {
-          const data = await response.json()
           setNewReply("")
-          setReplies([...replies, data.data])
+          setReplies([...replies, result.data])
         } else {
           console.error(`Failed to submit reply: ${response.status}`)
         }
@@ -106,16 +119,19 @@ const ReplyComponent = ({ reportId }) => {
       {replies.map((reply, index) => (
         <div key={index} className="reply-item">
           {reply.text}
+          <button onClick={() => setReplyIdToEditOrDelete(reply.id)}>
+            Select
+          </button>
         </div>
       ))}
       <textarea
         value={newReply}
-        onChange={(e) => setNewReply(e.target.value) || setReplyIdToEditOrDelete(e.target.value)}
+        onChange={(e) => setNewReply(e.target.value)}
         placeholder="Write your reply..."
       />
       <button onClick={handleReplySubmit}>Submit Reply</button>
-      <button onClick={editReply}>Edit Reply</button>
-      <button onClick={deleteReply}>Delete Reply</button>
+      <button onClick={editReply}>Edit Selected Reply</button>
+      <button onClick={deleteReply}>Delete Selected Reply</button>
     </div>
   )
 }

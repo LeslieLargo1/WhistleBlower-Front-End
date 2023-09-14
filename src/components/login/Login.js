@@ -11,9 +11,8 @@ const Login = () => {
   })
 
   const navigate = useNavigate()
-  const { setToken } = useAuth()
+  const { setToken, setUserId, setUserRoleId, setUserRole } = useAuth()
   const [feedbackMessage, setFeedbackMessage] = useState("")
-
   const handleChange = (e) => {
     const { name, value } = e.target
     setFormData({
@@ -23,51 +22,56 @@ const Login = () => {
   }
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setFeedbackMessage("Logging in...");
-  
+    e.preventDefault()
+    setFeedbackMessage("Logging in...")
+
     const requestOptions = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(formData),
-    };
-  
+    }
+
     try {
       const response = await fetch(
         "https://whistle-blower-server.vercel.app/users/login",
         requestOptions
-      );
-      const data = await response.json();
-      console.log("Server Response: ", response);
-      console.log("Server Data: ", data);
-  
+      )
+      const data = await response.json()
+      console.log("Server Response: ", response)
+      console.log("Server Data: ", data)
+
       if (response.ok) {
-        if (data.token) {  
-          console.log("Login successful");
-          setToken(data.token);
-          localStorage.setItem("role", data.user.role);
-          setFeedbackMessage("Login successful! Redirecting...");
+        if (data.token && data.user && data.user.id) {
+          console.log("Login successful")
+          setToken(data.token)
+          setUserId(data.user.id)
+          setUserRoleId(data.user.id)
+          sessionStorage.setItem("userId", data.user.id)
+          sessionStorage.setItem("role", data.user.role)
+          sessionStorage.setItem("userRoleId", data.user.id)
+          setFeedbackMessage("Login successful! Redirecting...")
+          const userRole = data.user?.role || "client"
+          setUserRole(userRole); 
           
-          const userRole = data.user?.role || 'client';  
-  
           if (userRole === "admin") {
-            navigate("/dashboard/admin");
+            navigate("/dashboard/admin")
           } else {
-            navigate("/dashboard/client");
+            navigate("/dashboard/client")
           }
         } else {
-          setFeedbackMessage(`Login failed: ${data.message || "Unknown error"}`);
-          console.log("Login failed:", data.message);
+          setFeedbackMessage(`Login failed: ${data.message || "Unknown error"}`)
+          console.log("Login failed:", data.message)
         }
       } else {
-        setFeedbackMessage(`Server returned ${response.status}: ${response.statusText}`);
+        setFeedbackMessage(
+          `Server returned ${response.status}: ${response.statusText}`
+        )
       }
     } catch (error) {
-      setFeedbackMessage("An error occurred during login.");
-      console.error("Login error:", error);
+      setFeedbackMessage("An error occurred during login.")
+      console.error("Login error:", error)
     }
-  };
-  
+  }
 
   return (
     <section className="registerBody">

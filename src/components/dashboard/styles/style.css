@@ -108,21 +108,20 @@ tbody button {
   margin: 0;
   font-size: 1em;
   color: var(--primary-color);
-  transition: background-color 0.3s; 
+  transition: background-color 0.3s;
 }
 
 tbody button:hover {
   background-color: var(--primary-color);
-  color: white; 
+  color: white;
 }
 
-
-tbody{
+tbody {
   cursor: pointer;
   padding: 0;
   margin: 0;
 }
-tbody tr:hover{
+tbody tr:hover {
   background-color: #d5e9f235;
 }
 
@@ -146,7 +145,6 @@ tbody tr:hover{
   padding: 0.2em 0.5em;
   font-size: 0.8em;
 }
-
 
 .sort {
   display: flex;
@@ -204,7 +202,7 @@ tbody tr:hover{
   color: white;
 }
 
-.buttons-admin{
+.buttons-admin {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -213,13 +211,13 @@ tbody tr:hover{
   padding: 0;
 }
 
-.buttons-admin button{
+.buttons-admin button {
   margin: 0.5rem;
   padding: 0.5rem;
   cursor: pointer;
 }
 
-.detail-actions{
+.detail-actions {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -236,6 +234,58 @@ tbody tr:hover{
   margin-left: 10px;
 }
 
+.report-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  overflow-y: scroll;
+  max-height: 25rem;
+  padding: 1.25rem;
+  border-radius: 0.5rem;
+  background-color: #f9f9f9;
+}
+
+.detailed-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-align: center;
+  color: var(--accent-color);; 
+}
+
+
+.detailed-status {
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+
+.detailed-description,
+.detailed-anon,
+.detailed-involvement,
+.detailed-category {
+  font-size: 1rem;
+}
+
+.detailed-media a {
+  background-color: var(--accent-color);
+  color: white;
+  padding: 0.625rem;
+  border-radius: 0.25rem;
+  text-decoration: none;
+}
+
+.detailed-media a:hover {
+  background-color: #0056b3;
+}
+
+.checkbox-details {
+  display: flex;
+  justify-content: space-between;
+}
+
+.detailed-anon,
+.detailed-involvement {
+  flex: 1;
+}
 
 @media screen and (max-width: 767px) {
   .main {
@@ -249,7 +299,7 @@ tbody tr:hover{
   }
 
   .sidebar {
-    display: none; 
+    display: none;
   }
 
   .report-table th,
@@ -264,7 +314,7 @@ tbody tr:hover{
   }
 
   .sort-options {
-    display: none;  
+    display: none;
   }
 }
 

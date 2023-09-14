@@ -8,7 +8,6 @@ import {
   FaFlag,
   FaEdit,
   FaReply,
-  FaFilePdf,
   FaCalendarAlt,
   FaRegCheckCircle,
   FaTags,
@@ -28,12 +27,13 @@ const AdminDashboard = () => {
   const [currentIndex, setCurrentIndex] = useState(null)
   const [selectedReport, setSelectedReport] = useState(null)
   const [sortField, setSortField] = useState("date")
-  const [sortOrder] = useState("asc")
+  const [sortOrder, setSortOrder] = useState("asc")
   const [showReplyComponent, setShowReplyComponent] = useState(false)
   const navigate = useNavigate()
   const priorities = ["Low", "Medium", "High", "Resolved"]
   const statuses = ["Open", "Closed", "Resolved"]
   const [showNewCategory, setShowNewCategory] = useState(false)
+  const [unopenedCount, setUnopenedCount] = useState(0)
 
   const toggleNewCategory = () => {
     setShowNewCategory(!showNewCategory)
@@ -120,17 +120,61 @@ const AdminDashboard = () => {
       setSelectedReport(sortedReports[newIndex])
     }
   }
+
+  const toggleSortOrder = () => {
+    setSortOrder(sortOrder === "asc" ? "desc" : "asc")
+  }
+
   const sortedReports = useMemo(() => {
     return [...reports].sort((a, b) => {
-      if (a[sortField] < b[sortField]) return sortOrder === "asc" ? -1 : 1
-      if (a[sortField] > b[sortField]) return sortOrder === "asc" ? 1 : -1
+      if (sortField === "date") {
+        const dateA = new Date(a.date)
+        const dateB = new Date(b.date)
+        return sortOrder === "asc" ? dateA - dateB : dateB - dateA
+      }
+      if (sortField === "status") {
+        if (a.status === b.status) return 0
+        if (a.status === "Unopened") return -1
+        if (b.status === "Unopened") return 1
+        if (a.status === "Opened") return -1
+        if (b.status === "Opened") return 1
+        if (a.status === "Closed") return -1
+        if (b.status === "Closed") return 1
+        if (a.status === "Resolved") return -1
+        if (b.status === "Resolved") return 1
+      }
+      if (sortField === "category") {
+        if (a.category.name === b.category.name) return 0
+        if (a.category.name < b.category.name) return -1
+        if (a.category.name > b.category.name) return 1
+      }
+
+      if (sortField === "priority") {
+        if (a.priority === b.priority) return 0
+        if (a.priority === "Low") return -1
+        if (b.priority === "Low") return 1
+        if (a.priority === "Medium") return -1
+        if (b.priority === "Medium") return 1
+        if (a.priority === "High") return -1
+        if (b.priority === "High") return 1
+        if (a.priority === "Resolved") return -1
+        if (b.priority === "Resolved") return 1
+      }
+
       return 0
     })
-  }, [sortField, reports])
+  }, [reports, sortField, sortOrder])
 
   const handleReply = () => {
     setShowReplyComponent(!showReplyComponent)
   }
+
+  useEffect(() => {
+    const newUnopenedCount = reports.filter(
+      (report) => report.status === "Unopened"
+    ).length
+    setUnopenedCount(newUnopenedCount)
+  }, [reports])
 
   const getFlagColor = (priority, status) => {
     if (status === "Resolved") {
@@ -229,7 +273,12 @@ const AdminDashboard = () => {
         <aside className="sidebar">
           <ul className="menu">
             <li>
-              <FaInbox size={18} /> Inbox
+              <FaInbox size={18} />
+              <span style={{ color: unopenedCount > 0 ? "red" : "inherit" }}>
+                Inbox ({reports.length})
+                {unopenedCount > 0 && ` (${unopenedCount} new)`}
+              </span>
+              Inbox
             </li>
             <li>
               <FaFileAlt size={18} /> Reports
@@ -267,13 +316,11 @@ const AdminDashboard = () => {
             >
               <FaExclamationTriangle size={18} />
             </span>
-            {/*<label>Order: </label>
-            <span onClick={() => setSortOrder("asc")} title="Ascending Order">
-              <FaSortAmountUp size={18} />
-            </span>
+            <button onClick={toggleSortOrder}>
+              Toggle Sort Order (Current: {sortOrder})
+            </button>
             <span onClick={() => setSortOrder("desc")} title="Descending Order">
-              <FaSortAmountDown size={18} />
-            </span>*/}
+            </span>
           </div>
           <h2>Admin Inbox</h2>
           <div className="report-section">
@@ -327,7 +374,9 @@ const AdminDashboard = () => {
               <div className="report-details">
                 <div className="detail-actions">
                   <div className="right">
-                  <PdfGeneratorComponent/>
+                    {selectedReport && selectedReport.id && (
+                      <PdfGeneratorComponent reportId={selectedReport.id} />
+                    )}
                   </div>
                   <div className="left">
                     {currentIndex > 0 && (
@@ -365,9 +414,44 @@ const AdminDashboard = () => {
                   className="report-content"
                   style={{ overflowY: "scroll", maxHeight: "400px" }}
                 >
-                  <p>Title: {selectedReport.title}</p>
-                  <p>Status: {selectedReport.status}</p>
-                  <p>Description: {selectedReport.description}</p>
+                  <p className="detailed-title">
+                    Title: {selectedReport.title}
+                  </p>
+                  <p className="detailed-status">
+                    Status: {selectedReport.status}
+                  </p>
+                  <p className="detailed-description">
+                    Description: {selectedReport.description}
+                  </p>
+                  {/* Show media if exists */}
+                  {selectedReport.media && (
+                    <p className="detailed-media">
+                      Media:{" "}
+                      <a
+                        href={selectedReport.media}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        View Media
+                      </a>
+                    </p>
+                  )}
+                  <div className="checkbox-details">
+                    {/* Show checkbox details */}
+                    <p className="detailed-anon">
+                      Submitted Anonymously:{" "}
+                      {selectedReport.isAnonymous ? "Yes" : "No"}
+                      {!selectedReport.isAnonymous &&
+                        ` (Username: ${selectedReport.username})`}
+                    </p>
+                  </div>
+                  {/* Show category if exists */}
+                  {selectedReport.category && (
+                    <p className="detailed-category">
+                      Category: {selectedReport.category.name}
+                    </p>
+                  )}
+
                   <ReplyComponent reportId={selectedReport} userId={userId} />
                 </div>
               </div>
