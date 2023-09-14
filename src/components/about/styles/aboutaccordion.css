@@ -26,7 +26,7 @@
     font-size: 15px;
 }
 
-.answer {
+.answerAbout {
     display: flex;
     /* flex-direction: row-reverse; */
     background-color: #f1f1f1;
