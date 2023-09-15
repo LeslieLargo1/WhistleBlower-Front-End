@@ -3,14 +3,35 @@
   --accent-color: #2f8ab1;
 }
 .home-page {
-  background-image: url(https://s3.amazonaws.com/shecodesio-production/uploads/files/000/096/632/original/543ffb5803130c09af16594e221eac8e.jpeg?1694436809);
-  background-position: center;
-  background-size: cover;
   display: flex;
   justify-content: center;
   align-items: center;
   height: 80vh;
+  position: relative;
 }
+
+.background-image{
+    background-image: url(https://s3.amazonaws.com/shecodesio-production/uploads/files/000/096/632/original/543ffb5803130c09af16594e221eac8e.jpeg?1694436809);
+  background-position: center;
+  background-size: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -2;
+}
+.background-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -1;
+}
+
+
 
 .content-container {
   text-align: center;
@@ -19,9 +40,9 @@
 }
 
 .title-hero {
-  font-size: 2.5rem;
+  font-size: 3rem;
   color: var(--accent-color);
-  margin-bottom: 1rem;
+  margin-bottom: 3rem;
 }
 
 .info-text {
@@ -29,12 +50,13 @@
   font-weight: 500;
   color: #1e1c1c;
   line-height: 1.5;
-  margin-bottom: 2rem;
+  margin: 3rem;
 }
 
 .action-section {
+  padding: auto;  
   display: flex;
-  justify-content: center;
+  justify-content: space-evenly;
 }
 
 .action-button {
@@ -45,16 +67,9 @@
   cursor: pointer;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16);
   transform: translateY(-70px);
-  animation: slideAndGrow 1.5s ease-in-out forwards;
   transition: all 0.2s ease-in-out;
 }
 
-@keyframes slideAndGrow {
-  0% {
-    transform: translateY(-100%) scale(0.5);
-    opacity: 0;
-  }
-}
 
 .action-button:hover {
   background-color: var(--primary-color);

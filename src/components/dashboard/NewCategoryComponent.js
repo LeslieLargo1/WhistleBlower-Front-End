@@ -1,19 +1,22 @@
-import React, { useState } from "react"
-import { useAuth } from "../AuthContext/AuthContext"
-import "./styles/style.css"
+import React, { useState } from 'react';
+import { useAuth } from '../AuthContext/AuthContext';
+import './styles/style.css';
+import { FaPlus, FaTimes } from 'react-icons/fa';
 
 const NewCategoryComponent = () => {
-  const { token } = useAuth()
-  const [categoryName, setCategoryName] = useState("")
+  const { token } = useAuth();
+  const [categoryName, setCategoryName] = useState('');
 
   const handleInputChange = (e) => {
-    setCategoryName(e.target.value)
-  }
+    setCategoryName(e.target.value);
+  };
+
   const clearInput = () => {
-    setCategoryName("")
-  }
+    setCategoryName('');
+  };
+
   const handleFormSubmit = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
 
     const myHeaders = new Headers()
     myHeaders.append("Authorization", `Bearer ${token}`)
@@ -42,29 +45,27 @@ const NewCategoryComponent = () => {
       alert("An error occurred. Please try again")
     }
   }
-
   return (
-    <div>
-      <form onSubmit={handleFormSubmit}>
+    <div className="inline-form">
+      <h4 className="form-title">Create New Category</h4>
+      <form onSubmit={handleFormSubmit} className="category-form">
         <label>
-          Category Name:
           <input
             type="text"
             value={categoryName}
             onChange={handleInputChange}
+            className="form-input"
           />
         </label>
-        <div className="button-container">
-          <button type="submit" className="create-button">
-            Create
+          <button type="submit" className="icon-button" title="Create Category">
+            <FaPlus />
           </button>
-          <button type="button" className="clear-button" onClick={clearInput}>
-            Clear
+          <button type="button" className="icon-button" onClick={clearInput} title="Clear">
+            <FaTimes />
           </button>
-        </div>
       </form>
     </div>
-  )
-}
+  );
+};
 
-export default NewCategoryComponent
+export default NewCategoryComponent;

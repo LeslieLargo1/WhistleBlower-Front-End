@@ -7,51 +7,47 @@ export const AuthContext = createContext()
 export const useAuth = () => {
   return useContext(AuthContext)
 }
+
 // AuthProvider component
 export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(sessionStorage.getItem("token") || null)
   const [userId, setUserId] = useState(sessionStorage.getItem("userId") || null)
-  const [userRoleId, setUserRoleId] = useState(sessionStorage.getItem("userRoleId") || null )
-  const [userRole, setUserRole] = useState(sessionStorage.getItem("userRole") || null);
+  const [userRoleId, setUserRoleId] = useState(
+    sessionStorage.getItem("userRoleId") || null
+  )
+  const [userRole, setUserRole] = useState(
+    sessionStorage.getItem("userRole") || null
+  )
+  const [username, setUsername] = useState(
+    sessionStorage.getItem("username") || null
+  )
+
 
   useEffect(() => {
-    if (token) {
-      sessionStorage.setItem("token", token)
-    } else {
-      sessionStorage.removeItem("token")
+    const syncSessionStorage = (key, value) => {
+      if (value) {
+        sessionStorage.setItem(key, value)
+      } else {
+        sessionStorage.removeItem(key)
+      }
     }
-  }, [token])
-
-  useEffect(() => {
-    if (userId) {
-      sessionStorage.setItem("userId", userId)
-    } else {
-      sessionStorage.removeItem("userId")
-    }
-  }, [userId])
-
-  useEffect(() => {
-    if (userRoleId) {
-      sessionStorage.setItem("userRoleId", userRoleId)
-    } else {
-      sessionStorage.removeItem("userRoleId")
-    }
-  }, [userRoleId])
-
-  useEffect(() => {
-    if (userRole) {
-      sessionStorage.setItem("userRole", userRole);
-    } else {
-      sessionStorage.removeItem("userRole");
-    }
-  }, [userRole]);
-  
+    syncSessionStorage("token", token)
+    syncSessionStorage("userId", userId)
+    syncSessionStorage("userRoleId", userRoleId)
+    syncSessionStorage("userRole", userRole)
+    syncSessionStorage("username", username)
+    
+  }, [token, userId, userRoleId, userRole, username])
 
   const logout = () => {
-    sessionStorage.removeItem("token")
-    sessionStorage.removeItem("userId")
+    ;["token", "userId", "userRoleId", "userRole", "username"].forEach((key) =>
+      sessionStorage.removeItem(key)
+    )
     setToken(null)
     setUserId(null)
+    setUserRoleId(null)
+    setUserRole(null)
+    setUsername(null)
   }
 
   const value = {
@@ -60,9 +56,11 @@ export const AuthProvider = ({ children }) => {
     userId,
     setUserId,
     userRoleId,
-    setUserRoleId, 
-     userRole,
+    setUserRoleId,
+    userRole,
     setUserRole,
+    username,
+    setUsername,
     logout,
   }
 

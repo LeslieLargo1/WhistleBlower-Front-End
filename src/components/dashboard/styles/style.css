@@ -4,7 +4,6 @@
   align-items: center;
   background-color: #f5f5f5;
   min-height: 85vh;
-  padding-top: 60px;
 }
 
 .header {
@@ -138,19 +137,16 @@ tbody tr:hover {
   color: white;
 }
 
-.badge {
-  background-color: red;
-  color: white;
-  border-radius: 50%;
-  padding: 0.2em 0.5em;
-  font-size: 0.8em;
+.report-table td {
+  background-color: #fff;
+  align-content: center;
+
 }
 
 .sort {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 20px;
 }
 
 .sort-filter {
@@ -322,46 +318,18 @@ tbody tr:hover {
 .detailed-media a:hover {
   text-decoration: underline;
 }
-
+/* ---- Replies Section ---- */
 .reply-section {
-  margin: 20px;
+  background-color: #f4f4f4;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.reply-item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 10px;
-}
-
-.reply-date {
+.reply-section h4 {
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
   font-weight: bold;
-  margin-bottom: 5px;
-}
-
-.reply-content {
-  flex-grow: 1;
-}
-
-.reply-author-time {
-  font-weight: bold;
-}
-
-.reply-actions {
-  min-width: 50px;
-  text-align: right;
-}
-
-.reply-input {
-  display: flex;
-  align-items: center;
-  margin-top: 20px;
-}
-
-.reply-input textarea {
-  flex-grow: 1;
-  margin-left: 10px;
-  margin-right: 10px;
 }
 
 .reply-item {
@@ -369,6 +337,9 @@ tbody tr:hover {
   flex-direction: column;
   align-items: flex-start;
   margin-bottom: 0.5rem;
+  padding: 0.5rem;
+  border-radius: 0.3rem;
+  background-color: #e6e6e6;
 }
 
 .my-reply .reply-content,
@@ -376,12 +347,21 @@ tbody tr:hover {
   background-color: #007bff;
   color: white;
   align-self: flex-end;
+  padding: 0.5rem;
+  border-radius: 0.3rem;
 }
 
 .other-reply .reply-content,
 .other-reply .reply-author-time {
   background-color: #f1f1f1;
   color: black;
+  padding: 0.5rem;
+  border-radius: 0.3rem;
+}
+
+.reply-date {
+  font-size: 0.8rem;
+  color: #bcbcc2;
 }
 
 .reply-content,
@@ -389,22 +369,55 @@ tbody tr:hover {
   padding: 0.5rem;
   border-radius: 0.3rem;
 }
-.reply-time {
-  color: rgb(156, 154, 154);
+
+/*.reply-time {
+  color: #1e1e1e;
   font-size: 0.8rem;
   position: relative;
-  z-index: -1; 
   opacity: 0.7;
-}
+}*/
 
 .reply-actions {
   align-self: flex-end;
+  font-size: 1.2rem;
+  color: #666;
 }
 
 .reply-input {
   display: flex;
   align-items: center;
+  padding: 0.5rem;
+  border-top: 1px solid #ccc;
 }
+
+.reply-input textarea {
+  flex-grow: 1;
+  margin-left: 10px;
+  margin-right: 10px;
+  border: 1px solid #ccc;
+  border-radius: 0.3rem;
+  padding: 0.5rem;
+}
+
+.reply-input button {
+  background-color: var(--accent-color);
+  padding: 0.5rem;
+  border-radius: 50%;
+  color: white;
+  cursor: pointer;
+}
+
+/*New Category Form*/
+.category-form {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.inline-form label {
+  margin-right: 10px;
+  width: 50%;
+}
+
 
 @media screen and (max-width: 767px) {
   .main {
