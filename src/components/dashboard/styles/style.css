@@ -197,6 +197,7 @@ tbody tr:hover {
   white-space: nowrap;
   font-size: 0.8em;
 }
+
 .sort-options span.active {
   background-color: var(--primary-color);
   color: white;
@@ -222,6 +223,7 @@ tbody tr:hover {
   justify-content: space-between;
   align-items: center;
 }
+
 .button-container {
   display: inline-block;
 }
