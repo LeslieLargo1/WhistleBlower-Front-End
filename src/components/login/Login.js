@@ -51,21 +51,30 @@ const Login = () => {
           sessionStorage.setItem("userRoleId", data.user.id)
           setFeedbackMessage("Login successful! Redirecting...")
           const userRole = data.user?.role || "client"
-          setUserRole(userRole); 
-          
+          setUserRole(userRole)
+
           if (userRole === "admin") {
             navigate("/dashboard/admin")
           } else {
             navigate("/dashboard/client")
           }
-        } else {
-          setFeedbackMessage(`Login failed: ${data.message || "Unknown error"}`)
-          console.log("Login failed:", data.message)
         }
       } else {
-        setFeedbackMessage(
-          `Server returned ${response.status}: ${response.statusText}`
-        )
+        switch (response.status) {
+          case 400:
+            setFeedbackMessage("Invalid username or password.")
+            break
+          case 401:
+            setFeedbackMessage("Unauthorized. Please check your credentials.")
+            break
+          case 500:
+            setFeedbackMessage("Internal Server Error. Please try again later.")
+            break
+          default:
+            setFeedbackMessage(
+              `Server returned ${response.status}: ${response.statusText}`
+            )
+        }
       }
     } catch (error) {
       setFeedbackMessage("An error occurred during login.")

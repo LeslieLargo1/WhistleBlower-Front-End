@@ -38,9 +38,9 @@ const Register = () => {
         "https://whistle-blower-server.vercel.app/users/register",
         requestOptions
       )
+      const data = await response.json()
 
       if (response.ok) {
-        const data = await response.json()
         if (data.success) {
           console.log("Registration successful")
           setToken(data.token)
@@ -50,20 +50,32 @@ const Register = () => {
           } else {
             navigate("/dashboard/client")
           }
-        } else {
-          setFeedbackMessage(`Registration failed: ${data.message}`)
-          console.log("Registration failed:", data.message)
         }
       } else {
-        setFeedbackMessage(
-          `Server returned ${response.status}: ${response.statusText}`
-        )
+        switch (response.status) {
+          case 400:
+            setFeedbackMessage(
+              "Invalid data. Please fill out all fields correctly."
+            )
+            break
+          case 409:
+            setFeedbackMessage("Username or email already exists.")
+            break
+          case 500:
+            setFeedbackMessage("Internal Server Error. Please try again later.")
+            break
+          default:
+            setFeedbackMessage(
+              `Server returned ${response.status}: ${response.statusText}`
+            )
+        }
       }
     } catch (error) {
       setFeedbackMessage("An error occurred during registration.")
       console.error("Registration error:", error)
     }
   }
+
   return (
     <section className="registerBody">
       <div className="registerLeft">
@@ -111,7 +123,10 @@ const Register = () => {
         <div className="redirect-to-login">
           <p>
             Already have an account?{" "}
-            <span onClick={() => navigate("/login")} className="login">  Log in</span>
+            <span onClick={() => navigate("/login")} className="login">
+              {" "}
+              Log in
+            </span>
           </p>
         </div>
         <div className="feedbackMessage">{feedbackMessage}</div>
