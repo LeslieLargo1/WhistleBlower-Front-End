@@ -13,20 +13,24 @@
 }
 
 .content-container {
+  display: flex;
+  flex-direction: column;
   text-align: center;
   max-width: 800px;
   z-index: 1;
 }
 
 .title-hero {
-  font-size: 2.5rem;
+
+  font-size: 4.5rem;
+
   color: var(--accent-color);
   margin-bottom: 1rem;
+  text-shadow: 3px 4px 6px rgb(44, 44, 44);
 }
 
 .info-text {
-  font-size: 1.3rem;
-  font-weight: 500;
+  font-size: 2rem;
   color: #1e1c1c;
   line-height: 1.5;
   margin-bottom: 2rem;
@@ -74,4 +78,15 @@
   .hero-image {
     background-position: center;
   }
+
+  .title-hero {
+    font-size: 2.5rem;
+   
+  }
+  .info-text {
+    font-size: 1.2rem;
+    
+  }
+  
+
 }

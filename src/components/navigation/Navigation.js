@@ -1,60 +1,113 @@
-import React, { useState } from "react"
-import { Link, useNavigate } from "react-router-dom"
-import "./styles/style.css"
-import { useAuth } from "../AuthContext/AuthContext"
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import "./styles/style.css";
+import { useAuth } from "../AuthContext/AuthContext";
 
 const Navigation = () => {
-  const [menuOpen, setMenuOpen] = useState(false)
-  const { token, setToken } = useAuth()
-  const userRole = sessionStorage.getItem("role")
-  const isAdmin = userRole === "admin"
-  const isLoggedIn = Boolean(token)
+  const [menuOpen, setMenuOpen] = useState(false);
+  const { token, setToken } = useAuth();
+  const userRole = sessionStorage.getItem("role");
+  const isAdmin = userRole === "admin";
+  const isLoggedIn = Boolean(token);
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const handleMenuToggle = () => {
-    setMenuOpen(!menuOpen)
-  }
+    setMenuOpen(!menuOpen);
+  };
+
+  const handleMenuItemClick = () => {
+    // Close the menu when a menu item is clicked
+    setMenuOpen(false);
+  };
 
   const handleLogout = () => {
-    setToken(null)
-    localStorage.removeItem("role")
-    navigate("/")
-  }
+    setToken(null);
+    localStorage.removeItem("role");
+    navigate("/");
+  };
 
   return (
     <nav className="nav-container">
       <div className="logo-container"></div>
       <div className={`links ${menuOpen ? "open" : ""}`}>
-        <Link className="nav-link" to="/">
+        <Link
+          className="nav-link"
+          to="/"
+          onClick={() => {
+            handleMenuItemClick();
+          }}
+        >
           Homepage
         </Link>
-        <Link className="nav-link" to="/about">
+        <Link
+          className="nav-link"
+          to="/about"
+          onClick={() => {
+            handleMenuItemClick();
+          }}
+        >
           About
         </Link>
         {isLoggedIn ? (
           <>
             {isAdmin ? (
               <>
-                <Link className="nav-link" to="/dashboard/admin">
+                <Link
+                  className="nav-link"
+                  to="/dashboard/admin"
+                  onClick={() => {
+                    handleMenuItemClick();
+                  }}
+                >
                   Admin Dashboard
                 </Link>
-                <Link className="nav-link" to="/profile/admin">
+                <Link
+                  className="nav-link"
+                  to="/profile/admin"
+                  onClick={() => {
+                    handleMenuItemClick();
+                  }}
+                >
                   Profile
                 </Link>
-                <Link className="nav-link" to="/create-new-admin">
+                <Link
+                  className="nav-link"
+                  to="/create-new-admin"
+                  onClick={() => {
+                    handleMenuItemClick();
+                  }}
+                >
                   Create New Admin
                 </Link>
               </>
             ) : (
               <>
-                <Link className="nav-link" to="/dashboard/client">
+                <Link
+                  className="nav-link"
+                  to="/dashboard/client"
+                  onClick={() => {
+                    handleMenuItemClick();
+                  }}
+                >
                   Dashboard
                 </Link>
-                <Link className="nav-link" to="/report-form">
+                <Link
+                  className="nav-link"
+                  to="/report-form"
+                  onClick={() => {
+                    handleMenuItemClick();
+                  }}
+                >
                   New Report
                 </Link>
-                <Link className="nav-link" to="/profile/client">
+                <Link
+                  className="nav-link"
+                  to="/profile/client"
+                  onClick={() => {
+                    handleMenuItemClick();
+                  }}
+                >
                   Profile
                 </Link>
               </>
@@ -65,10 +118,22 @@ const Navigation = () => {
           </>
         ) : (
           <>
-            <Link className="nav-link" to="/login">
+            <Link
+              className="nav-link"
+              to="/login"
+              onClick={() => {
+                handleMenuItemClick();
+              }}
+            >
               Login
             </Link>
-            <Link className="nav-link" to="/register">
+            <Link
+              className="nav-link"
+              to="/register"
+              onClick={() => {
+                handleMenuItemClick();
+              }}
+            >
               Register
             </Link>
           </>
@@ -83,7 +148,7 @@ const Navigation = () => {
         <div className={`menu-bar ${menuOpen ? "toggle" : ""}`}></div>
       </div>
     </nav>
-  )
-}
+  );
+};
 
-export default Navigation
+export default Navigation;

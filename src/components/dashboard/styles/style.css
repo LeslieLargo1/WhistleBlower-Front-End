@@ -108,19 +108,58 @@ tbody button {
   margin: 0;
   font-size: 1em;
   color: var(--primary-color);
-  transition: background-color 0.3s;
+  transition: background-color 0.3s, color 0.3s; 
 }
 
 tbody button:hover {
   background-color: var(--primary-color);
+  color: white; 
+}
+.report-table tr.clicked {
+  background-color: #d5e9f235;
+}
+
+.getFlagColor {
+  transition: background-color 0.3s, color 0.3s;
   color: white;
 }
+
+
+.getFlagColor.Low {
+  background-color: yellow;
+}
+
+.getFlagColor.Medium {
+  background-color: orange;
+}
+
+.getFlagColor.High {
+  background-color: red;
+}
+
+.getFlagColor.Resolved {
+  background-color: green;
+}
+
+.getFlagColor.Open {
+  background-color: blue;
+}
+
+.getFlagColor.Closed {
+  background-color: gray;
+}
+
+.getFlagColor.Resolved {
+  background-color: green;
+}
+
 
 tbody {
   cursor: pointer;
   padding: 0;
   margin: 0;
 }
+
 tbody tr:hover {
   background-color: #d5e9f235;
 }
@@ -136,6 +175,9 @@ tbody tr:hover {
 .report-table th {
   background-color: var(--primary-color);
   color: white;
+}
+.report-table tr.clicked {
+  background-color: yellow; /* Change to your desired color */
 }
 
 .badge {
@@ -252,6 +294,10 @@ tbody tr:hover {
   font-weight: bold;
   text-align: center;
   color: var(--accent-color);
+}
+
+.detailed-status {
+  font-size: 1.25rem;
 }
 .report-details {
   background-color: #f4f4f4;
