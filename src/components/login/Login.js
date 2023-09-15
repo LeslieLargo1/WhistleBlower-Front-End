@@ -11,7 +11,7 @@ const Login = () => {
   })
 
   const navigate = useNavigate()
-  const { setToken, setUserId, setUserRoleId, setUserRole } = useAuth()
+  const { setToken, setUserId, setUserRoleId, setUserRole, setUsername } = useAuth(); 
   const [feedbackMessage, setFeedbackMessage] = useState("")
   const handleChange = (e) => {
     const { name, value } = e.target
@@ -37,8 +37,6 @@ const Login = () => {
         requestOptions
       )
       const data = await response.json()
-      console.log("Server Response: ", response)
-      console.log("Server Data: ", data)
 
       if (response.ok) {
         if (data.token && data.user && data.user.id) {
@@ -52,7 +50,9 @@ const Login = () => {
           setFeedbackMessage("Login successful! Redirecting...")
           const userRole = data.user?.role || "client"
           setUserRole(userRole)
-
+          const username = data.user?.username || ""; 
+          setUsername(username);
+          sessionStorage.setItem("username", username);
           if (userRole === "admin") {
             navigate("/dashboard/admin")
           } else {

@@ -1,12 +1,20 @@
 import React, { useState, useEffect } from "react"
 import { useAuth } from "../AuthContext/AuthContext"
-import { FaEdit, FaTrash, FaPaperPlane } from "react-icons/fa"
+import {
+  FaEdit,
+  FaTrash,
+  FaPaperPlane,
+  FaUserAstronaut,
+  FaUserNinja,
+  FaUser,
+} from "react-icons/fa"
 import "./styles/style.css"
+
 const ReplyComponent = ({ reportId }) => {
   const [replies, setReplies] = useState([])
+  const { token, userId, username, role } = useAuth()
   const [newReply, setNewReply] = useState("")
   const [replyIdToEditOrDelete, setReplyIdToEditOrDelete] = useState("")
-  const { token, userId } = useAuth()
   let lastDate = null
 
   const fetchReplies = async () => {
@@ -16,18 +24,29 @@ const ReplyComponent = ({ reportId }) => {
       `https://whistle-blower-server.vercel.app/replies/${reportId.id}`,
       { headers }
     )
-
     const data = await response.json()
-    setReplies(data.data || [])
+    const fetchedReplies = data.data || []
+
+    localStorage.setItem(
+      `replies_${reportId.id}`,
+      JSON.stringify(fetchedReplies)
+    )
+
+    setReplies(fetchedReplies)
   }
 
   useEffect(() => {
-    fetchReplies()
+    const storedReplies = localStorage.getItem(`replies_${reportId.id}`)
+    if (storedReplies) {
+      setReplies(JSON.parse(storedReplies))
+    } else {
+      fetchReplies()
+    }
   }, [reportId, token])
 
   const handleReplySubmit = async () => {
     console.log(
-      `Report ID: ${reportId.id}, New Reply: ${newReply}, Token: ${token}, User ID: ${userId}`
+      `Report ID: ${reportId.id}, New Reply: ${newReply}, Token: ${token}, User ID: ${userId} Username: ${username}`
     )
 
     if (reportId.id && newReply && token && userId) {
@@ -59,7 +78,12 @@ const ReplyComponent = ({ reportId }) => {
 
         if (response.ok) {
           setNewReply("")
-          setReplies([...replies, result.data])
+          const updatedReplies = [...replies, result.data]
+          localStorage.setItem(
+            `replies_${reportId.id}`,
+            JSON.stringify(updatedReplies)
+          )
+          setReplies(updatedReplies)
         } else {
           console.error(
             `Failed to submit reply: ${response.status}, ${JSON.stringify(
@@ -119,14 +143,14 @@ const ReplyComponent = ({ reportId }) => {
 
   return (
     <div className="reply-section">
-      <h4>Replies</h4>
+      {/*<h4>Replies</h4>*/}
       {replies.map((reply, index) => {
         const date = new Date(reply.created_at)
         const displayDate = date.toDateString()
-        const displayTime = date.toLocaleTimeString("en-US", {
-          hour: "2-digit",
-          minute: "2-digit",
-        })
+        //const displayTime = date.toLocaleTimeString("en-US", {
+        //  hour: "2-digit",
+        //  minute: "2-digit",
+        //})
         const showDate = lastDate !== displayDate
         lastDate = displayDate
 
@@ -140,10 +164,17 @@ const ReplyComponent = ({ reportId }) => {
             {showDate && <div className="reply-date">{displayDate}</div>}
             <div className="reply-content">
               <span className="reply-author-time">
-                {reply.username}{" "}
-                <span className="reply-time">({displayTime})</span>
+                {role === "Admin" ? (
+                  <FaUserAstronaut size={18} title="Admin" />
+                ) : role === "Client" ? (
+                  <FaUserNinja size={18} title="Client" />
+                ) : (
+                  <FaUser size={18} title="Unknown" />
+                )}
+
+                {/*<span className="reply-time">({displayTime})</span>*/}
               </span>
-              : {reply.text}
+              {reply.text}
             </div>
             <div className="reply-actions">
               {userId === reply.user_id && (
@@ -162,7 +193,16 @@ const ReplyComponent = ({ reportId }) => {
       })}
 
       <div className="reply-input">
-        <span>{userId}: </span>
+        <span>
+          {" "}
+          {role === "Admin" ? (
+            <FaUserAstronaut size={18} title="Admin" />
+          ) : role === "Client" ? (
+            <FaUserNinja size={18} title="Client" />
+          ) : (
+            <FaUser size={18} title="Unknown" />
+          )}{" "}
+        </span>
         <textarea
           value={newReply}
           onChange={(e) => setNewReply(e.target.value)}

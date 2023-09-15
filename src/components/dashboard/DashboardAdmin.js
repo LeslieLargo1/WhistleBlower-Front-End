@@ -6,8 +6,6 @@ import {
   FaFileAlt,
   FaDraft2Digital,
   FaFlag,
-  FaEdit,
-  FaReply,
   FaCalendarAlt,
   FaRegCheckCircle,
   FaTags,
@@ -18,21 +16,22 @@ import {
 
 import { useAuth } from "../AuthContext/AuthContext"
 import { useNavigate } from "react-router-dom"
+import NewCategoryComponent from "./NewCategoryComponent"
 import GenerateReportHTML from "./GenerateReportHTML"
 
 const AdminDashboard = () => {
   const { token, userId } = useAuth()
   const [reports, setReports] = useState([])
+  const [sortField, setSortField] = useState("date")
   const [showDetailView, setShowDetailView] = useState(false)
   const [currentIndex, setCurrentIndex] = useState(null)
   const [selectedReport, setSelectedReport] = useState(null)
-  const [sortField, setSortField] = useState("date")
   const [sortOrder, setSortOrder] = useState("asc")
-  const [showReplyComponent, setShowReplyComponent] = useState(false)
   const navigate = useNavigate()
-  const priorities = ["Low", "Medium", "High", "Resolved"]
   const statuses = ["Open", "Closed", "Resolved"]
   const [unopenedCount, setUnopenedCount] = useState(0)
+  const [priorityClicks, setPriorityClicks] = useState({})
+  const priorities = ["Low", "Medium", "High", "Resolved"]
 
   useEffect(() => {
     const fetchReports = async () => {
@@ -76,10 +75,8 @@ const AdminDashboard = () => {
     setShowDetailView(true)
     markAsRead(report.id)
   }
-
   const markAsRead = async (reportId) => {
-    // Logic to mark report as read by changing its status to 'opened'
-    // You can use a fetch or axios call here to update the report status in the database
+    handleStatusChange(reportId, "Opened")
   }
 
   const navigateReport = (direction) => {
@@ -88,10 +85,6 @@ const AdminDashboard = () => {
       setCurrentIndex(newIndex)
       setSelectedReport(sortedReports[newIndex])
     }
-  }
-
-  const toggleSortOrder = () => {
-    setSortOrder(sortOrder === "asc" ? "desc" : "asc")
   }
 
   const sortedReports = useMemo(() => {
@@ -112,11 +105,6 @@ const AdminDashboard = () => {
         if (a.status === "Resolved") return -1
         if (b.status === "Resolved") return 1
       }
-      if (sortField === "category") {
-        if (a.category.name === b.category.name) return 0
-        if (a.category.name < b.category.name) return -1
-        if (a.category.name > b.category.name) return 1
-      }
 
       if (sortField === "priority") {
         if (a.priority === b.priority) return 0
@@ -133,10 +121,6 @@ const AdminDashboard = () => {
       return 0
     })
   }, [reports, sortField, sortOrder])
-
-  const handleReply = () => {
-    setShowReplyComponent(!showReplyComponent)
-  }
 
   useEffect(() => {
     const newUnopenedCount = reports.filter(
@@ -160,11 +144,16 @@ const AdminDashboard = () => {
         return ""
     }
   }
-
   const handlePriorityChange = async (reportId, currentPriority) => {
-    const currentPriorityIndex = priorities.indexOf(currentPriority)
-    const nextPriorityIndex = (currentPriorityIndex + 1) % priorities.length
-    const nextPriority = priorities[nextPriorityIndex]
+    const newPriorityClicks = { ...priorityClicks }
+    newPriorityClicks[reportId] = (newPriorityClicks[reportId] || 0) + 1
+
+    if (newPriorityClicks[reportId] > 4) {
+      newPriorityClicks[reportId] = 1
+    }
+
+    const nextPriority = priorities[newPriorityClicks[reportId] - 1]
+    setPriorityClicks(newPriorityClicks)
 
     const myHeaders = new Headers()
     myHeaders.append("Authorization", `Bearer ${token}`)
@@ -233,24 +222,6 @@ const AdminDashboard = () => {
     }
   }
 
-  const handleCategoryCreation = async (newCategory) => {
-    const myHeaders = new Headers()
-    myHeaders.append("Authorization", `Bearer ${token}`)
-    try {
-      await fetch(
-        `https://whistle-blower-server.vercel.app/categories/create`,
-        {
-          method: "POST",
-          headers: myHeaders,
-          body: JSON.stringify({ status: newCategory }),
-        }
-      )
-      console.log(`Created new category!`)
-    } catch (error) {
-      console.error(`Failed to create new categoty!`, error)
-    }
-  }
-
   return (
     <div className="dashboard">
       <header className="header">
@@ -278,9 +249,7 @@ const AdminDashboard = () => {
             <button onClick={() => navigate("/create-new-admin")}>
               Create New Admin
             </button>
-            <button onClick={handleCategoryCreation}>
-              Create new category
-            </button>
+            <NewCategoryComponent />
           </div>
         </aside>
         <section className="content">
@@ -304,24 +273,23 @@ const AdminDashboard = () => {
             >
               <FaExclamationTriangle size={18} />
             </span>
-            <button onClick={toggleSortOrder}>
-              Toggle Sort Order (Current: {sortOrder})
-            </button>
-            <span
+
+            {/*<span
               onClick={() => setSortOrder("desc")}
               title="Descending Order"
-            ></span>
+            >  <button onClick={toggleSortOrder}>
+              Toggle Sort Order (Current: {sortOrder})
+            </button></span>*/}
           </div>
-          <h2>Admin Inbox</h2>
+          {/*<h2>Admin Inbox</h2>*/}
           <div className="report-section">
             <table className={`report-table ${showDetailView ? "hidden" : ""}`}>
               <thead>
                 <tr>
                   <th>Title</th>
                   <th>Status</th>
-                  <th>Priority</th>
                   <th>Date</th>
-                  <th>Actions</th>
+                  <th>Priority</th>
                 </tr>
               </thead>
               <tbody>
@@ -334,27 +302,12 @@ const AdminDashboard = () => {
                     <td>{report.title}</td>
                     <td>{report.status}</td>
                     <td>{report.priority}</td>
-                    <td>{report.date}</td>
                     <td>
-                      <button onClick={() => handleReply(report.id)}>
-                        <FaReply />
-                      </button>
-                      <button
-                        onClick={() =>
-                          handlePriorityChange(report.id, report.priority)
-                        }
-                      >
-                        <FaFlag
-                          color={getFlagColor(report.priority, report.status)}
-                        />
-                      </button>
-                      <button
-                        onClick={() =>
-                          handleStatusChange(report.id, report.status)
-                        }
-                      >
-                        <FaEdit />
-                      </button>
+                      <FaFlag
+                        style={{
+                          color: getFlagColor(report.priority, report.status),
+                        }}
+                      />
                     </td>
                   </tr>
                 ))}
@@ -388,10 +341,14 @@ const AdminDashboard = () => {
                       }
                     >
                       <FaFlag
-                        color={getFlagColor(
-                          selectedReport.priority,
-                          selectedReport.status
-                        )}
+                        style={{
+                          color: getFlagColor(
+                            priorities[
+                              (priorityClicks[selectedReport.id] || 0) - 1
+                            ],
+                            selectedReport.status
+                          ),
+                        }}
                       />
                     </button>
                     <button onClick={() => setShowDetailView(false)}>
@@ -401,32 +358,44 @@ const AdminDashboard = () => {
                 </div>
                 <div className="detailes">
                   <div className="detailed-header">
-                <h3>Report Details</h3>  <p className="detailed-status">
-                    Status: {selectedReport.status}
-                  </p>
+                    {/*<h3>Report Details</h3> */}
+                    <p className="detailed-status">
+                      Status: {selectedReport.status}
+                    </p>{" "}
+                    <button
+                      onClick={() =>
+                        handleStatusChange(
+                          selectedReport.id,
+                          selectedReport.status
+                        )
+                      }
+                    >
+                      Change Status
+                    </button>
                   </div>
-                <div
-                  className="report-content"
-                  style={{ overflowY: "scroll", maxHeight: "400px" }}
-                >
-                  <p className="detailed-title">{selectedReport.title}</p>
-                
-                  <p className="detailed-description">
-                    {selectedReport.description}
-                  </p>
-                  {selectedReport.media && (
-                    <p className="detailed-media">
-                      Media:{" "}
-                      <a
-                        href={selectedReport.media}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        View Media
-                      </a>
+                  <div
+                    className="report-content"
+                    style={{ overflowY: "scroll", maxHeight: "400px" }}
+                  >
+                    <p className="detailed-title">{selectedReport.title}</p>
+
+                    <p className="detailed-description">
+                      {selectedReport.description}
                     </p>
-                  )}
-</div>
+                    {selectedReport.media && (
+                      <p className="detailed-media">
+                        Media:{" "}
+                        <a
+                          href={selectedReport.media}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          View Media
+                        </a>
+                        {/*[TODO: Display media here]*/}
+                      </p>
+                    )}
+                  </div>
                   <ReplyComponent reportId={selectedReport} userId={userId} />
                 </div>
               </div>

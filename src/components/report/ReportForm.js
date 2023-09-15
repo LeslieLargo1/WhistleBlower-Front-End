@@ -149,6 +149,7 @@ const ReportForm = () => {
             <h2>Report Form</h2>
           </div>
           <div className="top">
+            <div className="title-container">
             <label htmlFor="title">Title</label>
             <input
               type="text"
@@ -158,6 +159,7 @@ const ReportForm = () => {
               onChange={handleChange}
               required={true}
             />
+            </div>
             <div className="flex-container top">
               <div className="category">
                 <label htmlFor="categoryId">Category</label>
@@ -189,10 +191,10 @@ const ReportForm = () => {
           </div>
         </div>
 
-        <div className="media">
+        {/*<div className="media">
           <label htmlFor="media">Media</label>
           <input type="file" id="media" name="media" onChange={handleChange} />
-        </div>
+        </div>*/}
         <div className="buttons">
           <button type="submit">Submit Report</button>
         </div>
