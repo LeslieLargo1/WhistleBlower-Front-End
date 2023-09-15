@@ -86,6 +86,7 @@ const Register = () => {
           <div className="emailSection">
             <label htmlFor="email">Email:</label>
             <input
+              className="inputText"
               type="email"
               id="email"
               name="email"
