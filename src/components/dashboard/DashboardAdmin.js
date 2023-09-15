@@ -399,19 +399,20 @@ const AdminDashboard = () => {
                     </button>
                   </div>
                 </div>
-                <h3>Report Details</h3>
+                <div className="detailes">
+                  <div className="detailed-header">
+                <h3>Report Details</h3>  <p className="detailed-status">
+                    Status: {selectedReport.status}
+                  </p>
+                  </div>
                 <div
                   className="report-content"
                   style={{ overflowY: "scroll", maxHeight: "400px" }}
                 >
-                  <p className="detailed-title">
-                    Title: {selectedReport.title}
-                  </p>
-                  <p className="detailed-status">
-                    Status: {selectedReport.status}
-                  </p>
+                  <p className="detailed-title">{selectedReport.title}</p>
+                
                   <p className="detailed-description">
-                    Description: {selectedReport.description}
+                    {selectedReport.description}
                   </p>
                   {selectedReport.media && (
                     <p className="detailed-media">
@@ -425,7 +426,7 @@ const AdminDashboard = () => {
                       </a>
                     </p>
                   )}
-
+</div>
                   <ReplyComponent reportId={selectedReport} userId={userId} />
                 </div>
               </div>
