@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react"
 import { useAuth } from "../AuthContext/AuthContext"
-
+import { FaEdit, FaTrash, FaPaperPlane } from "react-icons/fa"
+import "./styles/style.css"
 const ReplyComponent = ({ reportId }) => {
   const [replies, setReplies] = useState([])
   const [newReply, setNewReply] = useState("")
   const [replyIdToEditOrDelete, setReplyIdToEditOrDelete] = useState("")
   const { token, userId } = useAuth()
+  let lastDate = null
 
   const fetchReplies = async () => {
     const headers = new Headers()
@@ -34,8 +36,8 @@ const ReplyComponent = ({ reportId }) => {
       headers.append("Content-Type", "application/json")
 
       const payload = {
-        reportId: reportId.id,
-        userId: userId,
+        report_id: reportId.id,
+        user_id: userId,
         text: newReply,
       }
 
@@ -55,14 +57,15 @@ const ReplyComponent = ({ reportId }) => {
         )
         const result = await response.json()
 
-        if (response.status === 401) {
-          console.error("Authentication failed. Invalid token.")
-        }
         if (response.ok) {
           setNewReply("")
           setReplies([...replies, result.data])
         } else {
-          console.error(`Failed to submit reply: ${response.status}`)
+          console.error(
+            `Failed to submit reply: ${response.status}, ${JSON.stringify(
+              result
+            )}`
+          )
         }
       } catch (error) {
         console.error(`Failed to submit reply: ${error}`)
@@ -117,22 +120,58 @@ const ReplyComponent = ({ reportId }) => {
   return (
     <div className="reply-section">
       <h4>Replies</h4>
-      {replies.map((reply, index) => (
-        <div key={index} className="reply-item">
-          {reply.text}
-          <button onClick={() => setReplyIdToEditOrDelete(reply.id)}>
-            Select
-          </button>
-        </div>
-      ))}
-      <textarea
-        value={newReply}
-        onChange={(e) => setNewReply(e.target.value)}
-        placeholder="Write your reply..."
-      />
-      <button onClick={handleReplySubmit}>Submit Reply</button>
-      <button onClick={editReply}>Edit Selected Reply</button>
-      <button onClick={deleteReply}>Delete Selected Reply</button>
+      {replies.map((reply, index) => {
+        const date = new Date(reply.created_at)
+        const displayDate = date.toDateString()
+        const displayTime = date.toLocaleTimeString("en-US", {
+          hour: "2-digit",
+          minute: "2-digit",
+        })
+        const showDate = lastDate !== displayDate
+        lastDate = displayDate
+
+        return (
+          <div
+            key={index}
+            className={`reply-item ${
+              userId === reply.user_id ? "my-reply" : "other-reply"
+            }`}
+          >
+            {showDate && <div className="reply-date">{displayDate}</div>}
+            <div className="reply-content">
+              <span className="reply-author-time">
+                {reply.username}{" "}
+                <span className="reply-time">({displayTime})</span>
+              </span>
+              : {reply.text}
+            </div>
+            <div className="reply-actions">
+              {userId === reply.user_id && (
+                <>
+                  <button onClick={() => setReplyIdToEditOrDelete(reply.id)}>
+                    <FaEdit />
+                  </button>
+                  <button onClick={() => deleteReply(reply.id)}>
+                    <FaTrash />
+                  </button>
+                </>
+              )}
+            </div>
+          </div>
+        )
+      })}
+
+      <div className="reply-input">
+        <span>{userId}: </span>
+        <textarea
+          value={newReply}
+          onChange={(e) => setNewReply(e.target.value)}
+          placeholder="Write your reply..."
+        />
+        <button onClick={handleReplySubmit}>
+          <FaPaperPlane />
+        </button>
+      </div>
     </div>
   )
 }
