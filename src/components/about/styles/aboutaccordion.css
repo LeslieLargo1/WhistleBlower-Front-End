@@ -41,7 +41,7 @@
 }
 
 
-img {
+.imgage {
     max-width: 300px;
     max-height: 300px;
     /* width: 80vw;
@@ -56,6 +56,11 @@ img {
         height: 37vh;
         overflow-y: auto;
 
+    }
+
+    .imgage {
+        max-width: 200px;
+        max-height: 150px;
     }
 
 }
