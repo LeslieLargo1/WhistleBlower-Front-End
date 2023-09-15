@@ -168,7 +168,6 @@ const ReportForm = () => {
                   name="categoryId"
                   value={formData.categoryId}
                   onChange={handleChange}
-                  required
                 >
                   {categories.map((category) => (
                     <option key={category.id} value={category.id}>
