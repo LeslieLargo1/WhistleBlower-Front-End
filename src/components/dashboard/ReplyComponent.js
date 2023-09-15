@@ -24,8 +24,9 @@ const ReplyComponent = ({ reportId }) => {
   }, [reportId, token])
 
   const handleReplySubmit = async () => {
-    console.log(`Report ID: ${reportId.id}, New Reply: ${newReply}, Token: ${token}, User ID: ${userId}`);
-
+    console.log(
+      `Report ID: ${reportId.id}, New Reply: ${newReply}, Token: ${token}, User ID: ${userId}`
+    )
 
     if (reportId.id && newReply && token && userId) {
       const headers = new Headers()
@@ -38,7 +39,7 @@ const ReplyComponent = ({ reportId }) => {
         text: newReply,
       }
 
-      console.log("Payload:", payload)
+      console.log("Payload before sending:", JSON.stringify(payload))
 
       try {
         const requestOptions = {

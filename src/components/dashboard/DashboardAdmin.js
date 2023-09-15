@@ -18,7 +18,7 @@ import {
 
 import { useAuth } from "../AuthContext/AuthContext"
 import { useNavigate } from "react-router-dom"
-import PdfGeneratorComponent from "./PdfGeneratorComponent"
+import GenerateReportHTML from "./GenerateReportHTML"
 
 const AdminDashboard = () => {
   const { token, userId } = useAuth()
@@ -365,7 +365,7 @@ const AdminDashboard = () => {
                 <div className="detail-actions">
                   <div className="right">
                     {selectedReport && selectedReport.id && (
-                      <PdfGeneratorComponent reportId={selectedReport.id} />
+                      <GenerateReportHTML report={selectedReport} />
                     )}
                   </div>
                   <div className="left">
