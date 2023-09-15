@@ -11,9 +11,6 @@ const Homepage = () => {
 
   return (
     <>
-      {/* <div className="hero-image">
-        <div className="overlay"></div>
-      </div> */}
       <div className="home-page">
         <div className="content-container">
           <h1 className="title-hero">Whistleblower</h1>
