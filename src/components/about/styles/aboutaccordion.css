@@ -21,7 +21,8 @@
     padding-right: 6rem;
     display: flex;
     justify-content: space-between;
-
+    text-align: center;
+    align-items: center;
     cursor: pointer;
     font-size: 15px;
 }
@@ -40,7 +41,7 @@
 }
 
 
-img {
+.imgage {
     max-width: 300px;
     max-height: 300px;
     /* width: 80vw;
@@ -49,9 +50,31 @@ img {
 
 }
 
+@media only screen and (max-width: 300px) {
+    .answerAbout {
+
+        height: 37vh;
+        overflow-y: auto;
+
+    }
+
+    .imgage {
+        max-width: 200px;
+        max-height: 150px;
+    }
+
+}
+
 @media only screen and (max-width: 767px) {
     .aboutTitle {
         padding-left: 2rem;
         padding-right: 2rem;
+    }
+
+    .answerAbout {
+
+        height: 37vh;
+        overflow-y: auto;
+
     }
 }

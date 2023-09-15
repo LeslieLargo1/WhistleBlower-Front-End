@@ -48,6 +48,7 @@
   width: 48%;
 }
 
+
 .description {
   width: 100%;
 }
@@ -56,13 +57,48 @@
   height: 13rem;
 }
 
+.top {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  width: 100%;
+}
+
+.buttom {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  width: 100%;
+
+}
+
+.category,
+.priority {
+  width: 50%;
+  padding-left: 2px;
+}
+
+.checkboxes {
+  display: flex;
+  flex-direction: row;
+}
+
+.checkbox {
+  width: 50%;
+}
+
+.inline-container {
+  display: flex;
+  justify-content: space-between;
+}
+
 label {
   display: block;
   margin: 1rem 0;
   font-weight: bold;
 }
 
-input[type="text"],
+input[className="inputText"],
 textarea,
 select,
 input[type="file"] {
@@ -70,6 +106,7 @@ input[type="file"] {
   padding: 0.5rem;
   border: 1px solid #ccc;
   border-radius: 3px;
+  border: 1px solid rgba(0, 0, 0, 0.3);
 }
 
 .buttons {
@@ -94,13 +131,10 @@ button:hover {
 }
 
 @media (max-width: 768px) {
-  .top, .checkboxes {
-    flex-direction: column;
-    width: 100%;
-  }
 
-  .category,
-  .checkbox {
+  .flex-container,
+  .inline-container {
+    flex-direction: column;
     width: 100%;
   }
 }

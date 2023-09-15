@@ -13,16 +13,19 @@
   background-repeat: no-repeat;
   width: 50%;
   height: 100vh;
+  border-radius: 5px 0 0 5px;
 }
 
 .register-right {
   width: 50%;
   padding: 2rem;
+  border-radius: 0.5em;
 }
 
 .register-right h1 {
   margin-bottom: 1rem;
   color: #2f8ab1;
+
 }
 
 .login {
@@ -38,6 +41,7 @@
   flex-direction: column;
   align-items: flex-start;
   margin-bottom: 1rem;
+
 }
 
 
@@ -51,6 +55,7 @@
   form input {
     width: 90%;
     padding: 0.5rem 1rem;
+
   }
 
   .registerLeft {
