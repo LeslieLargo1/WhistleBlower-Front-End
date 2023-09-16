@@ -364,10 +364,43 @@ tbody tr:hover {
   color: #bcbcc2;
 }
 
-.reply-content,
-.reply-author-time {
-  padding: 0.5rem;
-  border-radius: 0.3rem;
+.reply-content {
+  display: flex;
+  flex-direction: row;
+}
+
+.admin-reply .repadmin-reply .reply-content,
+.admin-reply .reply-author-time {
+  justify-content: flex-start;
+}
+
+.client-reply .reply-content,
+.client-reply .reply-author-time {
+  justify-content: flex-end;
+}
+
+.reply-author {
+  font-size: 0.8rem;
+  color: var(--accent-color);
+  font-weight: bold;
+  margin-left: 10px;
+}
+
+.reply-author-time, .reply-text {
+  display: flex;
+  align-items: center;
+  margin: 0 10px 0 10px;; 
+  opacity: 0.7;
+}
+
+.my-reply.admin-reply .reply-content,
+.other-reply.admin-reply .reply-content {
+  justify-content: flex-start;
+}
+
+.my-reply.client-reply .reply-content,
+.other-reply.client-reply .reply-content {
+  justify-content: flex-end;
 }
 
 /*.reply-time {
@@ -380,7 +413,7 @@ tbody tr:hover {
 .reply-actions {
   align-self: flex-end;
   font-size: 1.2rem;
-  color: #666;
+  color: #545454;
 }
 
 .reply-input {

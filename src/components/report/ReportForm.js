@@ -93,6 +93,7 @@ const ReportForm = () => {
       description: formData.description,
       isAnonymous: formData.isAnonymous,
       involveOthers: formData.involveOthers,
+      categoryId: formData.categoryId,
       media: mediaUrl,
     })
 

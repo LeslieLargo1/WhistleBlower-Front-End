@@ -12,7 +12,8 @@ const Register = () => {
   })
 
   const navigate = useNavigate()
-  const { setToken } = useAuth()
+  const { setToken, setUserId, setUserRoleId, setUserRole, setUsername } =
+    useAuth()
   const [feedbackMessage, setFeedbackMessage] = useState("")
 
   const handleChange = (e) => {
@@ -44,6 +45,23 @@ const Register = () => {
         if (data.success) {
           console.log("Registration successful")
           setToken(data.token)
+          setUserId(data.user.id)
+          setUserRoleId(data.user.id)
+          sessionStorage.setItem("token", data.token)
+          sessionStorage.setItem("userId", data.user.id)
+          sessionStorage.setItem("role", data.user.role)
+          sessionStorage.setItem("userRoleId", data.user.id)
+          setFeedbackMessage("Login successful! Redirecting...")
+          const userRole = data.user?.role || "client"
+          setUserRole(userRole)
+          const username = data.user?.username || ""
+          setUsername(username)
+          sessionStorage.setItem("username", username)
+          if (userRole === "admin") {
+            navigate("/dashboard/admin")
+          } else {
+            navigate("/dashboard/client")
+          }
           setFeedbackMessage("Registration successful! Redirecting...")
           if (data.role === "admin") {
             navigate("/dashboard/admin")

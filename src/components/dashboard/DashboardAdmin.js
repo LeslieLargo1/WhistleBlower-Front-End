@@ -20,6 +20,8 @@ import NewCategoryComponent from "./NewCategoryComponent"
 import GenerateReportHTML from "./GenerateReportHTML"
 
 const AdminDashboard = () => {
+  const navigate = useNavigate()
+
   const { token, userId } = useAuth()
   const [reports, setReports] = useState([])
   const [sortField, setSortField] = useState("date")
@@ -27,11 +29,13 @@ const AdminDashboard = () => {
   const [currentIndex, setCurrentIndex] = useState(null)
   const [selectedReport, setSelectedReport] = useState(null)
   const [sortOrder, setSortOrder] = useState("asc")
-  const navigate = useNavigate()
   const statuses = ["Open", "Closed", "Resolved"]
   const [unopenedCount, setUnopenedCount] = useState(0)
   const [priorityClicks, setPriorityClicks] = useState({})
   const priorities = ["Low", "Medium", "High", "Resolved"]
+  const [statusMessage, setStatusMessage] = useState("")
+  const [adminSetFlagColor, setAdminSetFlagColor] = useState("")
+  const [flagColors, setFlagColors] = useState({})
 
   useEffect(() => {
     const fetchReports = async () => {
@@ -90,9 +94,9 @@ const AdminDashboard = () => {
   const sortedReports = useMemo(() => {
     return [...reports].sort((a, b) => {
       if (sortField === "date") {
-        const dateA = new Date(a.date)
-        const dateB = new Date(b.date)
-        return sortOrder === "asc" ? dateA - dateB : dateB - dateA
+        const dateA = new Date(a.submitted_at)
+        const dateB = new Date(b.submitted_at)
+        return dateB - dateA
       }
       if (sortField === "status") {
         if (a.status === b.status) return 0
@@ -129,21 +133,27 @@ const AdminDashboard = () => {
     setUnopenedCount(newUnopenedCount)
   }, [reports])
 
-  const getFlagColor = (priority, status) => {
-    if (status === "Resolved") {
-      return "green"
-    }
-    switch (priority) {
-      case "High":
-        return "red"
-      case "Medium":
-        return "orange"
-      case "Low":
-        return "yellow"
-      default:
-        return ""
-    }
+  const getFlagColor = (reportId, priority, status) => {
+    return flagColors[reportId]
+      ? flagColors[reportId]
+      : status === "Resolved"
+      ? "green"
+      : priority === "High"
+      ? "red"
+      : priority === "Medium"
+      ? "orange"
+      : priority === "Low"
+      ? "yellow"
+      : ""
   }
+
+  const handleAdminSetColor = (reportId, color) => {
+    setFlagColors({
+      ...flagColors,
+      [reportId]: color,
+    })
+  }
+
   const handlePriorityChange = async (reportId, currentPriority) => {
     const newPriorityClicks = { ...priorityClicks }
     newPriorityClicks[reportId] = (newPriorityClicks[reportId] || 0) + 1
@@ -211,6 +221,7 @@ const AdminDashboard = () => {
             report.id === reportId ? { ...report, status: nextStatus } : report
           )
         )
+        setStatusMessage(`Report ${reportId} changed to ${nextStatus}`)
         console.log(`Status of report ${reportId} changed to ${nextStatus}`)
       } else {
         console.error(
@@ -287,7 +298,6 @@ const AdminDashboard = () => {
               <thead>
                 <tr>
                   <th>Title</th>
-                  <th>Status</th>
                   <th>Date</th>
                   <th>Priority</th>
                 </tr>
@@ -298,14 +308,20 @@ const AdminDashboard = () => {
                     key={report.id}
                     onClick={() => handleReportClick(report, index)}
                   >
-                    {" "}
                     <td>{report.title}</td>
-                    <td>{report.status}</td>
-                    <td>{report.priority}</td>
+                    <td>
+                      {report.submitted_at
+                        ? new Date(report.submitted_at).toLocaleDateString()
+                        : "Date Not Available"}
+                    </td>
                     <td>
                       <FaFlag
                         style={{
-                          color: getFlagColor(report.priority, report.status),
+                          color: getFlagColor(
+                            report.id,
+                            report.priority,
+                            report.status
+                          ),
                         }}
                       />
                     </td>
@@ -313,6 +329,7 @@ const AdminDashboard = () => {
                 ))}
               </tbody>
             </table>
+
             {showDetailView && (
               <div className="report-details">
                 <div className="detail-actions">
@@ -332,37 +349,73 @@ const AdminDashboard = () => {
                         <FaArrowRight />
                       </button>
                     )}
+                    {/*<FaFlag
+                      style={{
+                        color: getFlagColor(
+                          selectedReport.id,
+                          selectedReport.priority,
+                          selectedReport.status
+                        ),
+                      }}
+                    />*/}
                     <button
-                      onClick={() =>
+                      onClick={() => {
+                        handleAdminSetColor(selectedReport.id, "yellow")
                         handlePriorityChange(
                           selectedReport.id,
                           selectedReport.priority
                         )
-                      }
+                      }}
                     >
-                      <FaFlag
-                        style={{
-                          color: getFlagColor(
-                            priorities[
-                              (priorityClicks[selectedReport.id] || 0) - 1
-                            ],
-                            selectedReport.status
-                          ),
-                        }}
-                      />
+                      Low
+                    </button>
+                    <button
+                      onClick={() => {
+                        handleAdminSetColor(selectedReport.id, "orange")
+                        handlePriorityChange(
+                          selectedReport.id,
+                          selectedReport.priority
+                        )
+                      }}
+                    >
+                      Medium
+                    </button>
+                    <button
+                      onClick={() => {
+                        handleAdminSetColor(selectedReport.id, "red")
+                        handlePriorityChange(
+                          selectedReport.id,
+                          selectedReport.priority
+                        )
+                      }}
+                    >
+                      High
+                    </button>
+                    <button
+                      onClick={() => {
+                        handleAdminSetColor(selectedReport.id, "green")
+                        handlePriorityChange(
+                          selectedReport.id,
+                          selectedReport.priority
+                        )
+                      }}
+                    >
+                      Resolved
                     </button>
                     <button onClick={() => setShowDetailView(false)}>
                       Go Back
                     </button>
                   </div>
                 </div>
+
                 <div className="detailes">
                   <div className="detailed-header">
                     {/*<h3>Report Details</h3> */}
                     <p className="detailed-status">
                       Status: {selectedReport.status}
+                      {statusMessage && <span> ({statusMessage})</span>}
                     </p>{" "}
-                    <button
+                    {/*<button
                       onClick={() =>
                         handleStatusChange(
                           selectedReport.id,
@@ -371,14 +424,13 @@ const AdminDashboard = () => {
                       }
                     >
                       Change Status
-                    </button>
+                    </button>*/}
                   </div>
                   <div
                     className="report-content"
                     style={{ overflowY: "scroll", maxHeight: "400px" }}
                   >
                     <p className="detailed-title">{selectedReport.title}</p>
-
                     <p className="detailed-description">
                       {selectedReport.description}
                     </p>
@@ -394,7 +446,10 @@ const AdminDashboard = () => {
                         </a>
                         {/*[TODO: Display media here]*/}
                       </p>
-                    )}
+                    )}{" "}
+                    {/*<p className="detailed-category">
+                      Category: {selectedReport.category}
+                    </p>{" "}*/}
                   </div>
                   <ReplyComponent reportId={selectedReport} userId={userId} />
                 </div>

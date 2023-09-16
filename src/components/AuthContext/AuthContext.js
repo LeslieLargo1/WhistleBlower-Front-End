@@ -18,6 +18,8 @@ export const AuthProvider = ({ children }) => {
   const [userRole, setUserRole] = useState(
     sessionStorage.getItem("userRole") || null
   )
+  
+  console.log("userRole: ", userRole)
   const [username, setUsername] = useState(
     sessionStorage.getItem("username") || null
   )
