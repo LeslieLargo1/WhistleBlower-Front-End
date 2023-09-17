@@ -1,6 +1,6 @@
 .section1 {
 
-    /* height: 70vh; gives height of box */
+    height: 70vh; 
     display: flex;
     justify-content: center;
     justify-items: center;
@@ -9,7 +9,6 @@
 
 .aboutAccordion {
     width: 100%;
-    /* lock accoridon movement */
     max-height: 0px;
 }
 
@@ -29,7 +28,7 @@
 
 .answerAbout {
     display: flex;
-    /* flex-direction: row-reverse; */
+    flex-direction: row-reverse;
     background-color: #f1f1f1;
     padding: 10px;
     border-radius: 0.5em;
@@ -44,8 +43,8 @@
 .imgage {
     max-width: 300px;
     max-height: 300px;
-    /* width: 80vw;
-    height: 35vh; */
+    width: 80vw;
+    height: 35vh;
     padding: 4rem;
 
 }

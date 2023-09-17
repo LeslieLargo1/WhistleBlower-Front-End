@@ -1,6 +1,6 @@
 import React from "react"
 import "./styles/style.css"
-import Aboutaccordion from "./Aboutaccordion.js"
+import Aboutaccordion from "./AboutAccordion.js"
 
 const About = () => {
   return (

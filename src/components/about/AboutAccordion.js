@@ -1,5 +1,5 @@
 import { useState } from "react"
-import "./styles/aboutaccordion.css"
+import "./styles/aboutAccordion.css"
 
 const Aboutaccordion = () => {
     const [selected, setSelected] = useState(null)
