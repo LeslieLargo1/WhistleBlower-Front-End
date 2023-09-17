@@ -65,7 +65,8 @@ const ReportForm = () => {
   }
   const handleSubmit = async (e) => {
     e.preventDefault()
-
+    const date = new Date()
+    const formattedDate = `${date.getFullYear()}-${date.getMonth()}-${date.getDate()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`
     let mediaUrl = ""
     if (formData.media) {
       mediaUrl = await uploadMedia()
