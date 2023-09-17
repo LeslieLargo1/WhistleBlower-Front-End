@@ -44,6 +44,7 @@ const Login = () => {
           setToken(data.token)
           setUserId(data.user.id)
           setUserRoleId(data.user.id)
+          sessionStorage.setItem("token", data.token); 
           sessionStorage.setItem("userId", data.user.id)
           sessionStorage.setItem("role", data.user.role)
           sessionStorage.setItem("userRoleId", data.user.id)

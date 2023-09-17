@@ -12,28 +12,10 @@ import "./styles/style.css"
 
 const ReplyComponent = ({ reportId }) => {
   const [replies, setReplies] = useState([])
-  const { token, userId, username, role } = useAuth()
+  const { token, userId, username, userRole } = useAuth()
   const [newReply, setNewReply] = useState("")
   const [replyIdToEditOrDelete, setReplyIdToEditOrDelete] = useState("")
   let lastDate = null
-
-  const fetchReplies = async () => {
-    const headers = new Headers()
-    headers.append("Authorization", `Bearer ${token}`)
-    const response = await fetch(
-      `https://whistle-blower-server.vercel.app/replies/${reportId.id}`,
-      { headers }
-    )
-    const data = await response.json()
-    const fetchedReplies = data.data || []
-
-    localStorage.setItem(
-      `replies_${reportId.id}`,
-      JSON.stringify(fetchedReplies)
-    )
-
-    setReplies(fetchedReplies)
-  }
 
   useEffect(() => {
     const storedReplies = localStorage.getItem(`replies_${reportId.id}`)
@@ -44,10 +26,26 @@ const ReplyComponent = ({ reportId }) => {
     }
   }, [reportId, token])
 
-  const handleReplySubmit = async () => {
-    console.log(
-      `Report ID: ${reportId.id}, New Reply: ${newReply}, Token: ${token}, User ID: ${userId} Username: ${username}`
+  const fetchReplies = async () => {
+    const headers = new Headers()
+    headers.append("Authorization", `Bearer ${token}`)
+    const response = await fetch(
+      `https://whistle-blower-server.vercel.app/replies/${reportId.id}`,
+      { headers }
     )
+    const data = await response.json()
+    const fetchedReplies = data.data || []
+    localStorage.setItem(
+      `replies_${reportId.id}`,
+      JSON.stringify(fetchedReplies)
+    )
+    setReplies(fetchedReplies)
+  }
+
+  const handleReplySubmit = async () => {
+    //console.log(
+    //  `Report ID: ${reportId.id}, New Reply: ${newReply}, Token: ${token}, User ID: ${userId} Username: ${username} Role: ${userRole}`
+    //)
 
     if (reportId.id && newReply && token && userId) {
       const headers = new Headers()
@@ -58,9 +56,11 @@ const ReplyComponent = ({ reportId }) => {
         report_id: reportId.id,
         user_id: userId,
         text: newReply,
+        username: username,
+        role: userRole,
       }
 
-      console.log("Payload before sending:", JSON.stringify(payload))
+      //console.log("Payload before sending:", JSON.stringify(payload))
 
       try {
         const requestOptions = {
@@ -147,10 +147,14 @@ const ReplyComponent = ({ reportId }) => {
       {replies.map((reply, index) => {
         const date = new Date(reply.created_at)
         const displayDate = date.toDateString()
+        const replyUsername = reply.username
+        const replyRole = reply.role
         //const displayTime = date.toLocaleTimeString("en-US", {
         //  hour: "2-digit",
         //  minute: "2-digit",
         //})
+        //console.log("Full reply object:", reply)
+
         const showDate = lastDate !== displayDate
         lastDate = displayDate
 
@@ -159,22 +163,23 @@ const ReplyComponent = ({ reportId }) => {
             key={index}
             className={`reply-item ${
               userId === reply.user_id ? "my-reply" : "other-reply"
-            }`}
+            } ${replyRole === "Admin" ? "admin-reply" : "client-reply"}`}
           >
             {showDate && <div className="reply-date">{displayDate}</div>}
             <div className="reply-content">
               <span className="reply-author-time">
-                {role === "Admin" ? (
+                {replyRole === "Admin" ? (
                   <FaUserAstronaut size={18} title="Admin" />
-                ) : role === "Client" ? (
+                ) : replyRole === "Client" ? (
                   <FaUserNinja size={18} title="Client" />
                 ) : (
                   <FaUser size={18} title="Unknown" />
                 )}
-
-                {/*<span className="reply-time">({displayTime})</span>*/}
+                <span className="reply-author">
+                  {replyUsername ? replyUsername : userRole}:
+                </span>
               </span>
-              {reply.text}
+              <span className="reply-text">{reply.text}</span>
             </div>
             <div className="reply-actions">
               {userId === reply.user_id && (
@@ -195,9 +200,9 @@ const ReplyComponent = ({ reportId }) => {
       <div className="reply-input">
         <span>
           {" "}
-          {role === "Admin" ? (
+          {userRole === "Admin" ? (
             <FaUserAstronaut size={18} title="Admin" />
-          ) : role === "Client" ? (
+          ) : userRole === "Client" ? (
             <FaUserNinja size={18} title="Client" />
           ) : (
             <FaUser size={18} title="Unknown" />
