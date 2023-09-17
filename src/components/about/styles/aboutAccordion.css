@@ -1,73 +1,83 @@
 .section1 {
-    height: 70vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .aboutAccordion {
-    width: 100%;
-  }
-  
-  .aboutTitle {
-    border-radius: 0.5em;
-    background-color: white;
-    color: #2F8AB1;
-    padding: 0.5rem 2rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    cursor: pointer;
-    font-size: 15px;
-    transition: background-color 0.3s ease;
-  }
-  
-  .aboutTitle:hover {
-    background-color: #f1f1f1;
-  }
-  
-  .answerAbout {
-    display: flex;
-    justify-content: space-between;
-    padding: 1rem;
-    border-radius: 0.5em;
-    text-align: left;
-    align-items: center;
-    max-height: 35vh;
-    transition: max-height 0.3s ease-out;
-    overflow: hidden;
-    width: 80%;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.aboutAccordion {
+  width: 100%;
+}
+
+.aboutTitle {
+  border-radius: 0.5em;
+  background-color: white;
+  color: #2f8ab1;
+  padding: 0.5rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  font-size: 15px;
+  transition: background-color 0.3s ease;
+}
+
+.aboutTitle:hover {
+  background-color: #f1f1f1;
+}
+
+.answerAbout {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem;
+  border-radius: 0.5em;
+  text-align: left;
+  align-items: center;
+  max-height: 35vh;
+  overflow: hidden;
+  width: 80%;
   margin: 0 auto;
+  transition: all 0.3s ease-out;
+}
+
+.pic {
+  max-width: 30rem;
+  max-height: 150px;
+  margin-right: 1rem;
+  transition: all 0.3s ease;
+}
+
+@media only screen and (max-width: 767px) {
+  .aboutTitle {
+    padding: 0.3rem;
+    font-size: 0.9rem;
+    padding: 2px 1rem;
   }
-  
+
+  .answerAbout {
+    flex-direction: column;
+    padding: 0.8rem;
+  }
+
   .pic {
-    max-width: 30rem;
-    max-height: 150px;
-    margin-right: 1rem;
-    transition: all 0.3s ease;
+    display: none;
   }
-  
-  @media only screen and (max-width: 300px) {
-    .answerAbout {
-      height: 37vh;
-      overflow-y: auto;
-    }
-  
-    .pic {
-      max-width: 100px;
-      max-height: 100px;
-    }
+}
+
+@media only screen and (min-width: 768px) and (max-width: 1024px) {
+  .aboutTitle {
+    padding: 0.9rem;
+    font-size: 0.95rem;
   }
-  
-  @media only screen and (max-width: 767px) {
-    .aboutTitle {
-      padding-left: 1rem;
-      padding-right: 1rem;
-    }
-  
-    .answerAbout {
-      height: 37vh;
-      overflow-y: auto;
-    }
+
+  .answerAbout {
+    padding: 0.9rem;
   }
-  
+
+  .pic {
+    max-width: 130px;
+    max-height: 130px;
+    margin-right: 0.7rem;
+  }
+}
