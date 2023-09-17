@@ -138,7 +138,6 @@ button:hover {
 
   .flex-container,
   .inline-container {
-    flex-direction: column;
     width: 100%;
   }
 }

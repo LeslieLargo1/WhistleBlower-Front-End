@@ -65,25 +65,25 @@ const ReportForm = () => {
   }
   const handleSubmit = async (e) => {
     e.preventDefault()
-    const date = new Date()
-    const formattedDate = `${date.getFullYear()}-${date.getMonth()}-${date.getDate()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`
-    let mediaUrl = ""
-    if (formData.media) {
-      mediaUrl = await uploadMedia()
-    }
+    //const date = new Date()
+    //const formattedDate = `${date.getMonth()}-${date.getDate()}`
+    ////let mediaUrl = ""
+    //if (formData.media) {
+    //  mediaUrl = await uploadMedia()
+    //}
 
-    let base64Media = ""
-    if (formData.media) {
-      const reader = new FileReader()
-      reader.readAsDataURL(formData.media)
-      reader.onloadend = () => {
-        base64Media = reader.result.split(",")[1]
-      }
-      reader.onerror = () => {
-        console.error("FileReader error")
-        return
-      }
-    }
+    //let base64Media = ""
+    //if (formData.media) {
+    //  const reader = new FileReader()
+    //  reader.readAsDataURL(formData.media)
+    //  reader.onloadend = () => {
+    //    base64Media = reader.result.split(",")[1]
+    //  }
+    //  reader.onerror = () => {
+    //    console.error("FileReader error")
+    //    return
+    //  }
+    //}
 
     const myHeaders = new Headers()
     myHeaders.append("Authorization", `Bearer ${token}`)
@@ -95,9 +95,9 @@ const ReportForm = () => {
       isAnonymous: formData.isAnonymous,
       involveOthers: formData.involveOthers,
       categoryId: formData.categoryId,
-      submitted_at: formattedDate,
-      priorityId: formData.priorityId,
-      media: mediaUrl,
+      //submitted_at: formattedDate,
+      //priorityId: formData.priorityId,
+      //media: mediaUrl,
     })
 
     const requestOptions = {
@@ -192,7 +192,7 @@ const ReportForm = () => {
               required={true}
             />
           </div>{" "}
-          <div className="priority">
+          {/*<div className="priority">
             <label htmlFor="priorityId">Priority</label>
             <select
               id="priorityId"
@@ -204,7 +204,7 @@ const ReportForm = () => {
               <option value={2}>Medium</option>
               <option value={3}>High</option>
             </select>
-          </div>
+          </div>*/}
         </div>
         {/*<div className="media">
           <label htmlFor="media">Media</label>

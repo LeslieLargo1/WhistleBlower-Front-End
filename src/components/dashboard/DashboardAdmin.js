@@ -91,40 +91,21 @@ const AdminDashboard = () => {
     }
   }
 
+  const sortFunctions = {
+    date: (a, b) => new Date(b.submitted_at) - new Date(a.submitted_at),
+    status: (a, b) => statuses.indexOf(a.status) - statuses.indexOf(b.status),
+    priority: (a, b) => priorities.indexOf(a.priority) - priorities.indexOf(b.priority),
+  };
+  
   const sortedReports = useMemo(() => {
+    const sortFunction = sortFunctions[sortField] || (() => 0);
+    
     return [...reports].sort((a, b) => {
-      if (sortField === "date") {
-        const dateA = new Date(a.submitted_at)
-        const dateB = new Date(b.submitted_at)
-        return dateB - dateA
-      }
-      if (sortField === "status") {
-        if (a.status === b.status) return 0
-        if (a.status === "Unopened") return -1
-        if (b.status === "Unopened") return 1
-        if (a.status === "Opened") return -1
-        if (b.status === "Opened") return 1
-        if (a.status === "Closed") return -1
-        if (b.status === "Closed") return 1
-        if (a.status === "Resolved") return -1
-        if (b.status === "Resolved") return 1
-      }
-
-      if (sortField === "priority") {
-        if (a.priority === b.priority) return 0
-        if (a.priority === "Low") return -1
-        if (b.priority === "Low") return 1
-        if (a.priority === "Medium") return -1
-        if (b.priority === "Medium") return 1
-        if (a.priority === "High") return -1
-        if (b.priority === "High") return 1
-        if (a.priority === "Resolved") return -1
-        if (b.priority === "Resolved") return 1
-      }
-
-      return 0
-    })
-  }, [reports, sortField, sortOrder])
+      const orderFactor = sortOrder === 'asc' ? 1 : -1;
+      return orderFactor * sortFunction(a, b);
+    });
+  }, [reports, sortField, sortOrder]);
+  
 
   useEffect(() => {
     const newUnopenedCount = reports.filter(
