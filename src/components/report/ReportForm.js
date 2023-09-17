@@ -94,6 +94,8 @@ const ReportForm = () => {
       isAnonymous: formData.isAnonymous,
       involveOthers: formData.involveOthers,
       categoryId: formData.categoryId,
+      submitted_at: formattedDate,
+      priorityId: formData.priorityId,
       media: mediaUrl,
     })
 
@@ -151,15 +153,15 @@ const ReportForm = () => {
           </div>
           <div className="top">
             <div className="title-container">
-            <label htmlFor="title">Title</label>
-            <input
-              type="text"
-              id="title"
-              name="title"
-              value={formData.title}
-              onChange={handleChange}
-              required={true}
-            />
+              <label htmlFor="title">Title</label>
+              <input
+                type="text"
+                id="title"
+                name="title"
+                value={formData.title}
+                onChange={handleChange}
+                required={true}
+              />
             </div>
             <div className="flex-container top">
               <div className="category">
@@ -176,7 +178,7 @@ const ReportForm = () => {
                     </option>
                   ))}
                 </select>
-              </div>  
+              </div>
             </div>
           </div>
           <div className="description">
@@ -188,9 +190,21 @@ const ReportForm = () => {
               onChange={handleChange}
               required={true}
             />
+          </div>{" "}
+          <div className="priority">
+            <label htmlFor="priorityId">Priority</label>
+            <select
+              id="priorityId"
+              name="priorityId"
+              value={formData.priorityId}
+              onChange={handleChange}
+            >
+              <option value={1}>Low</option>
+              <option value={2}>Medium</option>
+              <option value={3}>High</option>
+            </select>
           </div>
         </div>
-
         {/*<div className="media">
           <label htmlFor="media">Media</label>
           <input type="file" id="media" name="media" onChange={handleChange} />

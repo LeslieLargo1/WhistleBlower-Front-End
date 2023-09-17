@@ -1,79 +1,73 @@
 .section1 {
-
-    height: 70vh; 
+    height: 70vh;
     display: flex;
     justify-content: center;
-    justify-items: center;
     align-items: center;
-}
-
-.aboutAccordion {
+  }
+  
+  .aboutAccordion {
     width: 100%;
-    max-height: 0px;
-}
-
-.aboutTitle {
+  }
+  
+  .aboutTitle {
     border-radius: 0.5em;
     background-color: white;
     color: #2F8AB1;
-    padding-left: 3rem;
-    padding-right: 6rem;
+    padding: 0.5rem 2rem;
     display: flex;
     justify-content: space-between;
-    text-align: center;
     align-items: center;
     cursor: pointer;
     font-size: 15px;
-}
-
-.answerAbout {
-    display: flex;
-    flex-direction: row-reverse;
+    transition: background-color 0.3s ease;
+  }
+  
+  .aboutTitle:hover {
     background-color: #f1f1f1;
-    padding: 10px;
+  }
+  
+  .answerAbout {
+    display: flex;
+    justify-content: space-between;
+    padding: 1rem;
     border-radius: 0.5em;
     text-align: left;
     align-items: center;
-    padding: 2rem;
     max-height: 35vh;
-
-}
-
-
-.imgage {
-    max-width: 300px;
-    max-height: 300px;
-    width: 80vw;
-    height: 35vh;
-    padding: 4rem;
-
-}
-
-@media only screen and (max-width: 300px) {
+    transition: max-height 0.3s ease-out;
+    overflow: hidden;
+    width: 80%;
+  margin: 0 auto;
+  }
+  
+  .pic {
+    max-width: 30rem;
+    max-height: 150px;
+    margin-right: 1rem;
+    transition: all 0.3s ease;
+  }
+  
+  @media only screen and (max-width: 300px) {
     .answerAbout {
-
-        height: 37vh;
-        overflow-y: auto;
-
+      height: 37vh;
+      overflow-y: auto;
     }
-
-    .imgage {
-        max-width: 200px;
-        max-height: 150px;
+  
+    .pic {
+      max-width: 100px;
+      max-height: 100px;
     }
-
-}
-
-@media only screen and (max-width: 767px) {
+  }
+  
+  @media only screen and (max-width: 767px) {
     .aboutTitle {
-        padding-left: 2rem;
-        padding-right: 2rem;
+      padding-left: 1rem;
+      padding-right: 1rem;
     }
-
+  
     .answerAbout {
-
-        height: 37vh;
-        overflow-y: auto;
-
+      height: 37vh;
+      overflow-y: auto;
     }
-}
+  }
+  
