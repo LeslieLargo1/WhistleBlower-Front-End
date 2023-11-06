@@ -10,6 +10,11 @@ Our Mission is to foster transparency, integrity, and accountability within our 
 - About page - http://localhost:3000/about
 - Report Form - http://localhost:3000/report-form
 
+## Demo
+<video controls width="640" height="360">
+  <source src="./video/whistleblower.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
 ## Technologies Used
 Node.js you can install it  https://nodejs.org/
  React using npx create-react-app .
